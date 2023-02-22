@@ -34,7 +34,7 @@ public class CarrerasView {
 	private JTable tabDetalle;
 
 	/**
-	 * Create the application.
+	 * Create the application. 
 	 */
 	public CarrerasView() {
 		initialize();
