@@ -54,7 +54,7 @@ public class PlanificarActividad {
 	private void initialize() {
 		frmPlanificarActividad = new JFrame();
 		frmPlanificarActividad.setTitle("Planificar Actividad");
-		frmPlanificarActividad.setBounds(100, 100, 372, 577);
+		frmPlanificarActividad.setBounds(100, 100, 538, 527);
 		frmPlanificarActividad.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel panel = new JPanel();
@@ -131,61 +131,74 @@ public class PlanificarActividad {
 		
 		JLabel lblNewLabel_6 = new JLabel("Periodo Inscripción");
 		lblNewLabel_6.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblNewLabel_6.setBounds(84, 280, 120, 14);
+		lblNewLabel_6.setBounds(21, 280, 120, 14);
 		panel.add(lblNewLabel_6);
 		
 		JLabel lblNewLabel_7 = new JLabel("Fecha Inicio Socios");
-		lblNewLabel_7.setBounds(21, 305, 132, 17);
+		lblNewLabel_7.setBounds(292, 307, 132, 17);
 		panel.add(lblNewLabel_7);
 		
 		JLabel lblNewLabel_8 = new JLabel("Fecha Fin Socios");
-		lblNewLabel_8.setBounds(21, 338, 103, 14);
+		lblNewLabel_8.setBounds(292, 338, 103, 14);
 		panel.add(lblNewLabel_8);
 		
 		JLabel lblNewLabel_8_1 = new JLabel("Fecha Fin no Socios");
-		lblNewLabel_8_1.setBounds(21, 374, 103, 14);
+		lblNewLabel_8_1.setBounds(292, 366, 103, 14);
 		panel.add(lblNewLabel_8_1);
 		
 		JButton btnNewButton = new JButton("Crear Actividad");
-		btnNewButton.setBounds(96, 504, 120, 23);
+		btnNewButton.setBounds(186, 457, 120, 23);
 		panel.add(btnNewButton);
 		
 		textField_4 = new JTextField();
-		textField_4.setBounds(130, 305, 114, 20);
+		textField_4.setBounds(395, 305, 114, 20);
 		panel.add(textField_4);
 		textField_4.setColumns(10);
 		
 		textField_5 = new JTextField();
 		textField_5.setColumns(10);
-		textField_5.setBounds(130, 335, 114, 20);
+		textField_5.setBounds(395, 335, 114, 20);
 		panel.add(textField_5);
 		
 		textField_6 = new JTextField();
 		textField_6.setColumns(10);
-		textField_6.setBounds(130, 371, 114, 20);
+		textField_6.setBounds(395, 363, 114, 20);
 		panel.add(textField_6);
 		
 		JLabel lblNewLabel_9 = new JLabel("Duración");
 		lblNewLabel_9.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblNewLabel_9.setBounds(94, 401, 76, 14);
+		lblNewLabel_9.setBounds(21, 337, 76, 14);
 		panel.add(lblNewLabel_9);
 		
 		JLabel lblNewLabel_10 = new JLabel("Fecha Inicio");
-		lblNewLabel_10.setBounds(21, 424, 68, 14);
+		lblNewLabel_10.setBounds(21, 366, 68, 14);
 		panel.add(lblNewLabel_10);
 		
 		JLabel lblNewLabel_11 = new JLabel("Fecha Fin");
-		lblNewLabel_11.setBounds(21, 461, 46, 14);
+		lblNewLabel_11.setBounds(21, 391, 46, 14);
 		panel.add(lblNewLabel_11);
 		
 		textField_7 = new JTextField();
-		textField_7.setBounds(130, 426, 114, 20);
+		textField_7.setBounds(96, 363, 114, 20);
 		panel.add(textField_7);
 		textField_7.setColumns(10);
 		
 		textField_8 = new JTextField();
 		textField_8.setColumns(10);
-		textField_8.setBounds(130, 458, 114, 20);
+		textField_8.setBounds(96, 388, 114, 20);
 		panel.add(textField_8);
+		
+		JComboBox comboBox_2 = new JComboBox();
+		comboBox_2.setBounds(140, 277, 104, 22);
+		panel.add(comboBox_2);
+		
+		JLabel lblNewLabel_6_1 = new JLabel("Crear Periodo Inscripción");
+		lblNewLabel_6_1.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblNewLabel_6_1.setBounds(328, 280, 148, 14);
+		panel.add(lblNewLabel_6_1);
+		
+		JButton btnNewButton_1 = new JButton("Crear");
+		btnNewButton_1.setBounds(355, 398, 89, 23);
+		panel.add(btnNewButton_1);
 	}
 }
