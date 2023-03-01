@@ -11,6 +11,8 @@ import javax.swing.JComboBox;
 import javax.swing.JSpinner;
 import javax.swing.JButton;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class PlanificarActividad {
 
@@ -27,7 +29,7 @@ public class PlanificarActividad {
 	private ActividadesModel ModeloActividades = new ActividadesModel();
 	private PeriodosInscripcionModel ModeloPeriodo = new PeriodosInscripcionModel();
 	private InstalacionesModel ModeloInstalaciones = new InstalacionesModel();
-	private crear_periodo_inscripcion ventanaPeriodoInscripcion;
+	private crearPeriodoInscripcion ventanaPeriodoInscripcion;
 	/**
 	 * Launch the application.
 	 */
@@ -204,6 +206,10 @@ public class PlanificarActividad {
 		panel.add(lblNewLabel_6_1);
 		
 		JButton btnNewButton_1 = new JButton("Crear");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ventanaPeriodoInscripcion.getFrmCrearPeriodoDe().setVisible(true);
+			}});
 		btnNewButton_1.setBounds(186, 407, 89, 23);
 		panel.add(btnNewButton_1);
 	}
