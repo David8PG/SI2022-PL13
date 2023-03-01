@@ -1,11 +1,18 @@
 package giis.demo.tkrun;
 
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
@@ -85,8 +92,59 @@ public class CrearPeriodoInscripcion {
 		panel.add(lblNewLabel_1_1_1);
 		
 		JButton btnNewButton = new JButton("Crear Periodo ");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//Tengo que implementar la fecha
+				Date FechaInicioSocio = dateChooser.getDate();
+				Date FechaFinSocio = dateChooser_1.getDate();
+				Date FechaFinNoSocio = dateChooser_2.getDate();
+				SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+				//fecha de hoy
+				Date dateHoy = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
+				if(textField.getText().equals("")) {
+					JOptionPane.showMessageDialog(frmCrearPeriodoDe,"El periodo de inscripción no se ha podido realizar. Debes introducir un nombre.","Error",JOptionPane.ERROR_MESSAGE);
+				}	
+				else if(textField_1.getText().equals("")) {
+					JOptionPane.showMessageDialog(frmCrearPeriodoDe,"El periodo de inscripción no se ha podido realizar. Debes introducir una descripción.","Error",JOptionPane.ERROR_MESSAGE);
+				}
+				else if(FechaInicioSocio==null) {
+					JOptionPane.showMessageDialog(frmCrearPeriodoDe,"El periodo de inscripción no se ha podido realizar. Debes introducir una fecha inicial de socios.","Error",JOptionPane.ERROR_MESSAGE);
+				}
+				else if(FechaFinSocio==null) {
+					JOptionPane.showMessageDialog(frmCrearPeriodoDe,"El periodo de inscripción no se ha podido realizar. Debes introducir una fecha final de socios.","Error",JOptionPane.ERROR_MESSAGE);
+				}
+				else if(FechaFinNoSocio==null) {
+					JOptionPane.showMessageDialog(frmCrearPeriodoDe,"El periodo de inscripción no se ha podido realizar. Debes introducir una fecha final de no socios","Error",JOptionPane.ERROR_MESSAGE);
+				}
+				else if(FechaFinSocio.getTime()-FechaInicioSocio.getTime()<0) {
+					JOptionPane.showMessageDialog(frmCrearPeriodoDe,"El periodo de inscripción no se ha podido realizar. La fecha final no puede ser anterior a la inicial.","Error",JOptionPane.ERROR_MESSAGE);
+				}
+				else if(FechaFinNoSocio.getTime()-FechaFinSocio.getTime()<0) {
+					JOptionPane.showMessageDialog(frmCrearPeriodoDe,"El periodo de inscripción no se ha podido realizar. La fecha final de no socios no puede ser anterior a la final de socios.","Error",JOptionPane.ERROR_MESSAGE);
+				}
+				else if(FechaInicioSocio.getTime()-dateHoy.getTime()<0) {
+					JOptionPane.showMessageDialog(frmCrearPeriodoDe,"El periodo de inscripción no se ha podido realizar. La fecha inicial de socios no puede ser anterior a la actual.","Error",JOptionPane.ERROR_MESSAGE);
+				}
+				else if(FechaFinSocio.getTime()-dateHoy.getTime()<0) {
+					JOptionPane.showMessageDialog(frmCrearPeriodoDe,"El periodo de inscripción no se ha podido realizar. La fecha final de socios no puede ser anterior a la actual.","Error",JOptionPane.ERROR_MESSAGE);
+				}
+				else if(FechaFinNoSocio.getTime()-dateHoy.getTime()<0) {
+					JOptionPane.showMessageDialog(frmCrearPeriodoDe,"El periodo de inscripción no se ha podido realizar. La fecha final de no socios no puede ser anterior a la actual.","Error",JOptionPane.ERROR_MESSAGE);
+				}
+				else {
+					String nombre=textField.getText();
+					String descripcion=textField_1.getText();
+					String FechaInicioSocio1=formatoFecha.format(FechaInicioSocio);
+					String FechaFinSocio1=formatoFecha.format(FechaFinSocio);
+					String FechaFinNoSocio1=formatoFecha.format(FechaFinNoSocio);
+						
+				}
+				
+			}
+		});
 		btnNewButton.setBounds(83, 227, 101, 23);
 		panel.add(btnNewButton);
+		
 		
 		textField_2 = new JTextField();
 		textField_2.setBounds(131, 129, 86, 20);
