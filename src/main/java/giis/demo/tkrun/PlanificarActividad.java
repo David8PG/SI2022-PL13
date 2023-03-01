@@ -9,10 +9,14 @@ import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JSpinner;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import java.awt.Font;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Iterator;
+import java.util.List;
 
 public class PlanificarActividad {
 
@@ -29,7 +33,9 @@ public class PlanificarActividad {
 	private ActividadesModel ModeloActividades = new ActividadesModel();
 	private PeriodosInscripcionModel ModeloPeriodo = new PeriodosInscripcionModel();
 	private InstalacionesModel ModeloInstalaciones = new InstalacionesModel();
-	private crearPeriodoInscripcion ventanaPeriodoInscripcion;
+	private CrearPeriodoInscripcion ventanaPeriodoInscripcion;
+	
+	JComboBox comboBox_2;
 	/**
 	 * Launch the application.
 	 */
@@ -52,7 +58,9 @@ public class PlanificarActividad {
 	public PlanificarActividad() {
 		initialize();
 	}
-
+	public Window getFrmCrearActividad() {
+		return this.frmPlanificarActividad;
+	}
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -88,7 +96,16 @@ public class PlanificarActividad {
 		lblNewLabel_1.setBounds(21, 137, 56, 14);
 		panel.add(lblNewLabel_1);
 		
+		List<Object[]> modeloInstalaciones=ModeloInstalaciones.getInstalaciones();
+		String[] instalaciones=new String[modeloInstalaciones.size()];
+		Iterator<Object[]> iteradorIns = modeloInstalaciones.iterator();
+		int i=0;
+		while(iteradorIns.hasNext()) {
+			instalaciones[i]=iteradorIns.next()[0].toString();
+			i++;
+		}
 		JComboBox comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(instalaciones));
 		comboBox.setBounds(84, 133, 132, 22);
 		panel.add(comboBox);
 		
@@ -96,7 +113,17 @@ public class PlanificarActividad {
 		lblNewLabel_2.setBounds(21, 170, 46, 14);
 		panel.add(lblNewLabel_2);
 		
+		List<Object[]> modeloDeportes=ModeloInstalaciones.getDeportes();
+		String[] deportes=new String[modeloDeportes.size()];
+		Iterator<Object[]> iteradorDep = modeloDeportes.iterator();
+		int iDep=0;
+		while(iteradorDep.hasNext()) {
+			deportes[iDep]=iteradorDep.next()[0].toString();
+			iDep++;
+		}
+		
 		JComboBox comboBox_1 = new JComboBox();
+		comboBox_1.setModel(new DefaultComboBoxModel(deportes));
 		comboBox_1.setBounds(84, 166, 132, 22);
 		panel.add(comboBox_1);
 		
@@ -197,20 +224,82 @@ public class PlanificarActividad {
 		panel.add(textField_8);
 		
 		JComboBox comboBox_2 = new JComboBox();
-		comboBox_2.setBounds(151, 279, 104, 22);
+		getPeriodosInscripcion();
+		String seleccionado=comboBox_2.getSelectedItem().toString();
+		List<Object[]> seleccionadoFechas=ModeloPeriodo.getFechas(seleccionado);
+		String[][] fecha=new String[seleccionadoFechas.size()][3];
+		Iterator<Object[]> iterator = seleccionadoFechas.iterator();
+		int ite=0;
+		while(iterator.hasNext()) {
+			String[] vector = new String[3]; 
+			Object[] r=iterator.next();
+			vector[0]=r[0].toString();
+			vector[1]=r[1].toString();
+			vector[2]=r[2].toString();
+			
+			for(int k=0;k<3;k++) {
+				fecha[ite][k]=vector[k];
+			}
+			ite++;		
+		}
+		textField_4.setText(fecha[0][0]);
+		textField_5.setText(fecha[0][1]);
+		textField_6.setText(fecha[0][2]);
+		comboBox_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String seleccionado=comboBox_2.getSelectedItem().toString();
+				List<Object[]> seleccionadoFechas=ModeloPeriodo.getFechas(seleccionado);
+				String[][] fecha=new String[seleccionadoFechas.size()][3];
+				Iterator<Object[]> iterator = seleccionadoFechas.iterator();
+				int i=0;
+				while(iterator.hasNext()) {
+					String[] vector = new String[3]; 
+					Object[] r=iterator.next();
+					vector[0]=r[0].toString();
+					vector[1]=r[1].toString();
+					vector[2]=r[2].toString();
+					
+					for(int k=0;k<3;k++) {
+						fecha[i][k]=vector[k];
+					}
+					i++;		
+				}
+				textField_4.setText(fecha[0][0]);
+				textField_5.setText(fecha[0][1]);
+				textField_6.setText(fecha[0][2]);
+			}
+		});
+		comboBox_2.setBounds(151, 279, 124, 22);
 		panel.add(comboBox_2);
 		
-		JLabel lblNewLabel_6_1 = new JLabel("Crear Periodo Inscripción");
+		JLabel lblNewLabel_6_1 = new JLabel("Crear Nuevo Periodo Inscripción");
 		lblNewLabel_6_1.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblNewLabel_6_1.setBounds(21, 410, 148, 14);
+		lblNewLabel_6_1.setBounds(21, 410, 222, 14);
 		panel.add(lblNewLabel_6_1);
 		
 		JButton btnNewButton_1 = new JButton("Crear");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ventanaPeriodoInscripcion.getFrmCrearPeriodoDe().setVisible(true);
+				ventanaPeriodoInscripcion.getfrmCrearPeriodoDe().setVisible(true);
 			}});
-		btnNewButton_1.setBounds(186, 407, 89, 23);
+		btnNewButton_1.setBounds(217, 407, 89, 23);
 		panel.add(btnNewButton_1);
+	}
+
+	public void getPeriodosInscripcion() {
+		List<Object[]> mPeriodo=ModeloPeriodo.getPeriodosInscripcion();
+		String[] periodosInscripcion;
+		periodosInscripcion=new String[mPeriodo.size()];
+		Iterator<Object[]> iteradorPeriodos = mPeriodo.iterator();
+		int i=0;
+		while(iteradorPeriodos.hasNext()) {
+			periodosInscripcion[i]=iteradorPeriodos.next()[0].toString();
+			i++;
+		}
+		comboBox_2.setModel(new DefaultComboBoxModel(periodosInscripcion));
 	}
 }

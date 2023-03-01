@@ -1,6 +1,7 @@
 package giis.demo.tkrun;
 
 import java.awt.EventQueue;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
@@ -48,6 +49,10 @@ public class CrearPeriodoInscripcion {
 	public CrearPeriodoInscripcion() {
 		initialize();
 	}
+	public JFrame getfrmCrearPeriodoDe() {
+		return this.frmCrearPeriodoDe;
+	}
+
 
 	/**
 	 * Initialize the contents of the frame.
@@ -141,8 +146,8 @@ public class CrearPeriodoInscripcion {
 					try {
 						PeriodosModel.nuevoPeriodoInscripcion(nombre, descripcion, FechaInicioSocio1, FechaFinSocio1, FechaFinNoSocio1);
 						JOptionPane.showMessageDialog(frmCrearPeriodoDe,"Periodo de inscripción creado correctamente","Creado",JOptionPane.INFORMATION_MESSAGE);	
-						if(PlanificarActividad!=null) {
-							PlanificarActividad.getPeriodosInscripcion();
+						if(ventanaCrearActividad!=null) {
+							ventanaCrearActividad.getPeriodosInscripcion();
 						}
 						frmCrearPeriodoDe.dispose();
 					} catch (Exception ePeriodoIns) {
@@ -171,5 +176,9 @@ public class CrearPeriodoInscripcion {
 		textField_4.setBounds(131, 179, 86, 20);
 		panel.add(textField_4);
 	}
+	public Window getfrmCrearActividad() {
+		return this.getfrmCrearPeriodoDe();
+	}
+
 
 }
