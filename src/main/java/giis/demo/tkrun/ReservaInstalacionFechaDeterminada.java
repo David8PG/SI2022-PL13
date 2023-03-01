@@ -8,6 +8,9 @@ import java.awt.BorderLayout;
 import javax.swing.JButton;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+
+import com.toedter.calendar.JDateChooser;
+
 import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
@@ -19,7 +22,6 @@ public class ReservaInstalacionFechaDeterminada {
 	private JFrame frmReservaInstalacionFechaDeterminada;
 	private JFrame frame_1;
 	private JFrame frmReservarInstalacin;
-	private JTextField textFieldFechaReserva;
 
 	/**
 	 * Launch the application.
@@ -89,9 +91,8 @@ public class ReservaInstalacionFechaDeterminada {
 		comboBoxHorasReserva.setBounds(176, 125, 111, 21);
 		panel.add(comboBoxHorasReserva);
 		
-		textFieldFechaReserva = new JTextField();
-		textFieldFechaReserva.setBounds(176, 84, 215, 19);
-		panel.add(textFieldFechaReserva);
-		textFieldFechaReserva.setColumns(10);
+		JDateChooser dateChooser_FechaReserva = new JDateChooser();
+		dateChooser_FechaReserva.setBounds(176, 81, 156, 19);
+		panel.add(dateChooser_FechaReserva);
 	}
 }
