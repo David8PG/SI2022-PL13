@@ -74,7 +74,7 @@ public class PlanificarActividad {
 	private void initialize() {
 		frmPlanificarActividad = new JFrame();
 		frmPlanificarActividad.setTitle("Planificar Actividad");
-		frmPlanificarActividad.setBounds(100, 100, 484, 527);
+		frmPlanificarActividad.setBounds(100, 100, 650, 527);
 		frmPlanificarActividad.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel panel = new JPanel();
@@ -225,8 +225,10 @@ public class PlanificarActividad {
 		panel.add(dateChooser);
 		
 		JDateChooser dateChooser_1 = new JDateChooser();
-		dateChooser_1.setBounds(340, 166, 103, 19);
+		dateChooser_1.setBounds(340, 165, 103, 19);
 		panel.add(dateChooser_1);
+		
+
 		
 		Date Fechainicial;
 		String FechaInicialS = "02-03-2023";
@@ -347,9 +349,26 @@ public class PlanificarActividad {
 		btnNewButton_1.setBounds(217, 407, 89, 23);
 		panel.add(btnNewButton_1);
 		
+		JLabel lblNewLabel_12 = new JLabel("Hora Inicio");
+		lblNewLabel_12.setBounds(467, 138, 61, 13);
+		panel.add(lblNewLabel_12);
+		
+		JLabel lblNewLabel_12_1 = new JLabel("Hora Fin");
+		lblNewLabel_12_1.setBounds(467, 171, 61, 13);
+		panel.add(lblNewLabel_12_1);
+		
+		JComboBox comboBox_3 = new JComboBox();
+		comboBox_3.setBounds(537, 134, 89, 21);
+		panel.add(comboBox_3);
+		
+		JComboBox comboBox_4 = new JComboBox();
+		comboBox_4.setBounds(538, 167, 89, 21);
+		panel.add(comboBox_4);
+		
 
 	}
 
+	
 	public void getPeriodosInscripcion() {
 		List<Object[]> mPeriodo=ModeloPeriodo.getPeriodosInscripcion();
 		String[] periodosInscripcion;

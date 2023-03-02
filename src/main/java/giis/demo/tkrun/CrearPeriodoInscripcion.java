@@ -20,6 +20,7 @@ import com.toedter.calendar.JDateChooser;
 
 public class CrearPeriodoInscripcion {
 
+	
 	private JFrame frmCrearPeriodoDe;
 	private JTextField textField;
 	private JTextField textField_1;
