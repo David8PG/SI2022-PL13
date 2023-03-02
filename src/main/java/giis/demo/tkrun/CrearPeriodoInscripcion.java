@@ -76,17 +76,14 @@ public class CrearPeriodoInscripcion {
 		panel.add(lblDescripcin);
 		
 		JDateChooser dateChooser = new JDateChooser();
-		dateChooser.setEnabled(false);
 		dateChooser.setBounds(122, 127, 103, 19);
 		panel.add(dateChooser);
 		
 		JDateChooser dateChooser_1 = new JDateChooser();
-		dateChooser_1.setEnabled(false);
 		dateChooser_1.setBounds(122, 157, 103, 19);
 		panel.add(dateChooser_1);
 		
 		JDateChooser dateChooser_2 = new JDateChooser();
-		dateChooser_2.setEnabled(false);
 		dateChooser_2.setBounds(122, 182, 103, 19);
 		panel.add(dateChooser_2);
 		

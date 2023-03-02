@@ -334,11 +334,55 @@ public class PlanificarActividad {
 					JOptionPane.showMessageDialog(frmPlanificarActividad,"La actividad no se ha creado. La fecha final es anterior a la actual.","Error",JOptionPane.ERROR_MESSAGE);
 				}
 				else if(fechaFin.getTime()-fechaInicio.getTime()<0) {
-					JOptionPane.showMessageDialog(frmPlanificarActividad,"La actividad no se ha creado. \nLa fecha final no puede ser anterior a la inicial.","Error",JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(frmPlanificarActividad,"La actividad no se ha creado. La fecha final es anterior a la inicial.","Error",JOptionPane.ERROR_MESSAGE);
 				}
-				else {
-						
+				else{
+					String nombre = textField_1.getText();
+					String descripcion = textField_2.getText();
+					String instalacion = comboBox.getSelectedItem().toString();
+					String deporte = comboBox_1.getSelectedItem().toString();
+					String fechaInicioS = formato.format(fechaInicio);
+					String fechaFinS = formato.format(fechaFin);
+					String aforo = spinner.getModel().getValue().toString();
+					String precioSocio = textField_3.getText();
+					String precioNoSocio = textField_4.getText();
+					
+					
+					List<Object[]> instalaciones = modeloInstalaciones.getIdInstalacion(instalacion);
+					String[] instalacionesS=new String[instalaciones.size()];
+					Iterator<Object[]> iteradorIns = instalaciones.iterator();
+					int nInstalaciones=0;
+					while(iteradorIns.hasNext()) {
+						instalacionesS[nInstalaciones]=iteradorIns.next()[0].toString();
+						nInstalaciones++;
 					}
+					
+					String instalacion=instal[0];
+					String per_ins_nombre=comboBox_1_1.getSelectedItem().toString();
+					List<Object[]> per_ins_lista=modeloPer.getIdPeriodoIns(per_ins_nombre);
+					String[] p_i=new String[per_ins_lista.size()];
+					Iterator<Object[]> iteradorPerIns = per_ins_lista.iterator();
+					int iPerIns=0;
+					while(iteradorPerIns.hasNext()) {
+						p_i[iPerIns]=iteradorPerIns.next()[0].toString();
+						iPerIns++;
+					}
+					String per_ins=p_i[0];
+					try {
+						long id_act=modeloAct.nuevaActividadRetornaId(nombre, descripcion, aforo, pSoc, pNoSoc, fecha_ini, fecha_fin, deporte, instalacion, per_ins);
+						sesionesLista=vSesiones.getSesionesLista();
+						Iterator<String[]> iter=sesionesLista.iterator();
+						while(iter.hasNext()) {
+							String vector[]=iter.next();
+							modeloSes.nuevaSesion(vector[0], vector[1]+":00", vector[2]+":00", id_act);
+						}
+						JOptionPane.showMessageDialog(frmCrearActividad,"La actividad se ha creado correctamente","Creado",JOptionPane.INFORMATION_MESSAGE);	
+						frmCrearActividad.dispose();
+					} catch (Exception eActividad) {
+						JOptionPane.showMessageDialog(frmCrearActividad,"No se ha podido crear la actividad.\n","Error.",JOptionPane.ERROR_MESSAGE);
+					}
+					
+				}
 				}
 			
 		});
