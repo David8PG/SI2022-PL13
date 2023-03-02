@@ -6,7 +6,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import javax.swing.JTextField;
+
+import com.toedter.calendar.JDateChooser;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import javax.swing.JSpinner;
 import javax.swing.DefaultComboBoxModel;
@@ -15,6 +19,11 @@ import java.awt.Font;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -28,8 +37,6 @@ public class PlanificarActividad {
 	private JTextField textField_4;
 	private JTextField textField_5;
 	private JTextField textField_6;
-	private JTextField textField_7;
-	private JTextField textField_8;
 	private ActividadesModel ModeloActividades = new ActividadesModel();
 	private PeriodosInscripcionModel ModeloPeriodo = new PeriodosInscripcionModel();
 	private InstalacionesModel ModeloInstalaciones = new InstalacionesModel();
@@ -213,15 +220,23 @@ public class PlanificarActividad {
 		lblNewLabel_11.setBounds(279, 170, 46, 14);
 		panel.add(lblNewLabel_11);
 		
-		textField_7 = new JTextField();
-		textField_7.setBounds(344, 134, 114, 20);
-		panel.add(textField_7);
-		textField_7.setColumns(10);
+		JDateChooser dateChooser = new JDateChooser();
+		dateChooser.setBounds(341, 137, 103, 19);
+		panel.add(dateChooser);
 		
-		textField_8 = new JTextField();
-		textField_8.setColumns(10);
-		textField_8.setBounds(344, 167, 114, 20);
-		panel.add(textField_8);
+		JDateChooser dateChooser_1 = new JDateChooser();
+		dateChooser_1.setBounds(340, 166, 103, 19);
+		panel.add(dateChooser_1);
+		
+		Date Fechainicial;
+		String FechaInicialS = "02-03-2023";
+		Fechainicial = new SimpleDateFormat("dd-MM-yyyy").parse(FechaInicialS);
+		dateChooser.setDate(Fechainicial);
+		String FechaFinalS = "02-04-2023";
+		Date FechaFinal;
+		FechaFinal = new SimpleDateFormat("dd-MM-yyyy").parse(FechaFinalS);
+		dateChooser_1.setDate(FechaFinal);
+
 		
 		JComboBox comboBox_2 = new JComboBox();
 		getPeriodosInscripcion();
@@ -280,7 +295,50 @@ public class PlanificarActividad {
 		JButton btnNewButton_1 = new JButton("Crear");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			}
+				SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+				SimpleDateFormat año = new SimpleDateFormat("yyyy");
+				Date fechaActual = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
+				Date fechaInicio = dateChooser.getDate();
+				Date fechaFin = dateChooser_1.getDate();
+			
+				if(textField.getText().equals("")) {
+					JOptionPane.showMessageDialog(frmPlanificarActividad,"La actividad no se ha creado. Debes introducir un nombre.","Error",JOptionPane.ERROR_MESSAGE);
+				}	
+				else if(textField_1.getText().equals("")) {
+					JOptionPane.showMessageDialog(frmPlanificarActividad,"La actividad no se ha creado. Debes introducir una descripción.","Error",JOptionPane.ERROR_MESSAGE);
+				}
+				else if(textField_2.getText().equals("")) {
+					JOptionPane.showMessageDialog(frmPlanificarActividad,"La actividad no se ha creado. Debes introducir un precio para socios. ","Error",JOptionPane.ERROR_MESSAGE);
+				}
+				else if(textField_3.getText().equals("")) {
+					JOptionPane.showMessageDialog(frmPlanificarActividad,"La actividad no se ha creado. Debes introducir un precio para no socios.","Error",JOptionPane.ERROR_MESSAGE);
+				}
+				else if(fechaInicio==null) {
+					JOptionPane.showMessageDialog(frmPlanificarActividad,"La actividad no se ha creado. Debes introducir una fecha inicial de periodo.","Error",JOptionPane.ERROR_MESSAGE);
+				}
+				else if(fechaFin==null) {
+					JOptionPane.showMessageDialog(frmPlanificarActividad,"La actividad no se ha creado. Debes introducir una fecha final de periodo.","Error",JOptionPane.ERROR_MESSAGE);
+				}
+				else if(!esPrecio(textField_1.getText())) {
+					JOptionPane.showMessageDialog(frmPlanificarActividad,"La actividad no se ha creado. Debes introducir un precio de socio válido.","Error",JOptionPane.ERROR_MESSAGE);
+				}
+				else if(!esPrecio(textField_2.getText())) {
+					JOptionPane.showMessageDialog(frmPlanificarActividad,"La actividad no se ha creado. Debes introducir un precio de no socio válido.","Error",JOptionPane.ERROR_MESSAGE);
+				}		
+				else if(fechaInicio.getTime()-fechaActual.getTime()<0) {
+					JOptionPane.showMessageDialog(frmPlanificarActividad,"La actividad no se ha creado. La fecha inicial es anterior a la actual.","Error",JOptionPane.ERROR_MESSAGE);
+				}
+				else if(fechaFin.getTime()-fechaActual.getTime()<0) {
+					JOptionPane.showMessageDialog(frmPlanificarActividad,"La actividad no se ha creado. La fecha final es anterior a la actual.","Error",JOptionPane.ERROR_MESSAGE);
+				}
+				else if(fechaFin.getTime()-fechaInicio.getTime()<0) {
+					JOptionPane.showMessageDialog(frmPlanificarActividad,"La actividad no se ha creado. \nLa fecha final no puede ser anterior a la inicial.","Error",JOptionPane.ERROR_MESSAGE);
+				}
+				else {
+						
+					}
+				}
+			
 		});
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -288,6 +346,8 @@ public class PlanificarActividad {
 			}});
 		btnNewButton_1.setBounds(217, 407, 89, 23);
 		panel.add(btnNewButton_1);
+		
+
 	}
 
 	public void getPeriodosInscripcion() {
@@ -301,5 +361,9 @@ public class PlanificarActividad {
 			i++;
 		}
 		comboBox_2.setModel(new DefaultComboBoxModel(periodosInscripcion));
+	}
+	
+	public static boolean esPrecio(String str) {
+	    return str.matches("^\\d+(\\.\\d{1,2})?$");
 	}
 }
