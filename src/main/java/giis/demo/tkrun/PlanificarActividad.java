@@ -26,6 +26,7 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import javax.swing.JTextPane;
 
 public class PlanificarActividad {
 
@@ -393,21 +394,37 @@ public class PlanificarActividad {
 		btnNewButton_1.setBounds(217, 407, 89, 23);
 		panel.add(btnNewButton_1);
 		
-		JLabel lblNewLabel_12 = new JLabel("Hora Inicio");
-		lblNewLabel_12.setBounds(467, 138, 61, 13);
+		JLabel lblNewLabel_12 = new JLabel("Día");
+		lblNewLabel_12.setBounds(444, 138, 61, 13);
 		panel.add(lblNewLabel_12);
 		
 		JLabel lblNewLabel_12_1 = new JLabel("Hora Fin");
-		lblNewLabel_12_1.setBounds(467, 171, 61, 13);
+		lblNewLabel_12_1.setBounds(444, 208, 61, 13);
 		panel.add(lblNewLabel_12_1);
 		
 		JComboBox comboBox_3 = new JComboBox();
-		comboBox_3.setBounds(537, 134, 89, 21);
+		comboBox_3.setBounds(502, 134, 89, 21);
 		panel.add(comboBox_3);
 		
 		JComboBox comboBox_4 = new JComboBox();
-		comboBox_4.setBounds(538, 167, 89, 21);
+		comboBox_4.setBounds(502, 167, 89, 21);
 		panel.add(comboBox_4);
+		
+		JComboBox comboBox_4_1 = new JComboBox();
+		comboBox_4_1.setBounds(502, 204, 89, 21);
+		panel.add(comboBox_4_1);
+		
+		JLabel lblNewLabel_12_1_1 = new JLabel("Hora Inicio");
+		lblNewLabel_12_1_1.setBounds(444, 171, 61, 13);
+		panel.add(lblNewLabel_12_1_1);
+		
+		JTextPane textPane = new JTextPane();
+		textPane.setBounds(444, 267, 148, 157);
+		panel.add(textPane);
+		
+		JButton btnNewButton_2 = new JButton("Crear Sesion");
+		btnNewButton_2.setBounds(464, 238, 103, 23);
+		panel.add(btnNewButton_2);
 		
 
 	}
