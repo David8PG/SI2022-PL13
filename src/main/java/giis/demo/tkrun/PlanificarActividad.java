@@ -252,13 +252,22 @@ public class PlanificarActividad {
 		comboBox_4_1.setBounds(502, 204, 89, 21);
 		panel.add(comboBox_4_1);
 		
-		Date Fechainicial;
+		Date Fechainicial = null;
 		String FechaInicialS = "02-03-2023";
-		Fechainicial = new SimpleDateFormat("dd-MM-yyyy").parse(FechaInicialS);
+		try {
+			Fechainicial = new SimpleDateFormat("dd-MM-yyyy").parse(FechaInicialS);
+		} catch (ParseException e1) {
+			e1.printStackTrace();
+		}
 		dateChooser.setDate(Fechainicial);
 		String FechaFinalS = "02-04-2023";
-		Date FechaFinal;
-		FechaFinal = new SimpleDateFormat("dd-MM-yyyy").parse(FechaFinalS);
+		Date FechaFinal=null;
+		try {
+			FechaFinal = new SimpleDateFormat("dd-MM-yyyy").parse(FechaFinalS);
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		dateChooser_1.setDate(FechaFinal);
 
 		
