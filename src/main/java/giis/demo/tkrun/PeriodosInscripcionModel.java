@@ -34,5 +34,9 @@ public class PeriodosInscripcionModel {
 		return bd.executeQueryArray(SQL_GET_FECHAS + "'" + nombre + "'" );	
 	}
 
+	public static final String getID_periodo = "SELECT id_periodo_inscripcion FROM periodos_inscripcion WHERE nombre=";
+	public List<Object[]> getIdPeriodoIns(String nombre){
+		return bd.executeQueryArray(getID_periodo+"'"+nombre+"'");	
+	}
 
 }

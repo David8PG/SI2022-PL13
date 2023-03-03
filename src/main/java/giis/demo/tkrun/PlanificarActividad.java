@@ -23,6 +23,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -41,7 +42,9 @@ public class PlanificarActividad {
 	private ActividadesModel ModeloActividades = new ActividadesModel();
 	private PeriodosInscripcionModel ModeloPeriodo = new PeriodosInscripcionModel();
 	private InstalacionesModel ModeloInstalaciones = new InstalacionesModel();
+	private SesionesModel ModeloSesiones = new SesionesModel();
 	private CrearPeriodoInscripcion ventanaPeriodoInscripcion;
+	private List<String[]> listaSesiones;
 	
 	JComboBox comboBox_2;
 	/**
@@ -104,7 +107,7 @@ public class PlanificarActividad {
 		lblNewLabel_1.setBounds(21, 137, 56, 14);
 		panel.add(lblNewLabel_1);
 		
-		List<Object[]> modeloInstalaciones=ModeloInstalaciones.getInstalaciones();
+		List<Object[]> modeloInstalaciones=ModeloInstalaciones.getNombreInstalaciones();
 		String[] instalaciones=new String[modeloInstalaciones.size()];
 		Iterator<Object[]> iteradorIns = modeloInstalaciones.iterator();
 		int i=0;
@@ -208,6 +211,10 @@ public class PlanificarActividad {
 		textField_6.setBounds(129, 369, 114, 20);
 		panel.add(textField_6);
 		
+		JTextPane textPane = new JTextPane();
+		textPane.setBounds(444, 267, 148, 157);
+		panel.add(textPane);
+		
 		JLabel lblNewLabel_9 = new JLabel("Duración");
 		lblNewLabel_9.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblNewLabel_9.setBounds(367, 102, 76, 14);
@@ -230,6 +237,20 @@ public class PlanificarActividad {
 		panel.add(dateChooser_1);
 		
 
+		JComboBox comboBox_3 = new JComboBox();
+		comboBox_3.setModel(new DefaultComboBoxModel(new String[] {"Lunes","Martes","Miercoles","Jueves","Viernes","Sábado","Domingo"}));
+		comboBox_3.setBounds(502, 134, 89, 21);
+		panel.add(comboBox_3);
+		
+		JComboBox comboBox_4 = new JComboBox();
+		comboBox_4.setModel(new DefaultComboBoxModel(new String[] {"09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00"}));
+		comboBox_4.setBounds(502, 167, 89, 21);
+		panel.add(comboBox_4);
+		
+		JComboBox comboBox_4_1 = new JComboBox();
+		comboBox_4_1.setModel(new DefaultComboBoxModel(new String[] {"10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00"}));
+		comboBox_4_1.setBounds(502, 204, 89, 21);
+		panel.add(comboBox_4_1);
 		
 		Date Fechainicial;
 		String FechaInicialS = "02-03-2023";
@@ -295,6 +316,30 @@ public class PlanificarActividad {
 		lblNewLabel_6_1.setBounds(21, 410, 222, 14);
 		panel.add(lblNewLabel_6_1);
 		
+		listaSesiones = new ArrayList<String[]>();
+		JButton btnNewButton_2 = new JButton("Crear Sesion");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.print("aaaa");
+				if(comboBox_4_1.getSelectedIndex()>=comboBox_4.getSelectedIndex()+1) {
+					JOptionPane.showMessageDialog(frmPlanificarActividad,"No se puede añadir esa sesión, la hora de inicio tiene que ser anterior a la posterior.","Error",JOptionPane.ERROR_MESSAGE);
+				}
+				else {
+					String selecciones[] = new String[3]; 
+					selecciones[0]=(String) comboBox_3.getModel().getElementAt(comboBox_3.getSelectedIndex());
+					selecciones[1]=(String) comboBox_4.getModel().getElementAt(comboBox_4.getSelectedIndex());
+					selecciones[2]=(String) comboBox_4_1.getModel().getElementAt(comboBox_4_1.getSelectedIndex());
+					listaSesiones.add(selecciones);
+					textPane.setText("Los "+textPane.getText()+comboBox_3.getModel().getElementAt(comboBox_3.getSelectedIndex())+
+							" desde las "+comboBox_4.getModel().getElementAt(comboBox_4.getSelectedIndex())+
+							" hasta las "+comboBox_4_1.getModel().getElementAt(comboBox_4_1.getSelectedIndex())+"\n");	
+				}
+				
+			}
+		});
+		btnNewButton_2.setBounds(464, 238, 103, 23);
+		panel.add(btnNewButton_2);
+		
 		JButton btnNewButton_1 = new JButton("Crear");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -340,7 +385,7 @@ public class PlanificarActividad {
 				else{
 					String nombre = textField_1.getText();
 					String descripcion = textField_2.getText();
-					String instalacion = comboBox.getSelectedItem().toString();
+					String instalacionN = comboBox.getSelectedItem().toString();
 					String deporte = comboBox_1.getSelectedItem().toString();
 					String fechaInicioS = formato.format(fechaInicio);
 					String fechaFinS = formato.format(fechaFin);
@@ -349,18 +394,18 @@ public class PlanificarActividad {
 					String precioNoSocio = textField_4.getText();
 					
 					
-					List<Object[]> instalaciones = modeloInstalaciones.getIdInstalacion(instalacion);
-					String[] instalacionesS=new String[instalaciones.size()];
+					List<Object[]> instalaciones = ModeloInstalaciones.getId_Instalacion(instalacionN);
+					String[] listaInstalaciones=new String[instalaciones.size()];
 					Iterator<Object[]> iteradorIns = instalaciones.iterator();
 					int nInstalaciones=0;
 					while(iteradorIns.hasNext()) {
-						instalacionesS[nInstalaciones]=iteradorIns.next()[0].toString();
+						listaInstalaciones[nInstalaciones]=iteradorIns.next()[0].toString();
 						nInstalaciones++;
 					}
 					
-					String instalacion=instal[0];
-					String per_ins_nombre=comboBox_1_1.getSelectedItem().toString();
-					List<Object[]> per_ins_lista=modeloPer.getIdPeriodoIns(per_ins_nombre);
+					String instalacion=listaInstalaciones[0];
+					String per_ins_nombre=comboBox.getSelectedItem().toString();
+					List<Object[]> per_ins_lista=ModeloPeriodo.getIdPeriodoIns(per_ins_nombre);
 					String[] p_i=new String[per_ins_lista.size()];
 					Iterator<Object[]> iteradorPerIns = per_ins_lista.iterator();
 					int iPerIns=0;
@@ -368,19 +413,19 @@ public class PlanificarActividad {
 						p_i[iPerIns]=iteradorPerIns.next()[0].toString();
 						iPerIns++;
 					}
-					String per_ins=p_i[0];
+					String periodoIns=p_i[0];
 					try {
-						long id_act=modeloAct.nuevaActividadRetornaId(nombre, descripcion, aforo, pSoc, pNoSoc, fecha_ini, fecha_fin, deporte, instalacion, per_ins);
-						sesionesLista=vSesiones.getSesionesLista();
-						Iterator<String[]> iter=sesionesLista.iterator();
+						int idActividad=ModeloActividades.nuevaActividadConId(nombre, descripcion, aforo, precioSocio, precioNoSocio, fechaInicioS, fechaFinS, deporte, instalacion, periodoIns);
+						Iterator<String[]> iter=listaSesiones.iterator();
 						while(iter.hasNext()) {
 							String vector[]=iter.next();
-							modeloSes.nuevaSesion(vector[0], vector[1]+":00", vector[2]+":00", id_act);
+							ModeloSesiones.nuevaSesion(vector[0], vector[1]+":00", vector[2]+":00", idActividad);
 						}
-						JOptionPane.showMessageDialog(frmCrearActividad,"La actividad se ha creado correctamente","Creado",JOptionPane.INFORMATION_MESSAGE);	
-						frmCrearActividad.dispose();
+						JOptionPane.showMessageDialog(frmPlanificarActividad,"La actividad se ha creado correctamente","Creado",JOptionPane.INFORMATION_MESSAGE);	
+						frmPlanificarActividad.dispose();
+						
 					} catch (Exception eActividad) {
-						JOptionPane.showMessageDialog(frmCrearActividad,"No se ha podido crear la actividad.\n","Error.",JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(frmPlanificarActividad,"No se ha podido crear la actividad.\n","Error.",JOptionPane.ERROR_MESSAGE);
 					}
 					
 				}
@@ -402,29 +447,15 @@ public class PlanificarActividad {
 		lblNewLabel_12_1.setBounds(444, 208, 61, 13);
 		panel.add(lblNewLabel_12_1);
 		
-		JComboBox comboBox_3 = new JComboBox();
-		comboBox_3.setBounds(502, 134, 89, 21);
-		panel.add(comboBox_3);
-		
-		JComboBox comboBox_4 = new JComboBox();
-		comboBox_4.setBounds(502, 167, 89, 21);
-		panel.add(comboBox_4);
-		
-		JComboBox comboBox_4_1 = new JComboBox();
-		comboBox_4_1.setBounds(502, 204, 89, 21);
-		panel.add(comboBox_4_1);
+
 		
 		JLabel lblNewLabel_12_1_1 = new JLabel("Hora Inicio");
 		lblNewLabel_12_1_1.setBounds(444, 171, 61, 13);
 		panel.add(lblNewLabel_12_1_1);
 		
-		JTextPane textPane = new JTextPane();
-		textPane.setBounds(444, 267, 148, 157);
-		panel.add(textPane);
+	
 		
-		JButton btnNewButton_2 = new JButton("Crear Sesion");
-		btnNewButton_2.setBounds(464, 238, 103, 23);
-		panel.add(btnNewButton_2);
+		
 		
 
 	}
