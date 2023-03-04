@@ -194,7 +194,12 @@ public class PlanificarActividad {
 		panel.add(lblNewLabel_8_1);
 		
 		JButton btnNewButton = new JButton("Crear Actividad");
-		btnNewButton.setBounds(186, 454, 120, 23);
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ventanaPeriodoInscripcion.getfrmCrearPeriodoDe().setVisible(true);
+			}
+		});
+		btnNewButton.setBounds(213, 407, 120, 23);
 		panel.add(btnNewButton);
 		
 		textField_4 = new JTextField();
@@ -334,7 +339,7 @@ public class PlanificarActividad {
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.print("aaaa");
-				if(comboBox_4_1.getSelectedIndex()>=comboBox_4.getSelectedIndex()+1) {
+				if(comboBox_4.getSelectedIndex()>=comboBox_4_1.getSelectedIndex()+1) {
 					JOptionPane.showMessageDialog(frmPlanificarActividad,"No se puede añadir esa sesión, la hora de inicio tiene que ser anterior a la posterior.","Error",JOptionPane.ERROR_MESSAGE);
 				}
 				else {
@@ -445,11 +450,8 @@ public class PlanificarActividad {
 				}
 			
 		});
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ventanaPeriodoInscripcion.getfrmCrearPeriodoDe().setVisible(true);
-			}});
-		btnNewButton_1.setBounds(217, 407, 89, 23);
+
+		btnNewButton_1.setBounds(245, 454, 89, 23);
 		panel.add(btnNewButton_1);
 		
 		JLabel lblNewLabel_12 = new JLabel("Día");
