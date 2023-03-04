@@ -9,6 +9,8 @@ import javax.swing.JTextField;
 
 import com.toedter.calendar.JDateChooser;
 
+import giis.demo.util.Database;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
@@ -19,6 +21,7 @@ import java.awt.Font;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -45,7 +48,7 @@ public class PlanificarActividad {
 	private SesionesModel ModeloSesiones = new SesionesModel();
 	private CrearPeriodoInscripcion ventanaPeriodoInscripcion;
 	private List<String[]> listaSesiones;
-	
+	private Database bd = new Database();
 	JComboBox comboBox_2;
 	/**
 	 * Launch the application.
@@ -76,6 +79,7 @@ public class PlanificarActividad {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+	
 		frmPlanificarActividad = new JFrame();
 		frmPlanificarActividad.setTitle("Planificar Actividad");
 		frmPlanificarActividad.setBounds(100, 100, 650, 527);
@@ -271,7 +275,7 @@ public class PlanificarActividad {
 		dateChooser_1.setDate(FechaFinal);
 
 		
-		JComboBox comboBox_2 = new JComboBox();
+		comboBox_2 = new JComboBox();
 		getPeriodosInscripcion();
 		String seleccionado=comboBox_2.getSelectedItem().toString();
 		List<Object[]> seleccionadoFechas=ModeloPeriodo.getFechas(seleccionado);
