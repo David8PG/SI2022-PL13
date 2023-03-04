@@ -479,6 +479,15 @@ public class PlanificarActividad {
 		lblNewLabel_12_1_1.setBounds(444, 171, 61, 13);
 		panel.add(lblNewLabel_12_1_1);
 
+		JButton btnNewButton_3 = new JButton("Cancelar");
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frmPlanificarActividad.dispose();
+			}
+		});
+		btnNewButton_3.setBounds(21, 454, 89, 23);
+		panel.add(btnNewButton_3);
+
 	}
 
 	public void getPeriodosInscripcion() {

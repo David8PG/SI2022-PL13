@@ -1,11 +1,11 @@
 package giis.demo.tkrun;
 
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
 
 public class pantallaInicialAdmin {
 
@@ -13,6 +13,8 @@ public class pantallaInicialAdmin {
 	private InicioSesion vInicioSesion;
 	private ReservasModel modeloReservas = new ReservasModel();
 	private ReservaInstalacionFechaDeterminada vReservaInstalacionFechaDeterminada;
+	private PlanificarActividad ventanaCrearActividad;
+	private CrearPeriodoInscripcion ventanaPeriodoInscripcion;
 
 	/**
 	 * Launch the application.
@@ -36,9 +38,9 @@ public class pantallaInicialAdmin {
 	public pantallaInicialAdmin() {
 		initialize();
 	}
-	
+
 	public pantallaInicialAdmin(InicioSesion vInicioSesion) {
-		this.vInicioSesion=vInicioSesion;
+		this.vInicioSesion = vInicioSesion;
 		initialize();
 	}
 
@@ -51,7 +53,7 @@ public class pantallaInicialAdmin {
 		frmPantallaInicialAdministrador.setBounds(100, 100, 450, 300);
 		frmPantallaInicialAdministrador.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmPantallaInicialAdministrador.getContentPane().setLayout(null);
-		
+
 		JButton btnReservarInstalacion = new JButton("Reservar Instalación");
 		btnReservarInstalacion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -59,12 +61,31 @@ public class pantallaInicialAdmin {
 				vReservaInstalacionFechaDeterminada.getFrmReservaInstalacionFechaDeterminada().setVisible(true);
 			}
 		});
-		btnReservarInstalacion.setBounds(33, 25, 135, 21);
+		btnReservarInstalacion.setBounds(33, 25, 153, 23);
 		frmPantallaInicialAdministrador.getContentPane().add(btnReservarInstalacion);
+
+		JButton btnNewButton = new JButton("Crear Actividad");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ventanaCrearActividad = new PlanificarActividad();
+				ventanaCrearActividad.getFrmCrearActividad().setVisible(true);
+			}
+		});
+		btnNewButton.setBounds(33, 59, 153, 23);
+		frmPantallaInicialAdministrador.getContentPane().add(btnNewButton);
+
+		JButton btnCrearPeriodoIns = new JButton("Crear Periodo Inscripción");
+		btnCrearPeriodoIns.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ventanaPeriodoInscripcion = new CrearPeriodoInscripcion();
+				ventanaPeriodoInscripcion.getfrmCrearActividad().setVisible(true);
+			}
+		});
+		btnCrearPeriodoIns.setBounds(33, 93, 153, 23);
+		frmPantallaInicialAdministrador.getContentPane().add(btnCrearPeriodoIns);
 	}
-	
+
 	public JFrame getFrmvAdmin() {
 		return this.frmPantallaInicialAdministrador;
 	}
-
 }
