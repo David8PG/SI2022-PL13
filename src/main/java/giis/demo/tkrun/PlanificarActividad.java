@@ -79,12 +79,11 @@ public class PlanificarActividad {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-	
 		frmPlanificarActividad = new JFrame();
 		frmPlanificarActividad.setTitle("Planificar Actividad");
 		frmPlanificarActividad.setBounds(100, 100, 650, 527);
 		frmPlanificarActividad.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+		ventanaPeriodoInscripcion= new CrearPeriodoInscripcion(this);
 		JPanel panel = new JPanel();
 		frmPlanificarActividad.getContentPane().add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);

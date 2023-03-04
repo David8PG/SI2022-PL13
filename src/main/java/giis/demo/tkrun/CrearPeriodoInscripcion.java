@@ -26,6 +26,7 @@ public class CrearPeriodoInscripcion {
 	private JTextField textField_1;
 	private PeriodosInscripcionModel PeriodosModel = new PeriodosInscripcionModel();
 	private PlanificarActividad ventanaCrearActividad;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -41,7 +42,10 @@ public class CrearPeriodoInscripcion {
 			}
 		});
 	}
-
+	public CrearPeriodoInscripcion(PlanificarActividad vSM) {
+		this.ventanaCrearActividad=vSM;
+		initialize();
+	}
 	/**
 	 * Create the application.
 	 */
