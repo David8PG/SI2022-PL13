@@ -159,16 +159,15 @@ public class CrearPeriodoInscripcion {
 					String FechaInicioSocio1=formatoFecha.format(FechaInicioSocio);
 					String FechaFinSocio1=formatoFecha.format(FechaFinSocio);
 					String FechaFinNoSocio1=formatoFecha.format(FechaFinNoSocio);
-					try {
+					
 						PeriodosModel.nuevoPeriodoInscripcion(nombre, descripcion, FechaInicioSocio1, FechaFinSocio1, FechaFinNoSocio1);
-						JOptionPane.showMessageDialog(frmCrearPeriodoDe,"Periodo de inscripción creado correctamente","Creado",JOptionPane.INFORMATION_MESSAGE);	
+						JOptionPane.showMessageDialog(frmCrearPeriodoDe,"Periodo de inscripción creado correctamente","Creado",JOptionPane.INFORMATION_MESSAGE);
+						System.out.println("Periodo Inscripción creado");
 						if(ventanaCrearActividad!=null) {
 							ventanaCrearActividad.getPeriodosInscripcion();
 						}
 						frmCrearPeriodoDe.dispose();
-					} catch (Exception ePeriodoIns) {
-						JOptionPane.showMessageDialog(frmCrearPeriodoDe,"No se ha podido crear el periodo.\nEl nombre de periodo ya existe.","Error.",JOptionPane.ERROR_MESSAGE);
-					}		
+						
 				}
 				
 			}
