@@ -112,7 +112,7 @@ public class ReservaInstalacionActividadPeriodoDet {
 		panel.add(lblFecha_Inicio);
 		
 		JLabel lblFecha_Fin = new JLabel("Seleccione la fecha fin:");
-		lblFecha_Fin.setBounds(68, 248, 128, 13);
+		lblFecha_Fin.setBounds(68, 248, 147, 13);
 		panel.add(lblFecha_Fin);
 		
 		JButton btnCancelar = new JButton("Cancelar");
@@ -143,17 +143,21 @@ public class ReservaInstalacionActividadPeriodoDet {
 		panel.add(dateChooser_FechaFin);
 		
 		JDateChooser dateChooser_FechaPeriodo = new JDateChooser();
-		dateChooser_FechaPeriodo.setBounds(1000,1000,1000,1000);
+		dateChooser_FechaPeriodo.setVisible(false);
+		dateChooser_FechaPeriodo.setBounds(225,192,156,19);
 		panel.add(dateChooser_FechaPeriodo);
 		
 		JComboBox comboBoxHoraIni = new JComboBox();
-		comboBoxHoraIni.setBounds(1000, 1000, 1000, 1000);
+		comboBoxHoraIni.setVisible(false);
+		comboBoxHoraIni.setBounds(225, 242, 156, 19);
 		panel.add(comboBoxHoraIni);
 		
 		JComboBox comboBoxHoraFin = new JComboBox();
-		comboBoxHoraFin.setBounds(1000, 1000, 1000, 1000);
+		comboBoxHoraFin.setVisible(false);
+		comboBoxHoraFin.setBounds(390, 242, 156, 19);
 		panel.add(comboBoxHoraFin);
 		
+		/*
 		JLabel lblNewLabel = new JLabel("Hora Inicio:");
 		lblNewLabel.setBounds(1000, 1000, 1000, 1000);
 		panel.add(lblNewLabel);
@@ -161,6 +165,7 @@ public class ReservaInstalacionActividadPeriodoDet {
 		JLabel lblNewLabel_1 = new JLabel("Hora Fin:");
 		lblNewLabel_1.setBounds(1000, 1000, 1000, 1000);
 		panel.add(lblNewLabel_1);
+		*/
 		
 		JButton btnReservar = new JButton("Reservar");
 		btnReservar.addActionListener(new ActionListener() {
@@ -306,18 +311,17 @@ public class ReservaInstalacionActividadPeriodoDet {
 							JOptionPane.showMessageDialog(frmReservaInstalacionActividadPeriodoDet, "Reservado.\n");
 					}
 				} else {
-					int ini, fin;
-					ini = Integer.parseInt(comboBoxHoraIni.getSelectedItem().toString().split(":")[0]);
-					fin = Integer.parseInt(comboBoxHoraFin.getSelectedItem().toString().split(":")[0]);
-					String dia = formato.format(dateChooser_FechaPeriodo.getDate());
-					String hora = comboBoxHoraIni.getSelectedItem().toString();
-					int hSeleccionada = comboBoxHoraIni.getSelectedIndex();
-					int ReserCliente = 0;
+					int inicio = Integer.parseInt(comboBoxHoraIni.getSelectedItem().toString().split(":")[0]);
+					int fin = Integer.parseInt(comboBoxHoraFin.getSelectedItem().toString().split(":")[0]);
+					String dia_reserva = formato.format(dateChooser_FechaPeriodo.getDate());
+					String hora_reserva = comboBoxHoraIni.getSelectedItem().toString();
+					int seleccion_hora = comboBoxHoraIni.getSelectedIndex();
+					int cliente_conReserva = 0;
 					int cliente = 0;
-					if (fin > ini) {
+					if (fin > inicio) {
 						// Bucle para comprobar si todas las horas están disponibles
-						for (int j = 0; j < fin - ini; j++) {
-							diaYhora = dia + " " + hora;
+						for (int j = 0; j < fin - inicio; j++) {
+							diaYhora = dia_reserva + " " + hora_reserva;
 							cliente = modeloReservas.comprobarDisponibilidadActividad(id_instalacion, diaYhora);
 							if (cliente == -1) {
 								JOptionPane.showMessageDialog(frmReservaInstalacionActividadPeriodoDet,
@@ -325,23 +329,23 @@ public class ReservaInstalacionActividadPeriodoDet {
 										JOptionPane.ERROR_MESSAGE);
 								break;
 							} else if (cliente == 1)
-								ReserCliente = 1;
-							hora = comboBoxHoraIni.getItemAt(hSeleccionada + j).toString();
+								cliente_conReserva = 1;
+							hora_reserva = comboBoxHoraIni.getItemAt(seleccion_hora + j).toString();
 						}
 						if (cliente != -1) {
 
-							hora = comboBoxHoraIni.getSelectedItem().toString();
+							hora_reserva = comboBoxHoraIni.getSelectedItem().toString();
 							// Bucle para reservar todas las horas
-							for (int j = 0; j < fin - ini; j++) {
-								hora = comboBoxHoraIni.getItemAt(hSeleccionada + j).toString();
-								diaYhora = dia + " " + hora;
+							for (int j = 0; j < fin - inicio; j++) {
+								hora_reserva = comboBoxHoraIni.getItemAt(seleccion_hora + j).toString();
+								diaYhora = dia_reserva + " " + hora_reserva;
 								modeloReservas.nuevaReserva(0, Integer.parseInt(id_instalacion), formato.format(fecha_actual), diaYhora,
 										"0", modeloActividades.getIdActividad((String) comboBoxActividad.getSelectedItem()));
 
 							}
 
 							// Mensajes de éxito de reserva
-							if (ReserCliente == 1) {
+							if (cliente_conReserva == 1) {
 								JOptionPane.showMessageDialog(frmReservaInstalacionActividadPeriodoDet,
 										"Alguna hora estaba reservada por un cliente pero la administración tiene prioridad.\n"
 												+ "Se han eliminado las siguientes reservas:\n" + "Cliente: "
@@ -371,25 +375,25 @@ public class ReservaInstalacionActividadPeriodoDet {
 		btnReservarPeriodo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (!ejecutado) {
-					dateChooser_FechaInicio.setBounds(1000,1000,1000,1000);
-					dateChooser_FechaFin.setBounds(1000, 1000, 1000, 1000);
-					dateChooser_FechaPeriodo.setBounds(242, 375, 156, 19);
+					dateChooser_FechaInicio.setVisible(false);
+					dateChooser_FechaFin.setVisible(false);
+					dateChooser_FechaPeriodo.setVisible(true);
 					btnReservarPeriodo.setText("Resevar unas horas");
-					comboBoxHoraIni.setBounds(242, 229, 156, 19);
-					comboBoxHoraFin.setBounds(242, 298, 156, 19);
-					lblNewLabel.setText("Hora inicial");
-					lblNewLabel_1.setText("Hora final");
+					comboBoxHoraIni.setVisible(true);
+					comboBoxHoraFin.setVisible(true);
+					lblFecha_Inicio.setText("Seleccione el día a reservar:");
+					lblFecha_Fin.setText("Seleccione las horas de reserva:");
 					ejecutado = true;
 				}
 				else {
-					dateChooser_FechaInicio.setBounds(242, 229, 156, 19);
-					dateChooser_FechaFin.setBounds(242, 298, 156, 19);
-					dateChooser_FechaPeriodo.setBounds(1000,1000,1000,1000);
-					btnReservarPeriodo.setText("Resevar el día");
-					comboBoxHoraIni.setBounds(1000,1000,1000,1000);
-					comboBoxHoraFin.setBounds(1000,1000,1000,2343);
-					lblNewLabel.setText("Fecha inicial:");
-					lblNewLabel_1.setText("Fecha final:");
+					dateChooser_FechaInicio.setVisible(true);
+					dateChooser_FechaFin.setVisible(true);
+					dateChooser_FechaPeriodo.setVisible(false);
+					btnReservarPeriodo.setText("Reservar Días");
+					comboBoxHoraIni.setVisible(false);
+					comboBoxHoraFin.setVisible(false);
+					lblFecha_Inicio.setText("Fecha inicial:");
+					lblFecha_Fin.setText("Fecha final:");
 					ejecutado = false;
 				}
 			}
