@@ -230,27 +230,27 @@ public class ReservaInstalacionFechaDeterminada {
 								} else {
 									JOptionPane.showMessageDialog(frmReservarInstalacionFechaDet,
 											"No puedes seleccionar una hora de fin de reserva anterior a la de inicio",
-											"Selecciona una hora de fin de reserva posterior a la de inicio",
+											"Ha ocurrido un error al hacer la reserva",
 											JOptionPane.ERROR_MESSAGE);
 								}
 							} else {
 								JOptionPane.showMessageDialog(frmReservarInstalacionFechaDet,
 										"No se puede reservar con más de 15 días de antelación (periodo mínimo estipulado).",
-										"Selecciona una fecha más cercana o espera", JOptionPane.ERROR_MESSAGE);
+										"Ha ocurrido un error al hacer la reserva", JOptionPane.ERROR_MESSAGE);
 							}
 						} else {
 							JOptionPane.showMessageDialog(frmReservarInstalacionFechaDet,
 									"No puedes realizar una reserva para una fecha que ya ha pasado.",
-									"Selecciona una fecha correcta", JOptionPane.ERROR_MESSAGE);
+									"Ha ocurrido un error al hacer la reserva", JOptionPane.ERROR_MESSAGE);
 						}
 					} else {
 						JOptionPane.showMessageDialog(frmReservarInstalacionFechaDet,
 								"No se puede reservar porque el número de socio no es válido.",
-								"Introduce un número de socio válido.", JOptionPane.ERROR_MESSAGE);
+								"Ha ocurrido un error al hacer la reserva", JOptionPane.ERROR_MESSAGE);
 					}
 				} else {
 					JOptionPane.showMessageDialog(frmReservarInstalacionFechaDet,
-							"La instalación está ocupada en ese momento.", "Selecciona otra fecha",
+							"La instalación está ocupada en ese momento.", "Ha ocurrido un error al hacer la reserva",
 							JOptionPane.ERROR_MESSAGE);
 
 				}
