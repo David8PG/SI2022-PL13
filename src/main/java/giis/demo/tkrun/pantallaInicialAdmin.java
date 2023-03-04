@@ -15,6 +15,7 @@ public class pantallaInicialAdmin {
 	private ReservaInstalacionFechaDeterminada vReservaInstalacionFechaDeterminada;
 	private PlanificarActividad ventanaCrearActividad;
 	private CrearPeriodoInscripcion ventanaPeriodoInscripcion;
+	private ListarActividades ventanaListarActividades;
 
 	/**
 	 * Launch the application.
@@ -83,6 +84,16 @@ public class pantallaInicialAdmin {
 		});
 		btnCrearPeriodoIns.setBounds(33, 93, 153, 23);
 		frmPantallaInicialAdministrador.getContentPane().add(btnCrearPeriodoIns);
+
+		JButton btnListarActividad = new JButton("Listar Actividades");
+		btnListarActividad.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ventanaListarActividades = new ListarActividades();
+				ventanaListarActividades.getListarActividades().setVisible(true);
+			}
+		});
+		btnListarActividad.setBounds(33, 126, 153, 23);
+		frmPantallaInicialAdministrador.getContentPane().add(btnListarActividad);
 	}
 
 	public JFrame getFrmvAdmin() {

@@ -51,4 +51,12 @@ public class ActividadesModel {
 	public List<Object[]> getNombreActividades() {
 		return bd.executeQueryArray(nombres_actividades);
 	}
+
+	// Listar actividades en un periodo
+	public static final String actividadesPeriodo = "SELECT id_actividad, deporte, plazas_disponibles, fecha_inicio, fecha_fin, aforo, precio_socio, precio_no_socio FROM actividades WHERE fecha_inicio >=";
+
+	public List<Object[]> getActividadesPeriodo(String fechaInicial, String fechaFin) {
+		return bd.executeQueryArray(
+				actividadesPeriodo + "'" + fechaInicial + "'" + " AND fecha_inicio <= '" + fechaFin + "';");
+	}
 }
