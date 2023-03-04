@@ -98,4 +98,3 @@ CREATE TABLE pagos(
     foreign key (id_reservas) references reservas(id_reserva)
 
 ); 
-
