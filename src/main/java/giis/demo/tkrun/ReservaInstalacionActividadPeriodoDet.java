@@ -107,12 +107,12 @@ public class ReservaInstalacionActividadPeriodoDet {
 		lblActividad.setBounds(68, 59, 202, 13);
 		panel.add(lblActividad);
 		
-		JLabel lblFecha_Inicio = new JLabel("Seleccione la fecha de inicio:");
-		lblFecha_Inicio.setBounds(68, 198, 147, 13);
+		JLabel lblFecha_Inicio = new JLabel("Fecha Inicio");
+		lblFecha_Inicio.setBounds(68, 198, 252, 13);
 		panel.add(lblFecha_Inicio);
 		
-		JLabel lblFecha_Fin = new JLabel("Seleccione la fecha fin:");
-		lblFecha_Fin.setBounds(68, 248, 147, 13);
+		JLabel lblFecha_Fin = new JLabel("Fecha Final:");
+		lblFecha_Fin.setBounds(68, 248, 252, 13);
 		panel.add(lblFecha_Fin);
 		
 		JButton btnCancelar = new JButton("Cancelar");
@@ -135,41 +135,41 @@ public class ReservaInstalacionActividadPeriodoDet {
 		panel.add(comboBoxActividad);
 		
 		JDateChooser dateChooser_FechaInicio = new JDateChooser();
-		dateChooser_FechaInicio.setBounds(225, 192, 156, 19);
+		dateChooser_FechaInicio.setBounds(414, 192, 156, 19);
 		panel.add(dateChooser_FechaInicio);
 		
 		JDateChooser dateChooser_FechaFin = new JDateChooser();
-		dateChooser_FechaFin.setBounds(225, 242, 156, 19);
+		dateChooser_FechaFin.setBounds(414, 248, 156, 19);
 		panel.add(dateChooser_FechaFin);
 		
 		JDateChooser dateChooser_FechaPeriodo = new JDateChooser();
 		dateChooser_FechaPeriodo.setVisible(false);
-		dateChooser_FechaPeriodo.setBounds(225,192,156,19);
+		dateChooser_FechaPeriodo.setBounds(414,192,156,19);
 		panel.add(dateChooser_FechaPeriodo);
 		
 		JComboBox comboBoxHoraIni = new JComboBox();
+		comboBoxHoraIni.setModel(new DefaultComboBoxModel(new String[] {"09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00"}));
 		comboBoxHoraIni.setVisible(false);
-		comboBoxHoraIni.setBounds(225, 242, 156, 19);
+		comboBoxHoraIni.setBounds(348, 245, 106, 19);
 		panel.add(comboBoxHoraIni);
 		
 		JComboBox comboBoxHoraFin = new JComboBox();
+		comboBoxHoraFin.setModel(new DefaultComboBoxModel(new String[] {"10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00"}));
 		comboBoxHoraFin.setVisible(false);
-		comboBoxHoraFin.setBounds(390, 242, 156, 19);
+		comboBoxHoraFin.setBounds(464, 245, 106, 19);
 		panel.add(comboBoxHoraFin);
 		
-		/*
-		JLabel lblNewLabel = new JLabel("Hora Inicio:");
-		lblNewLabel.setBounds(1000, 1000, 1000, 1000);
-		panel.add(lblNewLabel);
-		
-		JLabel lblNewLabel_1 = new JLabel("Hora Fin:");
-		lblNewLabel_1.setBounds(1000, 1000, 1000, 1000);
-		panel.add(lblNewLabel_1);
-		*/
-		
-		JButton btnReservar = new JButton("Reservar");
+		JButton btnReservar = new JButton("Tramitar Reserva");
 		btnReservar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String comprobacion1 = formato.format(dateChooser_FechaInicio.getDate());
+				String comprobacion2 = formato.format(dateChooser_FechaFin.getDate());
+				String vacio = "";
+				if ((comprobacion1 == vacio) || (comprobacion2 == vacio)) {
+					JOptionPane.showMessageDialog(frmReservaInstalacionActividadPeriodoDet,
+							"Los campos Fecha Inicio y Fecha Fin no pueden estar vacíos.",
+							"Ha ocurrido un error", JOptionPane.ERROR_MESSAGE);
+				}
 				// Instalacion que se va a reservar
 				String id_instalacion;
 
@@ -341,9 +341,7 @@ public class ReservaInstalacionActividadPeriodoDet {
 								diaYhora = dia_reserva + " " + hora_reserva;
 								modeloReservas.nuevaReserva(0, Integer.parseInt(id_instalacion), formato.format(fecha_actual), diaYhora,
 										"0", modeloActividades.getIdActividad((String) comboBoxActividad.getSelectedItem()));
-
 							}
-
 							// Mensajes de éxito de reserva
 							if (cliente_conReserva == 1) {
 								JOptionPane.showMessageDialog(frmReservaInstalacionActividadPeriodoDet,
@@ -368,17 +366,17 @@ public class ReservaInstalacionActividadPeriodoDet {
 
 			}
 		});
-		btnReservar.setBounds(485, 304, 85, 21);
+		btnReservar.setBounds(423, 304, 147, 21);
 		panel.add(btnReservar);
 		
-		JButton btnReservarPeriodo = new JButton("Reservar Parcial");
+		JButton btnReservarPeriodo = new JButton("Reserva Parcial");
 		btnReservarPeriodo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (!ejecutado) {
 					dateChooser_FechaInicio.setVisible(false);
 					dateChooser_FechaFin.setVisible(false);
 					dateChooser_FechaPeriodo.setVisible(true);
-					btnReservarPeriodo.setText("Resevar unas horas");
+					btnReservarPeriodo.setText("Reservar Días");
 					comboBoxHoraIni.setVisible(true);
 					comboBoxHoraFin.setVisible(true);
 					lblFecha_Inicio.setText("Seleccione el día a reservar:");
@@ -389,7 +387,7 @@ public class ReservaInstalacionActividadPeriodoDet {
 					dateChooser_FechaInicio.setVisible(true);
 					dateChooser_FechaFin.setVisible(true);
 					dateChooser_FechaPeriodo.setVisible(false);
-					btnReservarPeriodo.setText("Reservar Días");
+					btnReservarPeriodo.setText("Reservar Horas");
 					comboBoxHoraIni.setVisible(false);
 					comboBoxHoraFin.setVisible(false);
 					lblFecha_Inicio.setText("Fecha inicial:");
