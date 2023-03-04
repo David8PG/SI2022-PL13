@@ -65,7 +65,7 @@ public class CrearPeriodoInscripcion {
 	private void initialize() {
 		frmCrearPeriodoDe = new JFrame();
 		frmCrearPeriodoDe.setTitle("Crear Periodo de Inscripción");
-		frmCrearPeriodoDe.setBounds(100, 100, 294, 300);
+		frmCrearPeriodoDe.setBounds(100, 100, 378, 324);
 		frmCrearPeriodoDe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JPanel panel = new JPanel();
@@ -73,45 +73,45 @@ public class CrearPeriodoInscripcion {
 		panel.setLayout(null);
 
 		JLabel lblNewLabel = new JLabel(" Nombre");
-		lblNewLabel.setBounds(22, 11, 46, 14);
+		lblNewLabel.setBounds(22, 11, 90, 14);
 		panel.add(lblNewLabel);
 
 		JLabel lblDescripcin = new JLabel("Descripción");
-		lblDescripcin.setBounds(22, 36, 59, 14);
+		lblDescripcin.setBounds(22, 36, 90, 14);
 		panel.add(lblDescripcin);
 
 		JDateChooser dateChooser = new JDateChooser();
-		dateChooser.setBounds(122, 127, 103, 19);
+		dateChooser.setBounds(145, 137, 103, 19);
 		panel.add(dateChooser);
 
 		JDateChooser dateChooser_1 = new JDateChooser();
-		dateChooser_1.setBounds(122, 157, 103, 19);
+		dateChooser_1.setBounds(145, 167, 103, 19);
 		panel.add(dateChooser_1);
 
 		JDateChooser dateChooser_2 = new JDateChooser();
-		dateChooser_2.setBounds(122, 182, 103, 19);
+		dateChooser_2.setBounds(145, 197, 103, 19);
 		panel.add(dateChooser_2);
 
 		textField = new JTextField();
-		textField.setBounds(83, 8, 159, 20);
+		textField.setBounds(135, 8, 159, 20);
 		panel.add(textField);
 		textField.setColumns(10);
 
 		textField_1 = new JTextField();
 		textField_1.setColumns(10);
-		textField_1.setBounds(83, 33, 159, 77);
+		textField_1.setBounds(135, 39, 159, 77);
 		panel.add(textField_1);
 
 		JLabel lblNewLabel_1 = new JLabel("Fecha Inicio Socios");
-		lblNewLabel_1.setBounds(22, 132, 90, 14);
+		lblNewLabel_1.setBounds(22, 142, 118, 14);
 		panel.add(lblNewLabel_1);
 
 		JLabel lblNewLabel_1_1 = new JLabel("Fecha Fin Socios");
-		lblNewLabel_1_1.setBounds(22, 157, 90, 14);
+		lblNewLabel_1_1.setBounds(22, 172, 118, 14);
 		panel.add(lblNewLabel_1_1);
 
 		JLabel lblNewLabel_1_1_1 = new JLabel("Fecha Fin no Socios");
-		lblNewLabel_1_1_1.setBounds(22, 186, 104, 14);
+		lblNewLabel_1_1_1.setBounds(22, 202, 118, 14);
 		panel.add(lblNewLabel_1_1_1);
 
 		JButton btnNewButton = new JButton("Crear Periodo ");
@@ -185,7 +185,7 @@ public class CrearPeriodoInscripcion {
 
 			}
 		});
-		btnNewButton.setBounds(124, 227, 101, 23);
+		btnNewButton.setBounds(168, 247, 126, 23);
 		panel.add(btnNewButton);
 
 		JButton btnNewButton_1 = new JButton("Cancelar");
@@ -194,7 +194,7 @@ public class CrearPeriodoInscripcion {
 				frmCrearPeriodoDe.dispose();
 			}
 		});
-		btnNewButton_1.setBounds(10, 227, 89, 23);
+		btnNewButton_1.setBounds(51, 247, 89, 23);
 		panel.add(btnNewButton_1);
 
 	}
