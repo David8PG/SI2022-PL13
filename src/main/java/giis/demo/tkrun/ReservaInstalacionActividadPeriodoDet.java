@@ -387,7 +387,7 @@ public class ReservaInstalacionActividadPeriodoDet {
 					dateChooser_FechaPeriodo.setBounds(1000,1000,1000,1000);
 					btnReservarPeriodo.setText("Resevar el día");
 					comboBoxHoraIni.setBounds(1000,1000,1000,1000);
-					comboBoxHoraFin.setBounds(1000,1000,1000,1000);
+					comboBoxHoraFin.setBounds(1000,1000,1000,2343);
 					lblNewLabel.setText("Fecha inicial:");
 					lblNewLabel_1.setText("Fecha final:");
 					ejecutado = false;
