@@ -9,6 +9,8 @@ import javax.swing.JTextField;
 
 import com.toedter.calendar.JDateChooser;
 
+import giis.demo.util.Database;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
@@ -19,6 +21,7 @@ import java.awt.Font;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -45,7 +48,7 @@ public class PlanificarActividad {
 	private SesionesModel ModeloSesiones = new SesionesModel();
 	private CrearPeriodoInscripcion ventanaPeriodoInscripcion;
 	private List<String[]> listaSesiones;
-	
+	private Database bd = new Database();
 	JComboBox comboBox_2;
 	/**
 	 * Launch the application.
@@ -76,6 +79,7 @@ public class PlanificarActividad {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+	
 		frmPlanificarActividad = new JFrame();
 		frmPlanificarActividad.setTitle("Planificar Actividad");
 		frmPlanificarActividad.setBounds(100, 100, 650, 527);
@@ -190,7 +194,12 @@ public class PlanificarActividad {
 		panel.add(lblNewLabel_8_1);
 		
 		JButton btnNewButton = new JButton("Crear Actividad");
-		btnNewButton.setBounds(186, 454, 120, 23);
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ventanaPeriodoInscripcion.getfrmCrearPeriodoDe().setVisible(true);
+			}
+		});
+		btnNewButton.setBounds(213, 407, 120, 23);
 		panel.add(btnNewButton);
 		
 		textField_4 = new JTextField();
@@ -271,7 +280,7 @@ public class PlanificarActividad {
 		dateChooser_1.setDate(FechaFinal);
 
 		
-		JComboBox comboBox_2 = new JComboBox();
+		comboBox_2 = new JComboBox();
 		getPeriodosInscripcion();
 		String seleccionado=comboBox_2.getSelectedItem().toString();
 		List<Object[]> seleccionadoFechas=ModeloPeriodo.getFechas(seleccionado);
@@ -330,7 +339,7 @@ public class PlanificarActividad {
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.print("aaaa");
-				if(comboBox_4_1.getSelectedIndex()>=comboBox_4.getSelectedIndex()+1) {
+				if(comboBox_4.getSelectedIndex()>=comboBox_4_1.getSelectedIndex()+1) {
 					JOptionPane.showMessageDialog(frmPlanificarActividad,"No se puede añadir esa sesión, la hora de inicio tiene que ser anterior a la posterior.","Error",JOptionPane.ERROR_MESSAGE);
 				}
 				else {
@@ -441,11 +450,8 @@ public class PlanificarActividad {
 				}
 			
 		});
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ventanaPeriodoInscripcion.getfrmCrearPeriodoDe().setVisible(true);
-			}});
-		btnNewButton_1.setBounds(217, 407, 89, 23);
+
+		btnNewButton_1.setBounds(245, 454, 89, 23);
 		panel.add(btnNewButton_1);
 		
 		JLabel lblNewLabel_12 = new JLabel("Día");
