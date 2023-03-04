@@ -7,6 +7,15 @@ import giis.demo.util.Database;
 public class ActividadesModel {
 	private Database bd = new Database();
 
+	// Obtencion del id de actividad
+	public static final String id_actividad = "SELECT id_actividad FROM actividades WHERE nombre=";
+
+	public long getIdActividad(String nombre_actividad) {
+		List<Object[]> lIds_actividad;
+		lIds_actividad = bd.executeQueryArray(id_actividad + "'" + nombre_actividad + "'");
+		return (long) lIds_actividad.get(0)[0];
+	}
+
 	public static final String siguienteUltID = "SELECT MAX(id_actividad) from actividades;";
 
 	public long siguienteIdActividad() {
@@ -34,5 +43,12 @@ public class ActividadesModel {
 		bd.executeUpdate(nueva_actividad, id, nombre, descripcion, aforo, plazas, precio_socio, precio_no_socio,
 				fecha_inicio, fecha_fin, deporte, id_instalaciones, id_periodo_inscripciones);
 		return id;
+	}
+
+	// Obtención de los nombres de todas las actividades
+	public static final String nombres_actividades = "SELECT nombre FROM actividades";
+
+	public List<Object[]> getNombreActividades() {
+		return bd.executeQueryArray(nombres_actividades);
 	}
 }
