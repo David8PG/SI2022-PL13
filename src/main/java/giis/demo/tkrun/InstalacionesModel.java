@@ -25,4 +25,9 @@ public class InstalacionesModel {
 		precio = lista_instalaciones.get(0)[0].toString();
 		return precio;
 	}
+	
+	public static final String deportes = "SELECT DISTINCT deporte FROM instalaciones";
+	public List<Object[]> getDeportes(){
+		return bd.executeQueryArray(deportes);
+	}
 }
