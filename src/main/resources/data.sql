@@ -1,12 +1,12 @@
 SET SQL_SAFE_UPDATES = 0;
-DELETE FROM sesiones;
+DELETE FROM pagos;
 DELETE FROM reservas;
 DELETE FROM inscripciones;
-DELETE FROM actividades;
-DELETE FROM periodos_inscripcion;
-DELETE FROM instalaciones;
 DELETE FROM clientes;
-DELETE FROM pagos;
+DELETE FROM sesiones;
+DELETE FROM actividades;
+DELETE FROM instalaciones;
+DELETE FROM periodos_inscripcion;
 INSERT INTO clientes(nombre, dni, id_socio, fecha_nacimiento, PagoPendiente, contraseña, cuotaInicial, cuotaReservas, cuotaActividades, telefono, direccion) VALUES
 ('Juan Pérez', '11111111A', 1, '1980-05-20', 0, 'contraseña1', 50.00, 10.00, 15.00, '666555444', 'Calle Mayor 1'),
 ('María García', '22222222B', null, null, 0, null, null, null, null, '666444333', null),
@@ -29,15 +29,15 @@ INSERT INTO instalaciones(id_instalacion, nombre, deporte, precio) VALUES
 (6, 'Campo de Fútbol', 'Fútbol', 5.00);
 
  
-INSERT INTO reservas(id_reserva, id_socios, id_instalaciones, fecha, fecha_reserva, precio) VALUES 
+INSERT INTO reservas(id_reserva, id_socios, id_instalaciones, fecha, fecha_reserva, precio, actividad) VALUES 
 
-(1, '1', 1,  '2023-02-01', '2023-03-01 15:00:00', 10.00),
-(2, '3', 3,  '2023-02-02', '2023-03-02 16:00:00', 15.00),
-(3, '4', 6,  '2023-02-03', '2023-03-03 17:00:00', 20.00),
-(4, '5', 3,  '2023-02-04', '2023-03-04 18:00:00', 12.50),
-(5, '7', 1,  '2023-02-05', '2023-03-05 19:00:00', 5.00),
-(6, '8', 1,  '2023-02-06', '2023-03-06 20:00:00', 10.00),
-(7, '9', 3,  '2023-02-07', '2023-03-07 21:00:00', 15.00);
+(1, '1', 1,  '2023-02-01', '2023-03-01 15:00:00', 10.00,3),
+(2, '3', 3,  '2023-02-02', '2023-03-02 16:00:00', 15.00,0),
+(3, '4', 6,  '2023-02-03', '2023-03-03 17:00:00', 20.00,2),
+(4, '5', 3,  '2023-02-04', '2023-03-04 18:00:00', 12.50,4),
+(5, '7', 1,  '2023-02-05', '2023-03-05 19:00:00', 5.00,0),
+(6, '8', 1,  '2023-02-06', '2023-03-06 20:00:00', 10.00,0),
+(7, '9', 3,  '2023-02-07', '2023-03-07 21:00:00', 15.00,0);
 
  
 INSERT INTO periodos_inscripcion(id_periodo_inscripcion, nombre_periodo, descripcion, fecha_inicio_socio, fecha_fin_socio, fecha_fin_no_socio) VALUES 

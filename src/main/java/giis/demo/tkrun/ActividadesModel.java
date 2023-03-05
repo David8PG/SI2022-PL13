@@ -16,6 +16,7 @@ public class ActividadesModel {
 		return (long) lIds_actividad.get(0)[0];
 	}
 
+	// metodo que devuelve el siguiente id actividad disponible
 	public static final String siguienteUltID = "SELECT MAX(id_actividad) from actividades;";
 
 	public long siguienteIdActividad() {
@@ -51,6 +52,15 @@ public class ActividadesModel {
 	public List<Object[]> getNombreActividades() {
 		return bd.executeQueryArray(nombres_actividades);
 	}
+	
+	/*
+	// listar actividades de una instalacion en una fecha determinada
+	public static final String actividades_fecha_det= "SELECT id_actividad FROM actividades WHERE fecha_inicio =";
+
+	public List<Object[]> pruebarara(int id_instalacion, String fecha_reserva) {
+		return bd.executeQueryArray(actividades_fecha_det + "'" + fecha_reserva + "'" + " AND id_instalaciones = " + "'" + id_instalacion + "'");
+	}
+	*/
 
 	// Listar actividades en un periodo
 	public static final String actividadesPeriodo = "SELECT id_actividad, deporte, plazas_disponibles, fecha_inicio, fecha_fin, aforo, precio_socio, precio_no_socio FROM actividades WHERE fecha_inicio >=";
