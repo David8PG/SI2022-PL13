@@ -40,6 +40,7 @@ public class ReservaInstalacionActividadPeriodoDet {
 	private SesionesModel modeloSesiones = new SesionesModel();
 	// A utilizar mas adelante
 	SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+	Date actual = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
 	private boolean ejecutado = false;
 
 	/**
@@ -136,14 +137,17 @@ public class ReservaInstalacionActividadPeriodoDet {
 		
 		JDateChooser dateChooser_FechaInicio = new JDateChooser();
 		dateChooser_FechaInicio.setBounds(414, 192, 156, 19);
+		dateChooser_FechaInicio.setDate(actual);
 		panel.add(dateChooser_FechaInicio);
 		
 		JDateChooser dateChooser_FechaFin = new JDateChooser();
 		dateChooser_FechaFin.setBounds(414, 248, 156, 19);
+		dateChooser_FechaFin.setDate(actual);
 		panel.add(dateChooser_FechaFin);
 		
 		JDateChooser dateChooser_FechaPeriodo = new JDateChooser();
 		dateChooser_FechaPeriodo.setVisible(false);
+		dateChooser_FechaPeriodo.setDate(actual);
 		dateChooser_FechaPeriodo.setBounds(414,192,156,19);
 		panel.add(dateChooser_FechaPeriodo);
 		
@@ -247,7 +251,7 @@ public class ReservaInstalacionActividadPeriodoDet {
 					calendario.setTime(fecha_inicioAct);
 					boolean sin_actividad = false;
 					int reserva_socio = 0;
-					LocalDate l = Instant.ofEpochMilli(fecha_inicioAct.getTime()).atZone(ZoneId.systemDefault())
+					LocalDate fecha_local = Instant.ofEpochMilli(fecha_inicioAct.getTime()).atZone(ZoneId.systemDefault())
 							.toLocalDate();
 					if (diferencia_en_dias >= 0 && diferencia_en_años >= 0) {
 						sin_actividad = true;
