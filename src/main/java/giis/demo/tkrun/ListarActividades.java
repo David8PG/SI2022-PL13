@@ -27,6 +27,8 @@ public class ListarActividades {
 	private JFrame frameListarActividades;
 	private JTable tablaActividades;
 	private ActividadesModel ModeloActividades = new ActividadesModel();
+	private String[] titulos = { "ID Actividad", "Deporte", "Plazas Disponibles", "Fecha Inicio", "Fecha Fin", "Aforo",
+			"Precio Socios", "Precio No Socios" };
 
 	/**
 	 * Launch the application.
@@ -141,13 +143,18 @@ public class ListarActividades {
 		return this.frameListarActividades;
 	}
 
+	public void construirTabla(Object[][] matriz, JTable tabla, String[] nombresColumnas) {
+		DefaultTableModel modelo = new DefaultTableModel(matriz, nombresColumnas);
+		tabla.setModel(modelo);
+	}
+
 	public void completarTabla(JTable tabla, String Inicio, String Fin) {
 
 		List<Object[]> listaActividades = ModeloActividades.getActividadesPeriodo(Inicio, Fin);
-		Object[][] matrizDatos = new Object[listaActividades.size()][8];
+		Object[][] matrizDatos = new Object[listaActividades.size() + 1][8];
 		Iterator<Object[]> iterador = listaActividades.iterator();
 
-		int i = 0;
+		int i = 1;
 		while (iterador.hasNext()) {
 			Object[] vector = new Object[8];
 			vector = iterador.next();
@@ -156,10 +163,25 @@ public class ListarActividades {
 			}
 			i++;
 		}
-		tablaActividades.setModel(new DefaultTableModel(matrizDatos, new String[] { "ID Actividad", "Deporte",
-				"Plazas Disponibles", "Fecha Inicio", "Fecha Fin", "Aforo", "Precio Socios", "Precio No Socios" }
 
-		));
+		matrizDatos[0][0] = "ID Actividad";
+		matrizDatos[0][1] = "Deporte";
+		matrizDatos[0][2] = "Plazas Disponibles";
+		matrizDatos[0][3] = "Fecha Inicio";
+		matrizDatos[0][4] = "Fecha Fin";
+		matrizDatos[0][5] = "Aforo";
+		matrizDatos[0][6] = "Precio Socios";
+		matrizDatos[0][7] = "Precio No Socios";
+
+		construirTabla(matrizDatos, tablaActividades, titulos);
+
+		/*
+		 * tablaActividades.setModel(new DefaultTableModel(matrizDatos, new String[] {
+		 * "ID Actividad", "Deporte", "Plazas Disponibles", "Fecha Inicio", "Fecha Fin",
+		 * "Aforo", "Precio Socios", "Precio No Socios" }
+		 * 
+		 * ));
+		 */
 	}
 
 }
