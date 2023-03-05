@@ -16,6 +16,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 
 public class ModificarParametros {
 
@@ -72,7 +73,8 @@ public class ModificarParametros {
 		btnAceptar.setBounds(230, 232, 85, 21);
 		panel.add(btnAceptar);
 
-		spinnerPeriodoReservas = new JSpinner();
+		SpinnerNumberModel model = new SpinnerNumberModel(1, 1, Integer.MAX_VALUE, 1);
+		spinnerPeriodoReservas = new JSpinner(model);
 		spinnerPeriodoReservas.setBounds(240, 7, 30, 20);
 		spinnerPeriodoReservas.setValue(leerCSV(0));
 		panel.add(spinnerPeriodoReservas);

@@ -23,6 +23,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTable;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.table.DefaultTableModel;
 
 public class VisualizarReservasInstalaciones {
@@ -99,7 +100,9 @@ public class VisualizarReservasInstalaciones {
 		lblTextoDiasMostrados.setBounds(315, 40, 119, 13);
 		panel.add(lblTextoDiasMostrados);
 
-		JSpinner spinner = new JSpinner();
+		// Model para que el spinner no pueda bajar de -1
+		SpinnerNumberModel model = new SpinnerNumberModel(1, 1, Integer.MAX_VALUE, 1);
+		JSpinner spinner = new JSpinner(model);
 		spinner.setBounds(422, 37, 30, 20);
 		spinner.setValue(leerCSV(0));
 		panel.add(spinner);
