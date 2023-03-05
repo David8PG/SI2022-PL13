@@ -65,7 +65,6 @@ public class ReservaInstalacionFechaDeterminada {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		JFrame frame;
 		frmReservarInstalacionFechaDet = new JFrame();
 		frmReservarInstalacionFechaDet.setTitle("Reservar Instalación");
 		frmReservarInstalacionFechaDet.setBounds(100, 100, 552, 436);
