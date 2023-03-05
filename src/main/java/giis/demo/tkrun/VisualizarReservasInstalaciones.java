@@ -223,9 +223,9 @@ public class VisualizarReservasInstalaciones {
 		DefaultTableModel modelo = new DefaultTableModel();
 		tabla.setModel(modelo);
 		// Cabecera horas
-		String[] horarios = new String[13];
+		String[] horarios = new String[14];
 		for (int i = 10; i <= 22; i++) {
-			horarios[i - 10] = i + ":00";
+			horarios[i + 1 - 10] = i + ":00";
 		}
 		// Cabecera fechas
 		modelo.addColumn("Hora", horarios);
