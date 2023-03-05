@@ -2,14 +2,18 @@ package giis.demo.tkrun;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -22,6 +26,9 @@ public class ListarActividades {
 
 	private JFrame frameListarActividades;
 	private JTable tablaActividades;
+	private ActividadesModel ModeloActividades = new ActividadesModel();
+	private String[] titulos = { "ID Actividad", "Deporte", "Plazas Disponibles", "Fecha Inicio", "Fecha Fin", "Aforo",
+			"Precio Socios", "Precio No Socios" };
 
 	/**
 	 * Launch the application.
@@ -52,12 +59,23 @@ public class ListarActividades {
 
 	private void initialize() {
 		frameListarActividades = new JFrame();
+		frameListarActividades.setTitle("Listar Actividades");
 		frameListarActividades.setBounds(100, 100, 716, 525);
 		frameListarActividades.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JPanel panel = new JPanel();
 		frameListarActividades.getContentPane().add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
+
+		JDateChooser dateChooserInicio = new JDateChooser();
+		dateChooserInicio.setToolTipText("");
+		dateChooserInicio.setBounds(132, 20, 95, 19);
+		panel.add(dateChooserInicio);
+
+		JDateChooser dateChooserFin = new JDateChooser();
+		dateChooserFin.setToolTipText("");
+		dateChooserFin.setBounds(388, 20, 95, 19);
+		panel.add(dateChooserFin);
 
 		JLabel textoInicioPeriodo = new JLabel("Fecha inicio del periodo:");
 		textoInicioPeriodo.setBounds(10, 26, 112, 13);
@@ -77,65 +95,93 @@ public class ListarActividades {
 		panelTabla.setColumnHeaderView(tablaActividades);
 
 		JButton botonMostrarActividades = new JButton("Mostrar actividades");
+		botonMostrarActividades.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Date fechaInicio = dateChooserInicio.getDate();
+				Date fechaFin = dateChooserFin.getDate();
+
+				if ((fechaInicio == null) || (fechaFin == null)) {
+					JOptionPane.showMessageDialog(frameListarActividades,
+							"Selecciona una fecha final y una fecha inicial", "Error", JOptionPane.ERROR_MESSAGE);
+				} else {
+					if (fechaFin.getTime() - fechaInicio.getTime() <= 0) {
+						JOptionPane.showMessageDialog(frameListarActividades,
+								"Selecciona una fecha final posterior a la inicial", "Error",
+								JOptionPane.ERROR_MESSAGE);
+					} else {
+						// fechaInicio
+						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+						String fechaInicioS = sdf.format(dateChooserInicio.getDate());
+						String Inicio = fechaInicioS;
+
+						// fechaFin
+						SimpleDateFormat sdfk = new SimpleDateFormat("yyyy-MM-dd");
+						String fechaFinS = sdfk.format(dateChooserFin.getDate());
+						String Fin = fechaFinS;
+
+						completarTabla(tablaActividades, Inicio, Fin);
+					}
+				}
+			}
+		});
+
 		botonMostrarActividades.setBounds(221, 62, 184, 29);
 		panel.add(botonMostrarActividades);
 
 		JButton botonAceptar = new JButton("Aceptar");
 		botonAceptar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
-			}
-		});
-		botonAceptar.setBounds(441, 442, 85, 21);
-		panel.add(botonAceptar);
-
-		JButton botonCancelar = new JButton("Cancelar");
-		botonCancelar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
 				frameListarActividades.dispose();
 			}
 		});
-		botonCancelar.setBounds(552, 442, 85, 21);
-		panel.add(botonCancelar);
-
-		JDateChooser dateChooserInicio = new JDateChooser();
-		dateChooserInicio.setToolTipText("");
-		dateChooserInicio.setBounds(132, 20, 95, 19);
-		panel.add(dateChooserInicio);
-
-		JDateChooser dateChooserInicio_1 = new JDateChooser();
-		dateChooserInicio_1.setToolTipText("");
-		dateChooserInicio_1.setBounds(388, 20, 95, 19);
-		panel.add(dateChooserInicio_1);
+		botonAceptar.setBounds(552, 442, 85, 21);
+		panel.add(botonAceptar);
 
 	}
 
-	public void RellenarTablas(JTable tabla, String Inicio, String Fin) {
+	public Window getListarActividades() {
+		return this.frameListarActividades;
+	}
 
-		List<Object[]> listaActividades = modeloReservas.getActividadPeriodo(Inicio, Fin);
+	public void construirTabla(Object[][] matriz, JTable tabla, String[] nombresColumnas) {
+		DefaultTableModel modelo = new DefaultTableModel(matriz, nombresColumnas);
+		tabla.setModel(modelo);
+	}
 
-		Object[][] matriz = new Object[listaActividades.size()][7];
+	public void completarTabla(JTable tabla, String Inicio, String Fin) {
+
+		List<Object[]> listaActividades = ModeloActividades.getActividadesPeriodo(Inicio, Fin);
+		Object[][] matrizDatos = new Object[listaActividades.size() + 1][8];
 		Iterator<Object[]> iterador = listaActividades.iterator();
-		int i = 0;
+
+		int i = 1;
 		while (iterador.hasNext()) {
-			Object[] vector = new Object[7];
+			Object[] vector = new Object[8];
 			vector = iterador.next();
-
-			for (int j = 0; j < 7; j++) {
-
-				matriz[i][j] = vector[j];
-
+			for (int j = 0; j < 8; j++) {
+				matrizDatos[i][j] = vector[j];
 			}
 			i++;
 		}
-		table.setModel(new DefaultTableModel(
 
-				matriz
+		matrizDatos[0][0] = "ID Actividad";
+		matrizDatos[0][1] = "Deporte";
+		matrizDatos[0][2] = "Plazas Disponibles";
+		matrizDatos[0][3] = "Fecha Inicio";
+		matrizDatos[0][4] = "Fecha Fin";
+		matrizDatos[0][5] = "Aforo";
+		matrizDatos[0][6] = "Precio Socios";
+		matrizDatos[0][7] = "Precio No Socios";
 
-				, new String[] { "ID Actividad", "Deporte", "Plazas disponibles", "Fecha inicio", "Fecha fin", "Horas",
-						"Precio Socios", "Precio No Socios" }
+		construirTabla(matrizDatos, tablaActividades, titulos);
 
-		));
-
+		/*
+		 * tablaActividades.setModel(new DefaultTableModel(matrizDatos, new String[] {
+		 * "ID Actividad", "Deporte", "Plazas Disponibles", "Fecha Inicio", "Fecha Fin",
+		 * "Aforo", "Precio Socios", "Precio No Socios" }
+		 * 
+		 * ));
+		 */
 	}
+
 }
