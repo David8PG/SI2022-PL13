@@ -37,6 +37,7 @@ public class ReservaInstalacionFechaDeterminada {
 	private JFrame frmReservarInstalacionFechaDet;
 	private JTextField textFieldIdSocio;
 	private String precio_instalacion ="";
+	Date actual = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
 
 	/**
 	 * Launch the application.
@@ -117,6 +118,7 @@ public class ReservaInstalacionFechaDeterminada {
 		
 		JDateChooser dateChooser_FechaReserva = new JDateChooser();
 		dateChooser_FechaReserva.setBounds(176, 81, 156, 19);
+		dateChooser_FechaReserva.setDate(actual);
 		panel.add(dateChooser_FechaReserva);
 		
 		JLabel lblHoraFinReserva = new JLabel("Hora de Fin de Reserva:");

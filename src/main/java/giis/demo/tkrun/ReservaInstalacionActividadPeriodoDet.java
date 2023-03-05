@@ -200,7 +200,7 @@ public class ReservaInstalacionActividadPeriodoDet {
 				Date fecha_actual = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
 				String diaYhora = "";
 				
-				if (!ejecutado) {
+				if (ejecutado) {
 					String fecha_inicioS = formato.format(dateChooser_FechaInicio.getDate());
 					String fecha_finS = formato.format(dateChooser_FechaFin.getDate());
 
@@ -293,9 +293,9 @@ public class ReservaInstalacionActividadPeriodoDet {
 									modeloReservas.eliminarReserva(Integer.parseInt(id_instalacion), diaYhora);
 								}
 								// Almacenamos la nueva reserva que ha suplantado a la del socio sin actividad
-								modeloReservas.nuevaReserva(0, Integer.parseInt(id_instalacion),
+								modeloReservas.nuevaReservaAct(0, Integer.parseInt(id_instalacion),
 										formato.format(fecha_actual), diaYhora, "0",
-										modeloActividades.getIdActividad((String) comboBoxInstalacion.getSelectedItem()));
+										modeloActividades.getIdActividad((String) comboBoxActividad.getSelectedItem()));
 							}
 							// Añadimos 1 a la fecha de la instancia de calendario
 							calendario.add(calendario.DATE, 1);
@@ -343,7 +343,7 @@ public class ReservaInstalacionActividadPeriodoDet {
 							for (int j = 0; j < fin - inicio; j++) {
 								hora_reserva = comboBoxHoraIni.getItemAt(seleccion_hora + j).toString();
 								diaYhora = dia_reserva + " " + hora_reserva;
-								modeloReservas.nuevaReserva(0, Integer.parseInt(id_instalacion), formato.format(fecha_actual), diaYhora,
+								modeloReservas.nuevaReservaAct(0, Integer.parseInt(id_instalacion), formato.format(fecha_actual), diaYhora,
 										"0", modeloActividades.getIdActividad((String) comboBoxActividad.getSelectedItem()));
 							}
 							// Mensajes de éxito de reserva

@@ -9,7 +9,7 @@ public class ReservasModel {
 	private Database bd = new Database();
 
 	// sentencia para mostrar todas las reservas de una instalación dada
-	public static final String reservas_instalacion = "SELECT id_reserva FROM reservas WHERE instalacion=";
+	public static final String reservas_instalacion = "SELECT id_reserva FROM reservas WHERE id_instalaciones=";
 
 	public List<Object[]> getReservasInstalacion(String nombre_instalacion) {
 		return bd.executeQueryArray(reservas_instalacion, nombre_instalacion);
@@ -43,7 +43,7 @@ public class ReservasModel {
 	// Sentencia para comprobar si una instalación está reservada por una actividad
 	// para un socio
 	public static final String reserva_actividad = " AND actividad!=0"; // Que exista la actividad en reserva
-	public static final String reserva_socio = " AND persona is not null"; // Que un socio haya hecho la reserva
+	public static final String reserva_socio = " AND id_socios is not null"; // Que un socio haya hecho la reserva
 	List<Object[]> lActividad, lSocio;
 
 	public int comprobarDisponibilidadActividad(String nombre_instalacion, String fecha_hora) {
@@ -59,9 +59,18 @@ public class ReservasModel {
 	}
 
 	// Método para instertar una nueva reserva
-	public static final String insertar_nueva_reserva = "INSERT INTO reservas (id_reserva, id_socios, id_instalaciones, fecha_inscripcion, fecha_reserva, precio, actividad) VALUES (?, ?, ?, ?, ?, ?, ?);";
+	public static final String insertar_nueva_reserva = "INSERT INTO reservas (id_reserva, id_socios, id_instalaciones, fecha, fecha_reserva, precio, actividad) VALUES (?, ?, ?, ?, ?, ?, ?);";
 
-	public void nuevaReserva(int socio, int instalacion, String fecha, String fecha_reserva, String precio,
+	public void nuevaReserva(int socio, int instalacion, String fecha, String fecha_reserva, String precio, Object actividad) {
+		long id_reserva;
+		id_reserva = siguienteIdReserva();
+		bd.executeUpdate(insertar_nueva_reserva, id_reserva, null, instalacion, fecha, fecha_reserva, precio, actividad);
+	}
+	
+	// Método para instertar una nueva reserva con actividad
+	public static final String insertar_nueva_reserva_actividad = "INSERT INTO reservas (id_reserva, id_socios, id_instalaciones, fecha, fecha_reserva, precio, actividad) VALUES (?, ?, ?, ?, ?, ?, ?);";
+
+	public void nuevaReservaAct(int socio, int instalacion, String fecha, String fecha_reserva, String precio,
 			Object actividad) {
 		long id_reserva;
 		id_reserva = siguienteIdReserva();
@@ -79,7 +88,7 @@ public class ReservasModel {
 	}
 
 	// Método que elimina una reserva
-	public static final String eliminar_reserva = "DELETE from reservas WHERE instalacion=? AND fecha_reserva=?;";
+	public static final String eliminar_reserva = "DELETE from reservas WHERE id_instalaciones=? AND fecha_reserva=?;";
 
 	public void eliminarReserva(int instalacion, String fecha) {
 		bd.executeUpdate(eliminar_reserva, instalacion, fecha);
