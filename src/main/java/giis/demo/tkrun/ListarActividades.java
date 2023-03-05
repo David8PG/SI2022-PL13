@@ -162,30 +162,4 @@ public class ListarActividades {
 		));
 	}
 
-	/*
-	 * public void RellenarTablas(JTable tabla, String Inicio, String Fin) {
-	 * 
-	 * List<Object[]> listaActividades = modeloReservas.getActividadPeriodo(Inicio,
-	 * Fin);
-	 * 
-	 * Object[][] matriz = new Object[listaActividades.size()][7];
-	 * Iterator<Object[]> iterador = listaActividades.iterator(); int i = 0; while
-	 * (iterador.hasNext()) { Object[] vector = new Object[7]; vector =
-	 * iterador.next();
-	 * 
-	 * for (int j = 0; j < 7; j++) {
-	 * 
-	 * matriz[i][j] = vector[j];
-	 * 
-	 * } i++; } table.setModel(new DefaultTableModel(
-	 * 
-	 * matriz
-	 * 
-	 * , new String[] { "ID Actividad", "Deporte", "Plazas disponibles",
-	 * "Fecha inicio", "Fecha fin", "Horas", "Precio Socios", "Precio No Socios" }
-	 * 
-	 * ));
-	 * 
-	 * }
-	 */
 }

@@ -16,6 +16,8 @@ public class pantallaInicialAdmin {
 	private PlanificarActividad ventanaCrearActividad;
 	private CrearPeriodoInscripcion ventanaPeriodoInscripcion;
 	private ListarActividades ventanaListarActividades;
+	private VisualizarReservasInstalaciones ventanaVisualizarReservas;
+	private ModificarParametros ventanaModificarParametros;
 
 	/**
 	 * Launch the application.
@@ -94,6 +96,26 @@ public class pantallaInicialAdmin {
 		});
 		btnListarActividad.setBounds(33, 126, 153, 23);
 		frmPantallaInicialAdministrador.getContentPane().add(btnListarActividad);
+
+		JButton btnListarReservas = new JButton("Listar Reservas");
+		btnListarReservas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ventanaVisualizarReservas = new VisualizarReservasInstalaciones();
+				ventanaVisualizarReservas.getVisualizarReservas().setVisible(true);
+			}
+		});
+		btnListarReservas.setBounds(33, 159, 153, 21);
+		frmPantallaInicialAdministrador.getContentPane().add(btnListarReservas);
+
+		JButton btnParametros = new JButton("Modificar Parámetros");
+		btnParametros.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ventanaModificarParametros = new ModificarParametros();
+				ventanaModificarParametros.getModificarParametros().setVisible(true);
+			}
+		});
+		btnParametros.setBounds(33, 190, 153, 21);
+		frmPantallaInicialAdministrador.getContentPane().add(btnParametros);
 	}
 
 	public JFrame getFrmvAdmin() {
