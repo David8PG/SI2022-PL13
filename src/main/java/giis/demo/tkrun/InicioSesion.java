@@ -13,6 +13,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Arrays;
 import java.util.List;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class InicioSesion {
 
@@ -87,6 +89,11 @@ public class InicioSesion {
 		frmInicio_de_sesion.getContentPane().add(passFieldContraseña);
 		
 		JButton btnInicioSesion = new JButton("Inicia Sesión");
+		btnInicioSesion.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				entrada_en_sesion();
+			}
+		});
 		btnInicioSesion.setBounds(69, 113, 102, 21);
 		frmInicio_de_sesion.getContentPane().add(btnInicioSesion);
 		
