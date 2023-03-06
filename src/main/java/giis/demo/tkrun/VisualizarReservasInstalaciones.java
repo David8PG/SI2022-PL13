@@ -32,6 +32,8 @@ public class VisualizarReservasInstalaciones {
 	private JTable tableHorario;
 	private InstalacionesModel modeloInstalaciones = new InstalacionesModel();
 	private ReservasModel modeloReservas = new ReservasModel();
+	private String[] titulos = { "ID Actividad", "Deporte", "Plazas Disponibles", "Fecha Inicio", "Fecha Fin", "Aforo",
+			"Precio Socios", "Precio No Socios" };
 
 	/**
 	 * Launch the application.
@@ -222,8 +224,10 @@ public class VisualizarReservasInstalaciones {
 
 		List<Object[]> listaReservas = modeloReservas.getReservasInstalacionPeriodo(instalacion, inicio, fin);
 		Object[][] matrizDatos = new Object[diferenciaDias][11];
-
+		Object[][] matrizHorario = new Object[diferenciaDias][11];
+		Object[] reserva = listaReservas.get(0);
 		DefaultTableModel modelo = new DefaultTableModel();
+		String[] titulos2 = new String[diferenciaDias];
 		tabla.setModel(modelo);
 		// Cabecera horas
 		String[] horarios = new String[14];
@@ -241,5 +245,22 @@ public class VisualizarReservasInstalaciones {
 			fechaCabecera = sumarUnDia(fechaCabecera);
 		}
 
+		for (int i = 0; i < matrizDatos.length; i++) {
+			for (int j = 0; j < matrizDatos[i].length; j++) {
+				// Imprimimos cada elemento de la matriz
+				// System.out.print(matriz[i][j] + " ");
+				if (matrizDatos[i][j] != null) {
+					/* matrizHorario[i][j] = "ESTAN PASANDO COSAS"/* Arrays.toString(reserva) ; */
+					tabla.setValueAt("ESTAN PASANDO COSAS", i, j);
+				}
+			}
+		}
+		construirTabla(matrizHorario, tabla, titulos);
+
+	}
+
+	public void construirTabla(Object[][] matriz, JTable tabla, String[] nombresColumnas) {
+		DefaultTableModel modelo = new DefaultTableModel(matriz, nombresColumnas);
+		tabla.setModel(modelo);
 	}
 }

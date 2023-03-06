@@ -61,12 +61,14 @@ public class ReservasModel {
 	// Método para instertar una nueva reserva sin id socio
 	public static final String insertar_nueva_reserva = "INSERT INTO reservas (id_reserva, id_socios, id_instalaciones, fecha, fecha_reserva, precio, actividad) VALUES (?, ?, ?, ?, ?, ?, ?);";
 
-	public void nuevaReserva(int id_socio, int id_instalacion, String fecha, String fecha_reserva, String precio, Object actividad) {
+	public void nuevaReserva(int id_socio, int id_instalacion, String fecha, String fecha_reserva, String precio,
+			Object actividad) {
 		long id_reserva;
 		id_reserva = siguienteIdReserva();
-		bd.executeUpdate(insertar_nueva_reserva, id_reserva, null, id_instalacion, fecha, fecha_reserva, precio, actividad);
+		bd.executeUpdate(insertar_nueva_reserva, id_reserva, null, id_instalacion, fecha, fecha_reserva, precio,
+				actividad);
 	}
-	
+
 	// Método para instertar una nueva reserva con actividad
 	public static final String insertar_nueva_reserva_actividad = "INSERT INTO reservas (id_reserva, id_socios, id_instalaciones, fecha, fecha_reserva, precio, actividad) VALUES (?, ?, ?, ?, ?, ?, ?);";
 
