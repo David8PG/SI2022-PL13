@@ -214,6 +214,9 @@ public class ReservaInstalacionFechaDeterminada {
 				String id_socio;
 				id_socio = textFieldIdSocio.getText();
 				
+				//nInstalación
+				String nInstalacion = comboBoxInstalacion.getSelectedItem().toString();
+				
 				// Pasamos a comprobar la disponibilidad de la instalación
 				if (modeloReservas.comprobarDisponibilidad(id_instalacion, diaYhora_inicio)) {
 					if (modeloClientes.validarId(id_socio)) {
@@ -224,10 +227,10 @@ public class ReservaInstalacionFechaDeterminada {
 											Integer.parseInt(id_instalacion), formato.format(fecha_actual),
 											diaYhora_inicio, precio_instalacion, 0);
 									JOptionPane.showMessageDialog(frmReservarInstalacionFechaDet,
-											"La reserva se ha hecho correctamente.\n" + "  Coste: " + precio_instalacion
+											"La reserva se ha hecho correctamente.\n" + "  Coste reserva: " + precio_instalacion
 													+ "\n  Nº Socio solicitante: " + id_socio
-													+ "\n  Nombre de la instalación reservada: " + id_instalacion
-													+ "\n  Reservada para el: " + diaYhora_inicio);
+													+ "\n  Instalación reservada: " + nInstalacion
+													+ "\n  Reservada el " + dia + " de " + hora_inicio + " a " + hora_fin);
 								} else {
 									JOptionPane.showMessageDialog(frmReservarInstalacionFechaDet,
 											"No puedes seleccionar una hora de fin de reserva anterior a la de inicio",

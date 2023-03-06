@@ -58,23 +58,23 @@ public class ReservasModel {
 		return -1; // No se puede realizar la reserva
 	}
 
-	// Método para instertar una nueva reserva
+	// Método para instertar una nueva reserva sin id socio
 	public static final String insertar_nueva_reserva = "INSERT INTO reservas (id_reserva, id_socios, id_instalaciones, fecha, fecha_reserva, precio, actividad) VALUES (?, ?, ?, ?, ?, ?, ?);";
 
-	public void nuevaReserva(int socio, int instalacion, String fecha, String fecha_reserva, String precio, Object actividad) {
+	public void nuevaReserva(int id_socio, int id_instalacion, String fecha, String fecha_reserva, String precio, Object actividad) {
 		long id_reserva;
 		id_reserva = siguienteIdReserva();
-		bd.executeUpdate(insertar_nueva_reserva, id_reserva, null, instalacion, fecha, fecha_reserva, precio, actividad);
+		bd.executeUpdate(insertar_nueva_reserva, id_reserva, null, id_instalacion, fecha, fecha_reserva, precio, actividad);
 	}
 	
 	// Método para instertar una nueva reserva con actividad
 	public static final String insertar_nueva_reserva_actividad = "INSERT INTO reservas (id_reserva, id_socios, id_instalaciones, fecha, fecha_reserva, precio, actividad) VALUES (?, ?, ?, ?, ?, ?, ?);";
 
-	public void nuevaReservaAct(int socio, int instalacion, String fecha, String fecha_reserva, String precio,
+	public void nuevaReservaAct(int id_socio, int id_instalacion, String fecha, String fecha_reserva, String precio,
 			Object actividad) {
 		long id_reserva;
 		id_reserva = siguienteIdReserva();
-		bd.executeUpdate(insertar_nueva_reserva, id_reserva, null, instalacion, fecha, fecha_reserva, precio,
+		bd.executeUpdate(insertar_nueva_reserva, id_reserva, id_socio, id_instalacion, fecha, fecha_reserva, precio,
 				actividad);
 	}
 
@@ -90,7 +90,7 @@ public class ReservasModel {
 	// Método que elimina una reserva
 	public static final String eliminar_reserva = "DELETE from reservas WHERE id_instalaciones=? AND fecha_reserva=?;";
 
-	public void eliminarReserva(int instalacion, String fecha) {
-		bd.executeUpdate(eliminar_reserva, instalacion, fecha);
+	public void eliminarReserva(int id_instalacion, String fecha_reserva) {
+		bd.executeUpdate(eliminar_reserva, id_instalacion, fecha_reserva);
 	}
 }
