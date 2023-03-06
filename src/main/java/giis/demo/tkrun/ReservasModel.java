@@ -137,12 +137,24 @@ public class ReservasModel {
 
 		return bd.executeQueryArray(SQL_RESERVAS_SOCIO_DIA, idsocio, Date, Date1);
 	}
-	
+
 	//Método para instertar una nueva reserva
-		public static final String SQL_NUEVA_RESERVA_SOCIO = "INSERT INTO reservas (id_reserva, persona, instalacion, fecha, fecha_reserva, precio, actividad) VALUES (?, ?, ?, ?, ?, ?, ?);";
-		public void nuevaReserva1(int socio, int instalacion, String fecha, String fecha_reserva, String precio, Object actividad) {
-			long id;
-			id = siguienteIdReserva();		
-			bd.executeUpdate(SQL_NUEVA_RESERVA_SOCIO,id, socio,instalacion, fecha, fecha_reserva, precio, actividad);
-		}
+	public static final String SQL_NUEVA_RESERVA_SOCIO = "INSERT INTO reservas (id_reserva, persona, instalacion, fecha, fecha_reserva, precio, actividad) VALUES (?, ?, ?, ?, ?, ?, ?);";
+	public void nuevaReserva1(int socio, int instalacion, String fecha, String fecha_reserva, String precio, Object actividad) {
+		long id;
+		id = siguienteIdReserva();		
+		bd.executeUpdate(SQL_NUEVA_RESERVA_SOCIO,id, socio,instalacion, fecha, fecha_reserva, precio, actividad);
+	}
+
+	public static final String SQL_RESERVAS_MANU= "SELECT persona, fecha_reserva, actividad, id_reserva FROM reservas WHERE instalacion=";
+	public List<Object[]> getReservasInstalaciones(long id_instalacion){
+		return bd.executeQueryArray(SQL_RESERVAS_MANU+ "'"+id_instalacion+"'");
+	}
+	
+	//Método para saber reserva de una actividad sin fecha
+	public static final String SQL_ACTIVIDAD = "SELECT nombre FROM actividades WHERE id_actividad=";
+
+	public List<Object[]> getActividad(long id_actividad){
+		return bd.executeQueryArray(SQL_ACTIVIDAD+id_actividad);	
+	}
 }
