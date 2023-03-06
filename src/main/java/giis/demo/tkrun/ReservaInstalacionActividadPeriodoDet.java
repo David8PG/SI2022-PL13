@@ -301,7 +301,9 @@ public class ReservaInstalacionActividadPeriodoDet {
 								// tiene prioridad, se elimina la reserva del socio
 								if (reserva_socio == 1
 										&& !modeloReservas.comprobarDisponibilidad(id_instalacion, diaYhora)) {
-									lista_reservasCliente_eliminadas.add(new String[] { id_instalacion, diaYhora });
+									long resultado1 = modeloReservas.obtener_socio(Integer.parseInt(id_instalacion), diaYhora);
+									String id_socio1 = String.valueOf(resultado1);
+									lista_reservasCliente_eliminadas.add(new String[] { id_instalacion, diaYhora, id_socio1});
 									modeloReservas.eliminarReserva(Integer.parseInt(id_instalacion), diaYhora);
 								}
 								// Almacenamos la nueva reserva que ha suplantado a la del socio sin actividad
@@ -312,13 +314,13 @@ public class ReservaInstalacionActividadPeriodoDet {
 							// Añadimos 1 a la fecha de la instancia de calendario
 							calendario.add(calendario.DATE, 1);
 						}
-						String mensaje = "Hay reservas de actividades en la instalación por parte de los socios pero la administración tiene prioridad.\n"
+						String mensaje = "Hay reservas de la instalación por parte de los socios pero la administración tiene prioridad.\n"
 								+ "Las siguientes reservas han sido eliminadas:\n";
 						Iterator<String[]> iterador2 = lista_reservasCliente_eliminadas.iterator();
 						String[] vector_iterador;
 						while (iterador2.hasNext()) {
 							vector_iterador = iterador2.next();
-							mensaje += "\nInstalación reservada: " + vector_iterador[0] + "\nFecha de inicio de la reserva: " + vector_iterador[1];
+							mensaje += "\nSocio nº " + vector_iterador[2] + "\nInstalación reservada: " + vector_iterador[0] + "\nFecha de inicio de la reserva: " + vector_iterador[1];
 						}
 						if (reserva_socio == 1) {
 							JOptionPane.showMessageDialog(frmReservaInstalacionActividadPeriodoDet, mensaje,
@@ -349,6 +351,10 @@ public class ReservaInstalacionActividadPeriodoDet {
 									dialogo_mostrado = true; // probando
 									break;
 								} else if (indice_disponibilidad == 1) {
+									long resultado2 = modeloReservas.obtener_socio(Integer.parseInt(id_instalacion), diaYhora);
+									String id_socio2 = String.valueOf(resultado2);
+									lista_reservasCliente_eliminadas.add(new String[] { id_instalacion, diaYhora, id_socio2});
+									modeloReservas.eliminarReserva(Integer.parseInt(id_instalacion), diaYhora);
 									cliente_conReserva = 1;
 								}
 								hora_reserva = comboBoxHoraIni.getItemAt(seleccion_hora + j).toString();
@@ -365,14 +371,15 @@ public class ReservaInstalacionActividadPeriodoDet {
 								}
 								// Mensajes de éxito de reserva
 								if (cliente_conReserva == 1) {
+									//System.out.println(lista_reservasCliente_eliminadas);
 									JOptionPane.showMessageDialog(frmReservaInstalacionActividadPeriodoDet,
-											"Hay reservas de actividades en la instalación por parte de los socios pero la administración tiene prioridad.\n"
+											"Hay reservas de la instalación por parte de los socios pero la administración tiene prioridad.\n"
 													+ "Las siguientes reservas han sido eliminadas:\n" + "Socio nº "
-													+ lista_reservasCliente_eliminadas.get(0)[3]
+													+ lista_reservasCliente_eliminadas.get(0)[2]
 													+ "\nInstalación reservada: "
-													+ lista_reservasCliente_eliminadas.get(0)[3]
+													+ lista_reservasCliente_eliminadas.get(0)[0]
 													+ "\nFecha de inicio de la reserva: "
-													+ lista_reservasCliente_eliminadas.get(0)[2],
+													+ lista_reservasCliente_eliminadas.get(0)[1],
 											"La reserva se ha realizado con éxito", JOptionPane.INFORMATION_MESSAGE);
 								} else {
 									JOptionPane.showMessageDialog(frmReservaInstalacionActividadPeriodoDet,
