@@ -95,6 +95,6 @@ CREATE TABLE pagos(
     id_inscripciones integer unsigned unique,
     foreign key (id_inscripciones) references inscripciones(id_inscripcion) ON DELETE CASCADE, 
     id_reservas integer unsigned,
-    foreign key (id_reservas) references reservas(id_reserva)
+    foreign key (id_reservas) references reservas(id_reserva) ON DELETE CASCADE
 
 ); 
