@@ -151,7 +151,7 @@ public class ReservasModel {
 	}
 
 	//Saber reservas de una instalacion
-	public static final String SQL_RESERVAS_INSTALACIONES= "SELECT id_socios, fecha_reserva, actividad, id_reserva FROM reservas WHERE id_instalacion=";
+	public static final String SQL_RESERVAS_INSTALACIONES= "SELECT id_socios, fecha_reserva, actividad, id_reserva FROM reservas WHERE id_instalaciones=";
 	public List<Object[]> getReservasInstalaciones(long id_instalacion){
 		return bd.executeQueryArray(SQL_RESERVAS_INSTALACIONES+ "'"+id_instalacion+"'");
 	}
