@@ -15,12 +15,6 @@ public class ReservasModel {
 		return bd.executeQueryArray(reservas_instalacion, nombre_instalacion);
 	}
 
-	public static final String reservasEnUNaInstalacion = "SELECT id_socios, fecha_reserva, actividad, id_reserva FROM reservas WHERE instalaciones=";
-
-	public List<Object[]> getReservasManu(long id_instalacion) {
-		return bd.executeQueryArray(reservasEnUnaInstalacion + "'" + id_instalacion + "'");
-	}
-
 	// sentencia para mostrar todas las reservas de una instalación dada en un
 	// periodo dado
 	public static final String reservasEnUnaInstalacion = "SELECT r.fecha_reserva, r.id_socios FROM reservas r INNER JOIN instalaciones i ON r.id_instalaciones = i.id_instalacion WHERE i.nombre =";

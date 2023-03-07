@@ -289,7 +289,6 @@ public class VisualizarReservasInstalaciones {
 				}
 			}
 		}
-
 	}
 
 	public static boolean comparar(String cadena1, String cadena2) {
