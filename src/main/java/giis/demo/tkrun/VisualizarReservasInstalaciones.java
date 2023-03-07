@@ -132,7 +132,6 @@ public class VisualizarReservasInstalaciones {
 		panel.add(scrollPane);
 
 		tableHorario = new JTable();
-		tableHorario.setEnabled(false);
 		tableHorario.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 //		generaTitulos();
 		scrollPane.setColumnHeaderView(tableHorario);
@@ -255,9 +254,9 @@ public class VisualizarReservasInstalaciones {
 		// String[] fechasReservas = getFechasReservas(listaReservas);
 		tabla.setModel(modelo);
 		// Cabecera horas
-		String[] horarios = new String[14];
-		for (int i = 10; i <= 22; i++) {
-			horarios[i + 1 - 10] = i + ":00";
+		String[] horarios = new String[15];
+		for (int i = 9; i <= 22; i++) {
+			horarios[i + 2 - 10] = i + ":00";
 		}
 		modelo.addColumn("Hora", horarios);
 		// añadeColumna(matrizHorario, horarios);
@@ -274,17 +273,22 @@ public class VisualizarReservasInstalaciones {
 		}
 		int cont = 0;
 		for (int i = 1; i < diferenciaDias + 1; i++) {
-			for (int j = 1; j < 14; j++) {
+			for (int j = 1; j < 15; j++) {
 				if (cont < listaReservas.size() && listaReservas.size() > 0) {
+
 					if ((comparar(obtenerHoraDesdeString(listaReservas.get(cont)[0].toString() + ":00"),
 							tabla.getValueAt(j, 0).toString()))
 							&& comparar(obtenerFechaDesdeString(listaReservas.get(cont)[0].toString()),
 									tabla.getValueAt(0, i).toString())) {
 						if (listaReservas.get(cont)[1] == null) {
 							tabla.setValueAt("null", j, i);
+							System.out.println("ENTRE CON NULL");
+
 						} else {
 							tabla.setValueAt(listaReservas.get(cont)[1].toString(), j, i);
 						}
+
+						System.out.println("Entro una vez");
 						cont = cont + 1;
 					}
 				}
@@ -293,6 +297,10 @@ public class VisualizarReservasInstalaciones {
 				}
 			}
 		}
+		// tabla.setValueAt(cont, 1, 2);
+		// tabla.setValueAt(listaReservas.size(), 1, 1);
+		// tabla.setValueAt(listaReservas.get(9)[1].toString(), 1, 2);
+		// tabla.setValueAt(listaReservas.get(8)[0].toString(), 1, 3);
 	}
 
 	public static boolean comparar(String cadena1, String cadena2) {
@@ -323,4 +331,13 @@ public class VisualizarReservasInstalaciones {
 		}
 		return result;
 	}
+
+	public static boolean filtrarFechaAntigua(String fechaString) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+		LocalDateTime fecha = LocalDateTime.parse(fechaString, formatter);
+		LocalDateTime ahora = LocalDateTime.now();
+		return !fecha.isBefore(ahora);
+
+	}
+
 }
