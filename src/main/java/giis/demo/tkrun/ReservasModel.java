@@ -1,5 +1,8 @@
 package giis.demo.tkrun;
 
+import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 import giis.demo.util.Database;
@@ -17,7 +20,7 @@ public class ReservasModel {
 
 	// sentencia para mostrar todas las reservas de una instalación dada en un
 	// periodo dado
-	public static final String reservasEnUnaInstalacion = "SELECT r.fecha_reserva, r.id_socios FROM reservas r INNER JOIN instalaciones i ON r.id_instalaciones = i.id_instalacion WHERE i.nombre =";
+	public static final String reservasEnUnaInstalacion = "SELECT r.id_reserva, r.id_socios, r.fecha_reserva FROM reservas r INNER JOIN instalaciones i ON r.id_instalaciones = i.id_instalacion WHERE i.nombre =";
 
 	public List<Object[]> getReservasInstalacionPeriodo(String nombre_instalacion, String fechaInicio,
 			String fechaFin) {
@@ -58,6 +61,15 @@ public class ReservasModel {
 		return -1; // No se puede realizar la reserva
 	}
 
+	// Método para conseguir la siguiente reserva (por id)
+	public static final String siguiente_id_reserva = "SELECT MAX(id_reserva) from reservas;";
+
+	public long siguienteIdReserva() {
+		List<Object[]> lReservas;
+		lReservas = bd.executeQueryArray(siguiente_id_reserva);
+		return (long) lReservas.get(0)[0] + 1;
+	}
+	
 	// Método para instertar una nueva reserva sin id socio
 	public static final String insertar_nueva_reserva = "INSERT INTO reservas (id_reserva, id_socios, id_instalaciones, fecha, fecha_reserva, precio, actividad) VALUES (?, ?, ?, ?, ?, ?, ?);";
 
@@ -76,51 +88,40 @@ public class ReservasModel {
 			Object actividad) {
 		long id_reserva;
 		id_reserva = siguienteIdReserva();
-		bd.executeUpdate(insertar_nueva_reserva, id_reserva, id_socio, id_instalacion, fecha, fecha_reserva, precio,
-				actividad);
+		bd.executeUpdate(insertar_nueva_reserva_actividad, id_reserva, id_socio, id_instalacion, fecha, fecha_reserva,
+				precio, actividad);
 	}
-
-	// Método para conseguir la siguiente reserva (por id)
-	public static final String siguiente_id_reserva = "SELECT MAX(id_reserva) from reservas;";
-
-	public long siguienteIdReserva() {
-		List<Object[]> lReservas;
-		lReservas = bd.executeQueryArray(siguiente_id_reserva);
-		return (long) lReservas.get(0)[0] + 1;
-	}
-
+	
 	// Método que elimina una reserva
 	public static final String eliminar_reserva = "DELETE from reservas WHERE id_instalaciones=? AND fecha_reserva=?;";
 
 	public void eliminarReserva(int id_instalacion, String fecha_reserva) {
 		bd.executeUpdate(eliminar_reserva, id_instalacion, fecha_reserva);
 	}
-
+	
 	public static final String obtener_id_socio = "SELECT id_socios from reservas WHERE id_instalaciones=? AND fecha_reserva=?;";
-
 	public long obtener_socio(int id_instalacion, String fecha_reserva) {
 		List<Object[]> lSocios;
 		lSocios = bd.executeQueryArray(obtener_id_socio, id_instalacion, fecha_reserva);
 		return (long) lSocios.get(0)[0];
 	}
-
-	// Método para obtener el nombre de las actividades según su id
-	public static final String actividadesID = "SELECT nombre FROM actividades WHERE id_actividad=";
-
-	public List<Object[]> getActividad(long id_actividad) {
-		return bd.executeQueryArray(actividadesID + id_actividad);
-	}
-
+	
 	/*
-	 * // Método para obtener el id del socio que hace una reserva public static
-	 * final String obtener_id_socio =
-	 * "SELECT id_socios from reservas WHERE id_instalaciones=? AND fecha_reserva=?;"
-	 * ; public String obtener_socio(int id_instalacion, String fecha_reserva) {
-	 * ResultSet resultado = (ResultSet) bd.executeQueryArray(obtener_id_socio,
-	 * id_instalacion, fecha_reserva); String id_socio = ""; try { if
-	 * (resultado.next()) { // Leer el valor de la columna "id_socios" del resultado
-	 * id_socio = resultado.getString("id_socios"); } } catch (SQLException e) { //
-	 * Manejar cualquier excepción que pueda ocurrir al leer el resultado
-	 * e.printStackTrace(); } return id_socio; }
-	 */
+	// Método para obtener el id del socio que hace una reserva
+	public static final String obtener_id_socio = "SELECT id_socios from reservas WHERE id_instalaciones=? AND fecha_reserva=?;";
+	public String obtener_socio(int id_instalacion, String fecha_reserva) {
+		ResultSet resultado = (ResultSet) bd.executeQueryArray(obtener_id_socio, id_instalacion, fecha_reserva);
+		String id_socio = "";
+		try {
+	        if (resultado.next()) {
+	            // Leer el valor de la columna "id_socios" del resultado
+	            id_socio = resultado.getString("id_socios");
+	        }
+	    } catch (SQLException e) {
+	        // Manejar cualquier excepción que pueda ocurrir al leer el resultado
+	        e.printStackTrace();
+	    }
+	    return id_socio;
+	}
+	*/
 }
