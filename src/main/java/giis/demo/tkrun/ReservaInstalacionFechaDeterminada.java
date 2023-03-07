@@ -255,6 +255,7 @@ public class ReservaInstalacionFechaDeterminada {
 				if (modeloReservas.comprobarDisponibilidad(id_instalacion, diaYhora_inicio)) {
 					if (modeloClientes.validarId(id_socio)) {
 						if (diferencia_en_dias >= 0 && diferencia_en_años >= 0) {
+							// no se puede con 15 dias antelacion
 							if (diferencia_en_dias <= 15 || diferencia_en_años > 0) {
 								if (hora_de_inicioReserva < hora_de_finReserva) {
 									for (int k = 0; k <= hora_de_finReserva - hora_de_inicioReserva; k++) {

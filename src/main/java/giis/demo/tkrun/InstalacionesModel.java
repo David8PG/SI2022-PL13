@@ -20,7 +20,8 @@ public class InstalacionesModel {
 		return bd.executeQueryArray(id_instalacion + "'" + nombre_instalacion + "'");
 	}
 
-	// método para obtener el precio de reserva de una instalación a partir de su nombre
+	// método para obtener el precio de reserva de una instalación a partir de su
+	// nombre
 	public static final String precio_instalacion = "SELECT precio FROM instalaciones WHERE nombre=";
 
 	public String getPrecio(String nombre_instalacion) {

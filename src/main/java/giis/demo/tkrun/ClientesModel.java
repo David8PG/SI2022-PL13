@@ -4,7 +4,6 @@ import java.util.*;
 
 import giis.demo.util.Database;
 
-
 public class ClientesModel {
 	
 	private Database bd = new Database();
