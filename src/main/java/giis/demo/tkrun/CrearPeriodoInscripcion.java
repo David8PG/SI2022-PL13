@@ -16,6 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
 
 import com.toedter.calendar.JDateChooser;
 
@@ -23,7 +24,6 @@ public class CrearPeriodoInscripcion {
 
 	private JFrame frmCrearPeriodoDe;
 	private JTextField textField;
-	private JTextField textField_1;
 	private PeriodosInscripcionModel PeriodosModel = new PeriodosInscripcionModel();
 	private PlanificarActividad ventanaCrearActividad;
 
@@ -84,6 +84,10 @@ public class CrearPeriodoInscripcion {
 		dateChooser.setBounds(145, 137, 103, 19);
 		panel.add(dateChooser);
 
+		JTextPane textField_1 = new JTextPane();
+		textField_1.setBounds(135, 36, 159, 90);
+		panel.add(textField_1);
+
 		JDateChooser dateChooser_1 = new JDateChooser();
 		dateChooser_1.setBounds(145, 167, 103, 19);
 		panel.add(dateChooser_1);
@@ -96,11 +100,6 @@ public class CrearPeriodoInscripcion {
 		textField.setBounds(135, 8, 159, 20);
 		panel.add(textField);
 		textField.setColumns(10);
-
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(135, 39, 159, 77);
-		panel.add(textField_1);
 
 		JLabel lblNewLabel_1 = new JLabel("Fecha Inicio Socios");
 		lblNewLabel_1.setBounds(22, 142, 118, 14);

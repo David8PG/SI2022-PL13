@@ -25,6 +25,14 @@ public class InicioSesion {
 	private ClientesModel modelClientes = new ClientesModel();
 	private int id_socio;
 	private pantallaInicialSocio vSocio;
+	
+	
+	//Variables parametrizables
+	private int diasAntelacion;
+	private int dia_comprobar;
+	private int Hora_Max;
+	private int horasDiaMax;
+  	private int horasPeriodoMax;
 
 	/**
 	 * Launch the application.
@@ -147,7 +155,7 @@ public class InicioSesion {
 
 					} else {
 						JOptionPane.showMessageDialog(frmInicio_de_sesion,
-								"Usuario y contraseña incorrectos.", "Debes introducir bien las credenciales.",
+								"Contraseña de socio incorrecta.", "Introduzca los datos de forma correcta.",
 								JOptionPane.ERROR_MESSAGE);
 					}
 				} catch (Exception e2) {
@@ -156,8 +164,8 @@ public class InicioSesion {
 				}
 			}
 		} else {
-			JOptionPane.showMessageDialog(frmInicio_de_sesion, "Usuario y contraseña incorrectos.",
-					"Debes introducir bien las credenciales.", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(frmInicio_de_sesion, "Debes rellenar los campos usuario y contraseña.",
+					"Introduzca los datos necesarios.", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 }

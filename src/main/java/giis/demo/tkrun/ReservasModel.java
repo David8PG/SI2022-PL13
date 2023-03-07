@@ -20,12 +20,12 @@ public class ReservasModel {
 
 	// sentencia para mostrar todas las reservas de una instalación dada en un
 	// periodo dado
-	public static final String reservasEnUnaInstalacion = "SELECT r.id_reserva, r.id_socios, r.fecha_reserva FROM reservas r INNER JOIN instalaciones i ON r.id_instalaciones = i.id_instalacion WHERE i.nombre =";
+	public static final String reservasEnUnaInstalacion = "SELECT r.fecha_reserva, r.id_socios FROM reservas r INNER JOIN instalaciones i ON r.id_instalaciones = i.id_instalacion WHERE i.nombre =";
 
 	public List<Object[]> getReservasInstalacionPeriodo(String nombre_instalacion, String fechaInicio,
 			String fechaFin) {
 		return bd.executeQueryArray(reservasEnUnaInstalacion + "'" + nombre_instalacion + "'" + " AND fecha_reserva <= "
-				+ "'" + fechaFin + "'" + " AND fecha_reserva >= " + "'" + fechaInicio + "'");
+				+ "'" + fechaFin + "'" + " AND fecha_reserva >= " + "'" + fechaInicio + "' ORDER BY fecha_reserva;");
 	}
 
 	// comprobación de disponibilidad de una instalación dada

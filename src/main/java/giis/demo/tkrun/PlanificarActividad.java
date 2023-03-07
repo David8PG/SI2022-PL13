@@ -6,7 +6,6 @@ import java.awt.Font;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -34,7 +33,6 @@ public class PlanificarActividad {
 
 	private JFrame frmPlanificarActividad;
 	private JTextField textField;
-	private JTextField textField_1;
 	private JTextField textField_2;
 	private JTextField textField_3;
 	private JTextField textField_4;
@@ -101,11 +99,6 @@ public class PlanificarActividad {
 		JLabel lblDescripcin = new JLabel("Descripción");
 		lblDescripcin.setBounds(21, 42, 81, 17);
 		panel.add(lblDescripcin);
-
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(112, 43, 241, 78);
-		panel.add(textField_1);
 
 		JLabel lblNewLabel_1 = new JLabel("Instalación");
 		lblNewLabel_1.setBounds(21, 137, 56, 14);
@@ -180,6 +173,10 @@ public class PlanificarActividad {
 		lblNewLabel_6.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblNewLabel_6.setBounds(21, 282, 120, 14);
 		panel.add(lblNewLabel_6);
+
+		JTextPane textField_1 = new JTextPane();
+		textField_1.setBounds(112, 43, 241, 71);
+		panel.add(textField_1);
 
 		JLabel lblNewLabel_7 = new JLabel("Fecha Inicio Socios");
 		lblNewLabel_7.setBounds(21, 319, 132, 17);
@@ -264,22 +261,10 @@ public class PlanificarActividad {
 		panel.add(comboBox_4_1);
 
 		Date Fechainicial = null;
-		String FechaInicialS = "02-03-2023";
-		try {
-			Fechainicial = new SimpleDateFormat("dd-MM-yyyy").parse(FechaInicialS);
-		} catch (ParseException e1) {
-			e1.printStackTrace();
-		}
-		dateChooser.setDate(Fechainicial);
-		String FechaFinalS = "02-04-2023";
-		Date FechaFinal = null;
-		try {
-			FechaFinal = new SimpleDateFormat("dd-MM-yyyy").parse(FechaFinalS);
-		} catch (ParseException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		dateChooser_1.setDate(FechaFinal);
+		Date FechaInicialS = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
+		dateChooser.setDate(FechaInicialS);
+		Date FechaFinalS = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
+		dateChooser_1.setDate(FechaFinalS);
 
 		comboBox_2 = new JComboBox();
 		getPeriodosInscripcion();
