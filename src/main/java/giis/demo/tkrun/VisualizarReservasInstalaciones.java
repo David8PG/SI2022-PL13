@@ -8,9 +8,13 @@ import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
@@ -110,6 +114,7 @@ public class VisualizarReservasInstalaciones {
 		JButton btnMostrarReservas = new JButton("Mostrar Reservas");
 		btnMostrarReservas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+//				actualizaModelo(comboBoxInstalacion);
 
 				// Fecha inicio
 
@@ -127,6 +132,9 @@ public class VisualizarReservasInstalaciones {
 		panel.add(scrollPane);
 
 		tableHorario = new JTable();
+		tableHorario.setEnabled(false);
+		tableHorario.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+//		generaTitulos();
 		scrollPane.setColumnHeaderView(tableHorario);
 
 		JButton btnAceptar = new JButton("Aceptar");
@@ -185,7 +193,7 @@ public class VisualizarReservasInstalaciones {
 		return fechaFormateada;
 	}
 
-	// Metodos para convertir las fechas de formato yyyy-mm-dd a formato yyyy-mm-dd
+	// Metodo para convertir las fechas de formato yyyy-mm-dd a formato yyyy-mm-dd
 	// hora inicio/fin:00:00 para filtrar en la BBDD
 	public static String tratarFechaInicio(String dateString) {
 		DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -218,28 +226,101 @@ public class VisualizarReservasInstalaciones {
 		return fecha.format(formatter);
 	}
 
+	public static int fechaToHora(String dateString) throws ParseException {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date date = (Date) formatter.parse(dateString);
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		int hour = calendar.get(Calendar.HOUR_OF_DAY);
+		return hour;
+	}
+
+	// Metodo para añadir un vector a la primera columna de una matriz
+	public String[][] añadeColumna(String[][] matrix, String[] vector) {
+		String[][] result = new String[matrix.length][matrix[0].length + 1];
+
+		for (int i = 0; i < matrix.length; i++) {
+			result[i][0] = vector[i];
+			for (int j = 0; j < matrix[0].length; j++) {
+				result[i][j + 1] = matrix[i][j];
+			}
+		}
+
+		return result;
+	}
+
 	public void completarTabla(JTable tabla, String inicio, String fin, int diferenciaDias, String instalacion) {
-
 		List<Object[]> listaReservas = modeloReservas.getReservasInstalacionPeriodo(instalacion, inicio, fin);
-		Object[][] matrizDatos = new Object[diferenciaDias][11];
-
 		DefaultTableModel modelo = new DefaultTableModel();
+		// String[] fechasReservas = getFechasReservas(listaReservas);
 		tabla.setModel(modelo);
 		// Cabecera horas
 		String[] horarios = new String[14];
 		for (int i = 10; i <= 22; i++) {
 			horarios[i + 1 - 10] = i + ":00";
 		}
-		// Cabecera fechas
 		modelo.addColumn("Hora", horarios);
+		// añadeColumna(matrizHorario, horarios);
+
+		// Cabecera fechas
 		for (int i = 0; i < diferenciaDias; i++) {
-			modelo.addColumn("");
+			modelo.addColumn(i);
 		}
 		String fechaCabecera = reducirFecha(inicio);
 		for (int i = 1; i < diferenciaDias + 1; i++) {
 			tabla.setValueAt(fechaCabecera, 0, i);
+			// matrizHorario[0][i] = fechaCabecera;
 			fechaCabecera = sumarUnDia(fechaCabecera);
 		}
+		int cont = 0;
+		for (int i = 1; i < diferenciaDias + 1; i++) {
+			for (int j = 1; j < 14; j++) {
+				if (cont < listaReservas.size() && listaReservas.size() > 0) {
+					if ((comparar(obtenerHoraDesdeString(listaReservas.get(cont)[0].toString() + ":00"),
+							tabla.getValueAt(j, 0).toString()))
+							&& comparar(obtenerFechaDesdeString(listaReservas.get(cont)[0].toString()),
+									tabla.getValueAt(0, i).toString())) {
+						if (listaReservas.get(cont)[1] == null) {
+							tabla.setValueAt("null", j, i);
+						} else {
+							tabla.setValueAt(listaReservas.get(cont)[1].toString(), j, i);
+						}
+						cont = cont + 1;
+					}
+				}
+				if (tabla.getValueAt(j, i) == null || listaReservas.size() == 0) {
+					tabla.setValueAt("Libre", j, i);
+				}
+			}
+		}
+	}
 
+	public static boolean comparar(String cadena1, String cadena2) {
+		return cadena1.equals(cadena2);
+	}
+
+	public static String obtenerHoraDesdeString(String fechaString) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+		LocalDateTime fecha = LocalDateTime.parse(fechaString, formatter);
+		int hora = fecha.getHour();
+		return String.valueOf(hora) + ":00";
+	}
+
+	public String obtenerFechaDesdeString(String dateStr) {
+		LocalDateTime datetime = LocalDateTime.parse(dateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"));
+		LocalDate date = datetime.toLocalDate();
+		return date.toString();
+	}
+
+	// Método para sacar la fecha de la reserva de la lista de objetos que devueve
+	// el model
+	public static String[] getFechasReservas(List<Object[]> objectList) {
+		String[] result = new String[objectList.size()];
+		for (int i = 0; i < objectList.size(); i++) {
+			Object[] objArray = objectList.get(i);
+			Long objLong = (Long) objArray[1];
+			result[i] = objLong.toString();
+		}
+		return result;
 	}
 }
