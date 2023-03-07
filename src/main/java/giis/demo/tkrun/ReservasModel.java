@@ -1,5 +1,6 @@
 package giis.demo.tkrun;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -60,26 +61,6 @@ public class ReservasModel {
 		return -1; // No se puede realizar la reserva
 	}
 
-	// Método para instertar una nueva reserva sin id socio
-	public static final String insertar_nueva_reserva = "INSERT INTO reservas (id_reserva, id_socios, id_instalaciones, fecha, fecha_reserva, precio, actividad) VALUES (?, ?, ?, ?, ?, ?, ?);";
-
-	public void nuevaReserva(int id_socio, int id_instalacion, String fecha, String fecha_reserva, String precio, Object actividad) {
-		long id_reserva;
-		id_reserva = siguienteIdReserva();
-		bd.executeUpdate(insertar_nueva_reserva, id_reserva, null, id_instalacion, fecha, fecha_reserva, precio, actividad);
-	}
-	
-	// Método para instertar una nueva reserva con actividad
-	public static final String insertar_nueva_reserva_actividad = "INSERT INTO reservas (id_reserva, id_socios, id_instalaciones, fecha, fecha_reserva, precio, actividad) VALUES (?, ?, ?, ?, ?, ?, ?);";
-
-	public void nuevaReservaAct(int id_socio, int id_instalacion, String fecha, String fecha_reserva, String precio,
-			Object actividad) {
-		long id_reserva;
-		id_reserva = siguienteIdReserva();
-		bd.executeUpdate(insertar_nueva_reserva, id_reserva, id_socio, id_instalacion, fecha, fecha_reserva, precio,
-				actividad);
-	}
-
 	// Método para conseguir la siguiente reserva (por id)
 	public static final String siguiente_id_reserva = "SELECT MAX(id_reserva) from reservas;";
 
@@ -87,6 +68,28 @@ public class ReservasModel {
 		List<Object[]> lReservas;
 		lReservas = bd.executeQueryArray(siguiente_id_reserva);
 		return (long) lReservas.get(0)[0] + 1;
+	}
+	
+	// Método para instertar una nueva reserva sin id socio
+	public static final String insertar_nueva_reserva = "INSERT INTO reservas (id_reserva, id_socios, id_instalaciones, fecha, fecha_reserva, precio, actividad) VALUES (?, ?, ?, ?, ?, ?, ?);";
+
+	public void nuevaReserva(int id_socio, int id_instalacion, String fecha, String fecha_reserva, String precio,
+			Object actividad) {
+		long id_reserva;
+		id_reserva = siguienteIdReserva();
+		bd.executeUpdate(insertar_nueva_reserva, id_reserva, null, id_instalacion, fecha, fecha_reserva, precio,
+				actividad);
+	}
+
+	// Método para instertar una nueva reserva con actividad
+	public static final String insertar_nueva_reserva_actividad = "INSERT INTO reservas (id_reserva, id_socios, id_instalaciones, fecha, fecha_reserva, precio, actividad) VALUES (?, ?, ?, ?, ?, ?, ?);";
+
+	public void nuevaReservaAct(int id_socio, int id_instalacion, String fecha, String fecha_reserva, String precio,
+			Object actividad) {
+		long id_reserva;
+		id_reserva = siguienteIdReserva();
+		bd.executeUpdate(insertar_nueva_reserva_actividad, id_reserva, id_socio, id_instalacion, fecha, fecha_reserva,
+				precio, actividad);
 	}
 	
 	// Método que elimina una reserva

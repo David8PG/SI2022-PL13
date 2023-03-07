@@ -176,6 +176,8 @@ public class ReservaInstalacionActividadPeriodoDet {
 				}
 				// Instalacion que se va a reservar
 				String id_instalacion;
+				
+				int id_socio = 0;
 
 				// Creamos una lista con los Id de las instalaciones que se encuentren en el
 				// comboBox
@@ -307,7 +309,7 @@ public class ReservaInstalacionActividadPeriodoDet {
 									modeloReservas.eliminarReserva(Integer.parseInt(id_instalacion), diaYhora);
 								}
 								// Almacenamos la nueva reserva que ha suplantado a la del socio sin actividad
-								modeloReservas.nuevaReserva(0, Integer.parseInt(id_instalacion),
+								modeloReservas.nuevaReserva(id_socio, Integer.parseInt(id_instalacion),
 										formato.format(fecha_actual), diaYhora, "0",
 										modeloActividades.getIdActividad((String) comboBoxActividad.getSelectedItem()));
 							}
@@ -365,7 +367,7 @@ public class ReservaInstalacionActividadPeriodoDet {
 								for (int j = 0; j < fin - inicio; j++) {
 									hora_reserva = comboBoxHoraIni.getItemAt(seleccion_hora + j).toString();
 									diaYhora = dia_reserva + " " + hora_reserva;
-									modeloReservas.nuevaReserva(0, Integer.parseInt(id_instalacion),
+									modeloReservas.nuevaReserva(id_socio, Integer.parseInt(id_instalacion),
 											formato.format(fecha_actual), diaYhora, "0", modeloActividades
 													.getIdActividad((String) comboBoxActividad.getSelectedItem()));
 								}
