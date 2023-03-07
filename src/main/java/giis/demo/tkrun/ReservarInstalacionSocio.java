@@ -267,12 +267,8 @@ public class ReservarInstalacionSocio {
 
 				for(int j=0; k<I.size();j++){
 					if(getFecha((I.get(j)[0]).toString()).equals(date)) {
-						if( ( (getHora((I.get(j)[0]).toString())) <= ((getHora1(hora))+sesion.getHora_Max())) && ( (getHora((I.get(j)[0]).toString())) >= ((getHora1(hora))-sesion.getHora_Max()))) {								
-							//System.out.println("\nHora Bucle"+(getHora((I.get(k)[0]).toString())));
-							// System.out.println("\nHoraIni"+(getHora1(hora)-Hora_Max));
-							// System.out.println("\nHoraFin"+(getHora1(hora)+Hora_Max));
+						if( ( (getHora((I.get(j)[0]).toString())) <= ((getHora1(hora))+sesion.getHora_Max())) && ( (getHora((I.get(j)[0]).toString())) >= ((getHora1(hora))-sesion.getHora_Max()))) {
 							contador++;
-							//System.out.println("\nContador"+contador);
 
 						}
 					}		
@@ -291,9 +287,9 @@ public class ReservarInstalacionSocio {
 				String Date00 = sdf.format(d1)+" "+"00:00:00";
 
 
-				if(reservasModel.getListaReservasUsuario2(id_socioS, Date0, Date11).size() < sesion.getHorasDiaMax()) {	
+				if(reservasModel.getListaReservasUsuario_ampliada2(id_socioS, Date0, Date11).size() < sesion.getHorasDiaMax()) {	
 
-					if(reservasModel.getListaReservasUsuario1(id_socioS,Date00).size() < sesion.getHorasPeriodoMax()) {
+					if(reservasModel.getListaReservasUsuario_ampliada(id_socioS,Date00).size() < sesion.getHorasPeriodoMax()) {
 						if(seguidas) {
 							if (reservasModel.comprobarDisponibilidad(id, diaHora)) {
 								//obtener el precio de la instalacion seleccionada
@@ -303,15 +299,12 @@ public class ReservarInstalacionSocio {
 								if (clientesModel.validarId(id_socio)) {
 									if (diferencia_dias >= 0 && diferencia_años >= 0) {
 										if (diferencia_dias <= 15 || diferencia_años>0) {	
-											// System.out.printf("%d",);
-
-											//CheckBoxPuedesReservar.setSelected(true);
 											JOptionPane.showMessageDialog(frame, "  Has reservado.\n"
 													+ "  Precio de la reserva: "+precio
 													+"\n  Socio que lo solicita: "+id_socio
 													+"\n  Instalación a reservar: "+id
 													+"\n  Fecha de reserva: "+diaHora);
-											reservasModel.nuevaReserva1(Integer.parseInt(id_socio), Integer.parseInt(id), sdf.format(d1), diaHora, precio ,0);
+											reservasModel.nuevaReserva_ampliada(Integer.parseInt(id_socio), Integer.parseInt(id), sdf.format(d1), diaHora, precio ,0);
 											bReservar.setSelected(true);
 										}								
 										else {
@@ -368,7 +361,6 @@ public class ReservarInstalacionSocio {
 				}
 				bReservar.setEnabled(true);
 				contador=0;
-				//System.out.println(contador);
 				seguidas=true;
 
 
