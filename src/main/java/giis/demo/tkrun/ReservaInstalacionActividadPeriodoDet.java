@@ -166,13 +166,14 @@ public class ReservaInstalacionActividadPeriodoDet {
 		JButton btnReservar = new JButton("Tramitar Reserva");
 		btnReservar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				boolean fecha_valida = true;
 				String comprobacion1 = formato.format(dateChooser_FechaInicio.getDate());
 				String comprobacion2 = formato.format(dateChooser_FechaFin.getDate());
-				String vacio = "";
-				if ((comprobacion1 == vacio) || (comprobacion2 == vacio)) {
+				if (comparar(comprobacion1, comprobacion2)) {
 					JOptionPane.showMessageDialog(frmReservaInstalacionActividadPeriodoDet,
 							"Los campos Fecha Inicio y Fecha Fin no pueden estar vacíos.",
-							"Ha ocurrido un error", JOptionPane.ERROR_MESSAGE);
+							"Ha ocurrido un error", JOptionPane.INFORMATION_MESSAGE);
+					fecha_valida = false;
 				}
 				// Instalacion que se va a reservar
 				String id_instalacion;
@@ -294,7 +295,7 @@ public class ReservaInstalacionActividadPeriodoDet {
 								"No puedes realizar una reserva para una fecha que ya ha pasado.",
 								"Ha ocurrido un error al hacer la reserva", JOptionPane.ERROR_MESSAGE);
 					}
-					if (sin_actividad == true) {
+					if (sin_actividad == true && fecha_valida) {
 						calendario.setTime(fecha_inicioAct);
 						for (i = 0; i < diferencia_en_dias + diferencia_en_años * 365; i++) {
 							for (int j = 9; j <= 21; j++) {
@@ -441,5 +442,9 @@ public class ReservaInstalacionActividadPeriodoDet {
 	
 	public Window getFrmReservaInstalacionActividadPeriodoDet() {
 		return frmReservaInstalacionActividadPeriodoDet;
+	}
+	
+	public static boolean comparar(String cadena1, String cadena2) {
+		return cadena1.equals(cadena2);
 	}
 }
