@@ -132,6 +132,7 @@ public class VisualizarReservasInstalaciones {
 		panel.add(scrollPane);
 
 		tableHorario = new JTable();
+		tableHorario.setEnabled(false);
 		tableHorario.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 //		generaTitulos();
 		scrollPane.setColumnHeaderView(tableHorario);
@@ -279,8 +280,11 @@ public class VisualizarReservasInstalaciones {
 							tabla.getValueAt(j, 0).toString()))
 							&& comparar(obtenerFechaDesdeString(listaReservas.get(cont)[0].toString()),
 									tabla.getValueAt(0, i).toString())) {
-
-						tabla.setValueAt(listaReservas.get(cont)[1].toString(), j, i);
+						if (listaReservas.get(cont)[1] == null) {
+							tabla.setValueAt("null", j, i);
+						} else {
+							tabla.setValueAt(listaReservas.get(cont)[1].toString(), j, i);
+						}
 						cont = cont + 1;
 					}
 				}
