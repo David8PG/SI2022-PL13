@@ -25,6 +25,14 @@ public class InicioSesion {
 	private ClientesModel modelClientes = new ClientesModel();
 	private int id_socio;
 	private pantallaInicialSocio vSocio;
+	
+	
+	//Variables parametrizables
+	private int diasAntelacion;
+	private int dia_comprobar;
+	private int Hora_Max;
+	private int horasDiaMax;
+  	private int horasPeriodoMax;
 
 	/**
 	 * Launch the application.
@@ -125,6 +133,46 @@ public class InicioSesion {
 
 	public Window getFrmInicioSesion() {
 		return frmInicio_de_sesion;
+	}
+	
+	public int getDiasAntelacion() {
+		return diasAntelacion;
+	}
+
+	public void setDiasAntelacion(int diasAntelacion) {
+		this.diasAntelacion = diasAntelacion;
+	}
+
+	public int getDia_comprobar() {
+		return dia_comprobar;
+	}
+
+	public void setDia_comprobar(int dia_comprobar) {
+		this.dia_comprobar = dia_comprobar;
+	}
+
+	public int getHora_Max() {
+		return Hora_Max;
+	}
+
+	public void setHora_Max(int hora_Max) {
+		Hora_Max = hora_Max;
+	}
+
+	public int getHorasDiaMax() {
+		return horasDiaMax;
+	}
+
+	public void setHorasDiaMax(int horasDiaMax) {
+		this.horasDiaMax = horasDiaMax;
+	}
+
+	public int getHorasPeriodoMax() {
+		return horasPeriodoMax;
+	}
+
+	public void setHorasPeriodoMax(int horasPeriodoMax) {
+		this.horasPeriodoMax = horasPeriodoMax;
 	}
 
 	// Método de inicio de sesión

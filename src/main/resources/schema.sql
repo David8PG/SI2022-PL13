@@ -1,12 +1,11 @@
-DROP TABLE IF EXISTS clientes;
-DROP TABLE IF EXISTS instalaciones;
-DROP TABLE IF EXISTS reservas;
-DROP TABLE IF EXISTS periodos_inscripcion;
-DROP TABLE IF EXISTS actividades;
-DROP TABLE IF EXISTS inscripciones;
-DROP TABLE IF EXISTS sesiones;
 DROP TABLE IF EXISTS pagos;
-
+DROP TABLE IF EXISTS reservas;
+DROP TABLE IF EXISTS inscripciones;
+DROP TABLE IF EXISTS clientes;
+DROP TABLE IF EXISTS sesiones;
+DROP TABLE IF EXISTS actividades;
+DROP TABLE IF EXISTS instalaciones;
+DROP TABLE IF EXISTS periodos_inscripcion;
 
 CREATE TABLE clientes( 
     nombre varchar(40), 
@@ -37,7 +36,8 @@ CREATE TABLE reservas(
     foreign key (id_instalaciones) references instalaciones(id_instalacion), 
     fecha datetime, 
     fecha_reserva datetime, 
-    precio decimal(10,2)  
+    precio decimal(10,2),
+    actividad integer unsigned
    ); 
    
 CREATE TABLE periodos_inscripcion( 
@@ -95,6 +95,6 @@ CREATE TABLE pagos(
     id_inscripciones integer unsigned unique,
     foreign key (id_inscripciones) references inscripciones(id_inscripcion) ON DELETE CASCADE, 
     id_reservas integer unsigned,
-    foreign key (id_reservas) references reservas(id_reserva)
+    foreign key (id_reservas) references reservas(id_reserva) ON DELETE CASCADE
 
 ); 

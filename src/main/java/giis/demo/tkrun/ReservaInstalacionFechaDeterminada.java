@@ -13,6 +13,7 @@ import com.toedter.calendar.JDateChooser;
 
 import java.awt.GridLayout;
 import java.awt.Window;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -37,6 +38,8 @@ public class ReservaInstalacionFechaDeterminada {
 	private JFrame frmReservarInstalacionFechaDet;
 	private JTextField textFieldIdSocio;
 	private String precio_instalacion ="";
+	Date actual = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
+	SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
 
 	/**
 	 * Launch the application.
@@ -117,6 +120,7 @@ public class ReservaInstalacionFechaDeterminada {
 		
 		JDateChooser dateChooser_FechaReserva = new JDateChooser();
 		dateChooser_FechaReserva.setBounds(176, 81, 156, 19);
+		dateChooser_FechaReserva.setDate(actual);
 		panel.add(dateChooser_FechaReserva);
 		
 		JLabel lblHoraFinReserva = new JLabel("Hora de Fin de Reserva:");
@@ -148,7 +152,6 @@ public class ReservaInstalacionFechaDeterminada {
 				}
 				
 				// Fecha
-				SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
 				String dia = formato.format(dateChooser_FechaReserva.getDate());
 				String hora_inicio = (String)comboBoxHoraInicioReserva.getSelectedItem();
 				String hora_fin = (String)comboBoxHoraFinReserva.getSelectedItem();
@@ -212,23 +215,65 @@ public class ReservaInstalacionFechaDeterminada {
 				String id_socio;
 				id_socio = textFieldIdSocio.getText();
 				
+				//nInstalación
+				String nInstalacion = comboBoxInstalacion.getSelectedItem().toString();
+				
+				SimpleDateFormat formato2 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+				Date fecha_inicio = null;
+				try {
+					fecha_inicio = formato2.parse(diaYhora_inicio);
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				/*
+				// Pruebas
+				SimpleDateFormat formato2 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+				Date fecha_comienzo_reserva = null;
+				try {
+					fecha_comienzo_reserva = formato.parse(diaYhora_inicio);
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				Calendar fechaInicio_while = Calendar.getInstance();
+				fechaInicio_while.setTime(fecha_comienzo_reserva);
+				
+				Date fecha_final_reserva = null;
+				try {
+					fecha_final_reserva = formato.parse(diaYhora_fin);
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				Calendar fechaFin_while = Calendar.getInstance();
+				fechaFin_while.setTime(fecha_final_reserva);
+				*/
+				
+				
 				// Pasamos a comprobar la disponibilidad de la instalación
 				if (modeloReservas.comprobarDisponibilidad(id_instalacion, diaYhora_inicio)) {
 					if (modeloClientes.validarId(id_socio)) {
 						if (diferencia_en_dias >= 0 && diferencia_en_años >= 0) {
 							if (diferencia_en_dias <= 15 || diferencia_en_años > 0) {
 								if (hora_de_inicioReserva < hora_de_finReserva) {
-									modeloReservas.nuevaReserva(Integer.parseInt(id_socio),
-											Integer.parseInt(id_instalacion), formato.format(fecha_actual),
-											diaYhora_inicio, precio_instalacion, 0);
+									for (int k = 0; k <= hora_de_finReserva - hora_de_inicioReserva; k++) {
+										Calendar cal = Calendar.getInstance(); // Crear un objeto Calendar
+									    cal.setTime(fecha_inicio); // Establecer la fecha y hora de inicio de la reserva
+									    cal.add(Calendar.HOUR_OF_DAY, k);
+									    Date fecha_reserva = cal.getTime();
+										modeloReservas.nuevaReservaAct(Integer.parseInt(id_socio),
+												Integer.parseInt(id_instalacion), formato.format(fecha_actual),
+												formato2.format(fecha_reserva), precio_instalacion, 0);
+									}
 									JOptionPane.showMessageDialog(frmReservarInstalacionFechaDet,
-											"La reserva se ha hecho correctamente.\n" + "  Coste: " + precio_instalacion
+											"La reserva se ha hecho correctamente.\n" + "  Coste reserva: " + precio_instalacion
 													+ "\n  Nº Socio solicitante: " + id_socio
-													+ "\n  Nombre de la instalación reservada: " + id_instalacion
-													+ "\n  Reservada para el: " + diaYhora_inicio);
+													+ "\n  Instalación reservada: " + nInstalacion
+													+ "\n  Reservada el " + dia + " de " + hora_inicio + " a " + hora_fin);
 								} else {
 									JOptionPane.showMessageDialog(frmReservarInstalacionFechaDet,
-											"No puedes seleccionar una hora de fin de reserva anterior a la de inicio",
+											"No puedes seleccionar una hora de fin de reserva anterior o igual a la de inicio",
 											"Ha ocurrido un error al hacer la reserva",
 											JOptionPane.ERROR_MESSAGE);
 								}
