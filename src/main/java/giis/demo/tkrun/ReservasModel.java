@@ -108,7 +108,7 @@ public class ReservasModel {
 
 	
 	//Método para cambiar la cuota de un cliente
-	public static final String SQL_SUMA_CUOTA = "UPDATE clientes SET cuotaReservas=? WHERE (id_socios=?);";
+	public static final String SQL_SUMA_CUOTA = "UPDATE clientes SET cuotaReservas=? WHERE (id_socio=?);";
 	public void añadeacuota(double cuota, int id_socio) {	
 		//System.out.println("La cuota es"+cuota);
 		bd.executeUpdate(SQL_SUMA_CUOTA,cuota, id_socio);
@@ -116,7 +116,7 @@ public class ReservasModel {
 
 
 	//Metodo para saber la cuota de reservas que tienen los socio
-	public static final String SQL_CUOTA = "SELECT cuotaReservas from clientes WHERE (id_socios=?);";
+	public static final String SQL_CUOTA = "SELECT cuotaReservas from clientes WHERE (id_socio=?);";
 	public double nuevaCuota(int id_socio) {
 		List<Object[]> lista;
 		lista = bd.executeQueryArray(SQL_CUOTA, id_socio);

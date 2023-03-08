@@ -25,6 +25,8 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.awt.event.ActionEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 public class ReservarInstalacionSocio {
 
@@ -63,9 +65,15 @@ public class ReservarInstalacionSocio {
 	}
 
 	public ReservarInstalacionSocio(InicioSesion login) {
-		initialize();
 		this.sesion= login;
 		this.id_socio=this.sesion.getId_socio();
+		initialize();
+		System.out.println(id_socio);
+		System.out.println(sesion.getId_socio());
+	}
+
+	public JFrame getFrame() {
+		return this.frame;
 	}
 
 	/**
@@ -102,6 +110,11 @@ public class ReservarInstalacionSocio {
 		frame.getContentPane().add(lblNewLabel);
 
 		JComboBox cInstalaciones = new JComboBox();
+		cInstalaciones.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				tCoste.setText(instalacionesModel.getPrecio((String)cInstalaciones.getSelectedItem()));
+			}
+		});
 		cInstalaciones.setModel(new DefaultComboBoxModel(instalaciones));
 		cInstalaciones.setBounds(121, 52, 113, 21);
 		frame.getContentPane().add(cInstalaciones);
@@ -109,7 +122,7 @@ public class ReservarInstalacionSocio {
 		tSocio = new JTextField();
 		tSocio.setBounds(122, 21, 96, 19);
 		frame.getContentPane().add(tSocio);
-		tSocio.setText(id_socio+"");
+		tSocio.setText(Integer.toString(id_socio));
 		tSocio.setEditable(false);
 		tSocio.setColumns(10);
 
@@ -146,6 +159,7 @@ public class ReservarInstalacionSocio {
 		tCoste = new JTextField();
 		tCoste.setBounds(94, 189, 96, 19);
 		frame.getContentPane().add(tCoste);
+		tCoste.setText(instalacionesModel.getPrecio((String)cInstalaciones.getSelectedItem()));
 		tCoste.setEditable(false);
 		tCoste.setColumns(10);
 
@@ -154,6 +168,11 @@ public class ReservarInstalacionSocio {
 		frame.getContentPane().add(dFecha);
 
 		JButton bCancelar = new JButton("Cancelar");
+		bCancelar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+			}
+		});
 		bCancelar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		bCancelar.setBounds(44, 243, 85, 25);
 		frame.getContentPane().add(bCancelar);
@@ -287,78 +306,45 @@ public class ReservarInstalacionSocio {
 				String Date00 = sdf.format(d1)+" "+"00:00:00";
 
 
-				if(reservasModel.getListaReservasUsuario_ampliada2(id_socioS, Date0, Date11).size() < sesion.getHorasDiaMax()) {	
 
-					if(reservasModel.getListaReservasUsuario_ampliada(id_socioS,Date00).size() < sesion.getHorasPeriodoMax()) {
-						if(seguidas) {
-							if (reservasModel.comprobarDisponibilidad(id, diaHora)) {
-								//obtener el precio de la instalacion seleccionada
-								precio = instalacionesModel.getPrecio((String)cInstalaciones.getSelectedItem());										
-								tCoste.setText(precio);
+				if (reservasModel.comprobarDisponibilidad(id, diaHora)) {
+					//obtener el precio de la instalacion seleccionada
+					precio = instalacionesModel.getPrecio((String)cInstalaciones.getSelectedItem());										
+					tCoste.setText(precio);
 
-								if (clientesModel.validarId(id_socio)) {
-									if (diferencia_dias >= 0 && diferencia_años >= 0) {
-										if (diferencia_dias <= 15 || diferencia_años>0) {	
-											JOptionPane.showMessageDialog(frame, "  Has reservado.\n"
-													+ "  Precio de la reserva: "+precio
-													+"\n  Socio que lo solicita: "+id_socio
-													+"\n  Instalación a reservar: "+id
-													+"\n  Fecha de reserva: "+diaHora);
-											reservasModel.nuevaReserva_ampliada(Integer.parseInt(id_socio), Integer.parseInt(id), sdf.format(d1), diaHora, precio ,0);
-											bReservar.setSelected(true);
-										}								
-										else {
-											JOptionPane.showMessageDialog(frame,
-													"No puedes reservar con más de 15 días de antelación.",
-													"No puedes reservar",
-													JOptionPane.ERROR_MESSAGE);								
-										}	
-									}
-									else {
-										JOptionPane.showMessageDialog(frame,
-												"No puedes reservar para una fecha ya pasada.",
-												"No puedes reservar",
-												JOptionPane.ERROR_MESSAGE);							
-									}
-								}
-								else {
-									JOptionPane.showMessageDialog(frame,
-											"Introduce un número de socio válido.",
-											"No puedes reservar",
-											JOptionPane.ERROR_MESSAGE);						
-								}											
-							}
+					if (clientesModel.validarId(id_socio)) {
+						if (diferencia_dias >= 0 && diferencia_años >= 0) {
+							if (diferencia_dias <= 15 || diferencia_años>0) {	
+								JOptionPane.showMessageDialog(frame, "  Has reservado.\n"
+										+ "  Precio de la reserva: "+precio
+										+"\n  Socio que lo solicita: "+id_socio
+										+"\n  Instalación a reservar: "+id
+										+"\n  Fecha de reserva: "+diaHora);
+								reservasModel.nuevaReserva_ampliada(Integer.parseInt(id_socio), Integer.parseInt(id), sdf.format(d1), diaHora, precio ,0);
+								bReservar.setSelected(true);
+							}								
 							else {
 								JOptionPane.showMessageDialog(frame,
-										"Está ocupado.",
+										"No puedes reservar con más de 15 días de antelación.",
 										"No puedes reservar",
-										JOptionPane.ERROR_MESSAGE);
-
-							}
-
+										JOptionPane.ERROR_MESSAGE);								
+							}	
 						}
 						else {
 							JOptionPane.showMessageDialog(frame,
-									"No puedes reservar más de "+Integer.toString(sesion.getHorasDiaMax()-1)+"h seguidas",
-									"Error Reservando",
-									JOptionPane.ERROR_MESSAGE);
+									"No puedes reservar para una fecha ya pasada.",
+									"No puedes reservar",
+									JOptionPane.ERROR_MESSAGE);							
 						}
 					}
 					else {
 						JOptionPane.showMessageDialog(frame,
-								"No puedes reservar más de "+Integer.toString(sesion.getHorasPeriodoMax())+"h en el periodo de 15 días",
-								"Error Reservando",
-								JOptionPane.ERROR_MESSAGE);
-
-					}
+								"Introduce un número de socio válido.",
+								"No puedes reservar",
+								JOptionPane.ERROR_MESSAGE);						
+					}											
 				}
-				else {
-					JOptionPane.showMessageDialog(frame,
-							"No puedes reservar más de "+Integer.toString(sesion.getHorasDiaMax())+"h el mismo dia",
-							"Error Reservando",
-							JOptionPane.ERROR_MESSAGE);
 
-				}
 				bReservar.setEnabled(true);
 				contador=0;
 				seguidas=true;
