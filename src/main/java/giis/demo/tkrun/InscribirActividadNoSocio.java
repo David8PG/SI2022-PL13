@@ -199,5 +199,13 @@ public class InscribirActividadNoSocio {
 		comboBox.setBounds(94, 119, 116, 22);
 		panel.add(comboBox);
 
+		JLabel lblNewLabel_7 = new JLabel("Precio");
+		lblNewLabel_7.setBounds(226, 211, 46, 14);
+		panel.add(lblNewLabel_7);
+
+		JLabel lblNewLabel_8 = new JLabel("Descripción");
+		lblNewLabel_8.setBounds(319, 92, 71, 14);
+		panel.add(lblNewLabel_8);
+
 	}
 }
