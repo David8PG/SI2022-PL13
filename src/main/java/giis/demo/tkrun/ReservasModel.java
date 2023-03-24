@@ -203,4 +203,26 @@ public class ReservasModel {
 		bd.executeUpdate(eliminar_reserva_con_ID, id);
 	}
 
+	public static final String existe_reserva = "SELECT id_instalaciones FROM reservas WHERE id_reserva = ? AND id_socios IS NOT NULL";
+
+	public boolean existeReserva(int id) {
+		List<Object[]> l = bd.executeQueryArray(existe_reserva, id);
+		if (l.isEmpty())
+			return false;
+		return true;
+	}
+
+	public static final String get_cliente = "SELECT id_socios FROM reservas WHERE id_reserva=?";
+
+	public Object getCliente(String id_reserva) {
+		List<Object[]> lista = bd.executeQueryArray(get_cliente, id_reserva);
+		return lista.get(0)[0];
+	}
+
+	public static final String get_precio = "SELECT precio FROM reservas WHERE id_reserva = ?";
+
+	public double getPrecio(int id_reserva) {
+		List<Object[]> l = bd.executeQueryArray(get_precio, id_reserva);
+		return Double.parseDouble(l.get(0)[0].toString());
+	}
 }

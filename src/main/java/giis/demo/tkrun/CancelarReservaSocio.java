@@ -117,104 +117,6 @@ public class CancelarReservaSocio {
 		}
 
 		JScrollPane scrollPane = new JScrollPane();
-
-		JButton btnNewButton = new JButton("Cancelar Reserva");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String idReserva;
-				// int idsocio2 = clientesModel.getID(dni);
-				if (!textField.getText().equals("")) {
-					idReserva = textField.getText();
-					// se comprueba que el id introducido es válido
-					try {
-						if ((reservasModel.existeReserva(Integer.parseInt(idReserva)))
-								&& (reservasModel.getCliente(idReserva).toString().equals(Integer.toString(id_socio)))
-								&& (reservasCancelables.contains(idReserva))) {
-							if (reservasPagadas.contains(idReserva)) {
-								double cuota = reservasModel.nuevaCuota(id_socio);
-								double devolver = reservasModel.getPrecio(Integer.parseInt(idReserva));
-								reservasModel.añadeacuota(cuota - devolver, id_socio);
-
-								try {
-									String ruta = "src/main/resources/Reserva" + idReserva + "Socio"
-											+ Integer.toString(id_socio) + ".txt";
-									String contenido = "Usted acaba de cancelar la reserva con id: " + idReserva
-											+ "\nLa reserva estaba pagada, se le devolverán " + devolver
-											+ " euros a fin de mes.\n";
-									File file = new File(ruta);
-
-									if (!file.exists()) {
-										file.createNewFile();
-									}
-									FileWriter fw = new FileWriter(file);
-									BufferedWriter bw = new BufferedWriter(fw);
-									bw.write(contenido);
-									bw.close();
-
-								} catch (Exception e1) {
-									e1.printStackTrace();
-								}
-
-								// Eliminar pago
-								pagosModel.eliminarPagoReserva(idReserva);
-								// Eliminar reserva
-								reservasModel.eliminarReserva(idReserva);
-								updateTable(table);
-
-								JOptionPane.showMessageDialog(frmCancelarReservaSocio,
-										"Reserva eliminada, y se restarán " + devolver
-												+ " euros de su cuota de fin de mes.");
-							} else {
-								// txt
-								try {
-									String ruta = "src/main/resources/Reserva" + idReserva + "Socio"
-											+ Integer.toString(id_socio) + ".txt";
-									String contenido = "Usted acaba de cancelar la reserva con id: " + idReserva
-											+ "\nNo estaba pagada, luego no se le devolverá nada.\n";
-									File file = new File(ruta);
-									// Si el archivo no existe es creado
-									if (!file.exists()) {
-										file.createNewFile();
-									}
-									FileWriter fw = new FileWriter(file);
-									BufferedWriter bw = new BufferedWriter(fw);
-									bw.write(contenido);
-									bw.close();
-
-								} catch (Exception e1) {
-									e1.printStackTrace();
-								}
-								// Se elimina la reserva sin devolver el dinero
-								reservasModel.eliminarReserva(idReserva);
-								updateTable(table);
-								JOptionPane.showMessageDialog(frmCancelarReservaSocio,
-										"Reserva eliminada, no estaba pagada.");
-
-							}
-						} else {
-							JOptionPane.showMessageDialog(frmCancelarReservaSocio,
-									"Introduzca un id de reserva válido.", "Error de id", JOptionPane.ERROR_MESSAGE);
-						}
-					} catch (NumberFormatException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (HeadlessException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				}
-			}
-		});
-
-		JButton btnNewButton_1 = new JButton("Aceptar");
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				frmCancelarReservaSocio.dispose();
-			}
-		});
-
-		JLabel lblNewLabel_1 = new JLabel("DNI Socio");
-
 		model = new DefaultTableModel(new Object[][] {},
 				new String[] { "ID Reserva", "ID Socio", "ID Instalación", "Hora", "Precio (€)", "Pagado" }) {
 			public boolean isCellEditable(int row, int column) {
@@ -235,6 +137,93 @@ public class CancelarReservaSocio {
 				updateTable(selectedDNI);
 			}
 		});
+
+		JButton btnNewButton = new JButton("Cancelar Reserva");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String idReserva;
+
+				if (!textField.getText().equals("")) {
+					idReserva = textField.getText();
+					try {
+						if ((reservasModel.existeReserva(Integer.parseInt(idReserva)))
+								&& (reservasModel.getCliente(idReserva).toString().equals(Integer.toString(id_socio)))
+								&& (reservasCancelar.contains(idReserva))) {
+							if (reservasPagadas.contains(idReserva)) {
+								double cuota = reservasModel.nuevaCuota(id_socio);
+								double devolver = reservasModel.getPrecio(Integer.parseInt(idReserva));
+								reservasModel.añadeacuota(cuota - devolver, id_socio);
+
+								try {
+									String ruta = "src/main/resources/ReservasCanceladas" + idReserva + "Socio"
+											+ Integer.toString(id_socio) + ".txt";
+									String contenido = "Usted acaba de cancelar la reserva con id: " + idReserva
+											+ "\nLa reserva estaba pagada, se le devolverán " + devolver
+											+ " euros a fin de mes.\n";
+									File file = new File(ruta);
+									if (!file.exists()) {
+										file.createNewFile();
+									}
+									FileWriter fw = new FileWriter(file);
+									BufferedWriter bw = new BufferedWriter(fw);
+									bw.write(contenido);
+									bw.close();
+
+								} catch (Exception e1) {
+									e1.printStackTrace();
+								}
+								pagosModel.eliminaPagoReserva(idReserva);
+								reservasModel.eliminarReserva(idReserva);
+								updateTable(comboBox.getSelectedItem().toString());
+								JOptionPane.showMessageDialog(frmCancelarReservaSocio,
+										"Reserva eliminada, y se restarán " + devolver
+												+ " euros de su cuota de fin de mes.");
+							} else {
+								try {
+									String ruta = "src/main/resources/ReservasCanceladas" + idReserva + "Socio"
+											+ Integer.toString(id_socio) + ".txt";
+									String contenido = "Usted acaba de cancelar la reserva con id: " + idReserva
+											+ "\nNo estaba pagada, luego no se le devolverá nada.\n";
+									File file = new File(ruta);
+									if (!file.exists()) {
+										file.createNewFile();
+									}
+									FileWriter fw = new FileWriter(file);
+									BufferedWriter bw = new BufferedWriter(fw);
+									bw.write(contenido);
+									bw.close();
+
+								} catch (Exception e1) {
+									e1.printStackTrace();
+								}
+								reservasModel.eliminarReserva(idReserva);
+								updateTable(comboBox.getSelectedItem().toString());
+								JOptionPane.showMessageDialog(frmCancelarReservaSocio,
+										"Reserva eliminada, no estaba pagada.");
+
+							}
+						} else {
+							JOptionPane.showMessageDialog(frmCancelarReservaSocio,
+									"Introduzca un id de reserva válido.", "Error de id", JOptionPane.ERROR_MESSAGE);
+						}
+					} catch (NumberFormatException e1) {
+						e1.printStackTrace();
+					} catch (HeadlessException e1) {
+						e1.printStackTrace();
+					}
+				}
+			}
+		});
+
+		JButton btnNewButton_1 = new JButton("Aceptar");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frmCancelarReservaSocio.dispose();
+			}
+		});
+
+		JLabel lblNewLabel_1 = new JLabel("DNI Socio");
+
 		GroupLayout groupLayout = new GroupLayout(frmCancelarReservaSocio.getContentPane());
 		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addComponent(panel,
 				GroupLayout.DEFAULT_SIZE, 564, Short.MAX_VALUE));

@@ -24,4 +24,18 @@ public class PagosModel {
 		}
 		return l.get(0)[0].toString();
 	}
+
+	public static final String elimina_pago = "DELETE from pagos WHERE id_pago=?;";
+
+	public void eliminarPago(String id_pago) {
+		bd.executeUpdate(elimina_pago, id_pago);
+	}
+
+	public static final String elimina_pago_reserva = "DELETE from pagos WHERE reserva=?;";
+
+	public void eliminaPagoReserva(String id_reserva) {
+
+		bd.executeUpdate(elimina_pago_reserva, id_reserva);
+	}
+
 }
