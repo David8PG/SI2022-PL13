@@ -8,12 +8,12 @@ import java.util.Vector;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.table.DefaultTableModel;
 
@@ -26,7 +26,6 @@ public class CancelarReservaSocio {
 	private ClientesModel clientesModel = new ClientesModel();
 	private InicioSesion sesion;
 	int id_socio;
-	private JTextField textField;
 
 	/**
 	 * Launch the application.
@@ -76,21 +75,17 @@ public class CancelarReservaSocio {
 
 		JButton btnNewButton_1 = new JButton("Aceptar");
 
-		JLabel lblNewLabel_1 = new JLabel("ID socio");
+		JLabel lblNewLabel_1 = new JLabel("DNI Socio");
 
-		textField = new JTextField();
-		textField.setColumns(10);
-
-		JButton btnNewButton_2 = new JButton("Buscar");
+		JComboBox comboBox = new JComboBox();
 		GroupLayout gl_panel = new GroupLayout(frmCancelarReservaSocio.getContentPane());
 		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.TRAILING).addGroup(gl_panel
 				.createSequentialGroup().addGap(36)
 				.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 368, GroupLayout.PREFERRED_SIZE)
-						.addGroup(gl_panel.createSequentialGroup().addComponent(lblNewLabel).addGap(127)
-								.addComponent(lblNewLabel_1).addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(textField, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(btnNewButton_2)))
+						.addGroup(gl_panel.createSequentialGroup().addComponent(lblNewLabel).addGap(41)
+								.addComponent(lblNewLabel_1).addPreferredGap(ComponentPlacement.UNRELATED)
+								.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE)))
 				.addContainerGap(30, Short.MAX_VALUE))
 				.addGroup(gl_panel.createSequentialGroup().addContainerGap(342, Short.MAX_VALUE)
 						.addComponent(btnNewButton_1).addGap(21))
@@ -100,14 +95,13 @@ public class CancelarReservaSocio {
 		gl_panel.setVerticalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup().addGap(22)
 						.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE).addComponent(lblNewLabel)
-								.addComponent(lblNewLabel_1)
-								.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+								.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
 										GroupLayout.PREFERRED_SIZE)
-								.addComponent(btnNewButton_2))
+								.addComponent(lblNewLabel_1))
 						.addPreferredGap(ComponentPlacement.RELATED)
 						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 122, GroupLayout.PREFERRED_SIZE)
 						.addGap(18).addComponent(btnNewButton)
-						.addPreferredGap(ComponentPlacement.RELATED, 22, Short.MAX_VALUE).addComponent(btnNewButton_1)
+						.addPreferredGap(ComponentPlacement.RELATED, 13, Short.MAX_VALUE).addComponent(btnNewButton_1)
 						.addContainerGap()));
 
 		table = new JTable();

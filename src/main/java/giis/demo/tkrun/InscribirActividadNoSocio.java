@@ -44,6 +44,9 @@ public class InscribirActividadNoSocio {
 	SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
 	Date dateHoy = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
 	String fechaHoy = formato.format(dateHoy);
+	private JTextField textField_7;
+	private JTextField textField_8;
+	private JTextField textField_9;
 
 	/**
 	 * Launch the application.
@@ -73,7 +76,7 @@ public class InscribirActividadNoSocio {
 	 */
 	private void initialize() {
 		frmInscribirActividadNoSocio = new JFrame();
-		frmInscribirActividadNoSocio.setBounds(100, 100, 498, 329);
+		frmInscribirActividadNoSocio.setBounds(100, 100, 599, 401);
 		frmInscribirActividadNoSocio.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JPanel panel = new JPanel();
@@ -140,20 +143,20 @@ public class InscribirActividadNoSocio {
 
 		textField_5 = new JTextField();
 		textField_5.setEditable(false);
-		textField_5.setBounds(279, 171, 86, 20);
+		textField_5.setBounds(447, 171, 86, 20);
 		textField_5.setColumns(10);
 		panel.add(textField_5);
 
 		textField_6 = new JTextField();
 		textField_6.setEditable(false);
-		textField_6.setBounds(279, 208, 86, 20);
+		textField_6.setBounds(447, 208, 86, 20);
 		textField_6.setColumns(10);
 
 		JButton btnNewButton = new JButton("Cancelar");
-		btnNewButton.setBounds(10, 256, 75, 23);
+		btnNewButton.setBounds(10, 328, 75, 23);
 
 		btnInscribir = new JButton("Inscribir");
-		btnInscribir.setBounds(188, 256, 89, 23);
+		btnInscribir.setBounds(234, 303, 89, 23);
 
 		lblNewLabel_3 = new JLabel("Fecha Inicio");
 		lblNewLabel_3.setBounds(19, 174, 57, 14);
@@ -162,7 +165,7 @@ public class InscribirActividadNoSocio {
 		lblNewLabel_4.setBounds(19, 211, 57, 14);
 
 		lblNewLabel_5 = new JLabel("Plazas");
-		lblNewLabel_5.setBounds(226, 174, 57, 14);
+		lblNewLabel_5.setBounds(404, 174, 57, 14);
 
 		panel.setLayout(null);
 		panel.add(lblNewLabel);
@@ -200,12 +203,42 @@ public class InscribirActividadNoSocio {
 		panel.add(comboBox);
 
 		JLabel lblNewLabel_7 = new JLabel("Precio");
-		lblNewLabel_7.setBounds(226, 211, 46, 14);
+		lblNewLabel_7.setBounds(404, 211, 46, 14);
 		panel.add(lblNewLabel_7);
 
 		JLabel lblNewLabel_8 = new JLabel("Descripción");
 		lblNewLabel_8.setBounds(319, 92, 71, 14);
 		panel.add(lblNewLabel_8);
+
+		JLabel lblNewLabel_9 = new JLabel("Hora Inicio");
+		lblNewLabel_9.setBounds(217, 174, 71, 14);
+		panel.add(lblNewLabel_9);
+
+		JLabel lblNewLabel_9_1 = new JLabel("Hora Fin");
+		lblNewLabel_9_1.setBounds(217, 211, 71, 14);
+		panel.add(lblNewLabel_9_1);
+
+		textField_7 = new JTextField();
+		textField_7.setEditable(false);
+		textField_7.setBounds(282, 171, 86, 20);
+		panel.add(textField_7);
+		textField_7.setColumns(10);
+
+		textField_8 = new JTextField();
+		textField_8.setEditable(false);
+		textField_8.setColumns(10);
+		textField_8.setBounds(282, 208, 86, 20);
+		panel.add(textField_8);
+
+		JLabel lblNewLabel_10 = new JLabel("Plazas Disponibles");
+		lblNewLabel_10.setBounds(19, 247, 110, 14);
+		panel.add(lblNewLabel_10);
+
+		textField_9 = new JTextField();
+		textField_9.setEditable(false);
+		textField_9.setBounds(117, 244, 86, 20);
+		panel.add(textField_9);
+		textField_9.setColumns(10);
 
 	}
 }
