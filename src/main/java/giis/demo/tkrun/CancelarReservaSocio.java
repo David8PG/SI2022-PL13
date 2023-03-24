@@ -3,9 +3,15 @@ package giis.demo.tkrun;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.HeadlessException;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Iterator;
@@ -19,9 +25,11 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.table.DefaultTableModel;
 
@@ -36,14 +44,12 @@ public class CancelarReservaSocio {
 	private InicioSesion sesion;
 	int id_socio;
 	private Iterator<Object[]> iter;
-	private Object[][] matriz;
-	private String[][] matriz2;
 	private List<Object[]> lReservas;
 	private Vector<String> reservasCancelar;
 	private Vector<String> reservasPagadas;
 	private List<Object[]> lPagos;
 	private String[] lPagos2;
-
+	private Object[] vector = new Object[7];
 	private InicioSesion principal;
 	private int i;
 	private String seleccionado;
@@ -52,6 +58,7 @@ public class CancelarReservaSocio {
 	private String dni;
 	private JLabel sinReservasLabel;
 	private SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+	private JTextField textField;
 
 	/**
 	 * Launch the application.
@@ -112,6 +119,92 @@ public class CancelarReservaSocio {
 		JScrollPane scrollPane = new JScrollPane();
 
 		JButton btnNewButton = new JButton("Cancelar Reserva");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String idReserva;
+				// int idsocio2 = clientesModel.getID(dni);
+				if (!textField.getText().equals("")) {
+					idReserva = textField.getText();
+					// se comprueba que el id introducido es válido
+					try {
+						if ((reservasModel.existeReserva(Integer.parseInt(idReserva)))
+								&& (reservasModel.getCliente(idReserva).toString().equals(Integer.toString(id_socio)))
+								&& (reservasCancelables.contains(idReserva))) {
+							if (reservasPagadas.contains(idReserva)) {
+								double cuota = reservasModel.nuevaCuota(id_socio);
+								double devolver = reservasModel.getPrecio(Integer.parseInt(idReserva));
+								reservasModel.añadeacuota(cuota - devolver, id_socio);
+
+								try {
+									String ruta = "src/main/resources/Reserva" + idReserva + "Socio"
+											+ Integer.toString(id_socio) + ".txt";
+									String contenido = "Usted acaba de cancelar la reserva con id: " + idReserva
+											+ "\nLa reserva estaba pagada, se le devolverán " + devolver
+											+ " euros a fin de mes.\n";
+									File file = new File(ruta);
+
+									if (!file.exists()) {
+										file.createNewFile();
+									}
+									FileWriter fw = new FileWriter(file);
+									BufferedWriter bw = new BufferedWriter(fw);
+									bw.write(contenido);
+									bw.close();
+
+								} catch (Exception e1) {
+									e1.printStackTrace();
+								}
+
+								// Eliminar pago
+								pagosModel.eliminarPagoReserva(idReserva);
+								// Eliminar reserva
+								reservasModel.eliminarReserva(idReserva);
+								updateTable(table);
+
+								JOptionPane.showMessageDialog(frmCancelarReservaSocio,
+										"Reserva eliminada, y se restarán " + devolver
+												+ " euros de su cuota de fin de mes.");
+							} else {
+								// txt
+								try {
+									String ruta = "src/main/resources/Reserva" + idReserva + "Socio"
+											+ Integer.toString(id_socio) + ".txt";
+									String contenido = "Usted acaba de cancelar la reserva con id: " + idReserva
+											+ "\nNo estaba pagada, luego no se le devolverá nada.\n";
+									File file = new File(ruta);
+									// Si el archivo no existe es creado
+									if (!file.exists()) {
+										file.createNewFile();
+									}
+									FileWriter fw = new FileWriter(file);
+									BufferedWriter bw = new BufferedWriter(fw);
+									bw.write(contenido);
+									bw.close();
+
+								} catch (Exception e1) {
+									e1.printStackTrace();
+								}
+								// Se elimina la reserva sin devolver el dinero
+								reservasModel.eliminarReserva(idReserva);
+								updateTable(table);
+								JOptionPane.showMessageDialog(frmCancelarReservaSocio,
+										"Reserva eliminada, no estaba pagada.");
+
+							}
+						} else {
+							JOptionPane.showMessageDialog(frmCancelarReservaSocio,
+									"Introduzca un id de reserva válido.", "Error de id", JOptionPane.ERROR_MESSAGE);
+						}
+					} catch (NumberFormatException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (HeadlessException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+			}
+		});
 
 		JButton btnNewButton_1 = new JButton("Aceptar");
 		btnNewButton_1.addActionListener(new ActionListener() {
@@ -123,7 +216,7 @@ public class CancelarReservaSocio {
 		JLabel lblNewLabel_1 = new JLabel("DNI Socio");
 
 		model = new DefaultTableModel(new Object[][] {},
-				new String[] { "ID", "Instalación", "Fecha", "Hora", "Instalación" }) {
+				new String[] { "ID Reserva", "ID Socio", "ID Instalación", "Hora", "Precio (€)", "Pagado" }) {
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			}
@@ -147,10 +240,23 @@ public class CancelarReservaSocio {
 				GroupLayout.DEFAULT_SIZE, 564, Short.MAX_VALUE));
 		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addComponent(panel,
 				GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE));
+
+		JLabel lblNewLabel_2 = new JLabel("ID Reserva");
+
+		textField = new JTextField();
+		textField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				if (e.getKeyChar() < '0' || e.getKeyChar() > '9') {
+					e.setKeyChar((char) 127);
+				}
+			}
+		});
+		textField.setColumns(10);
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup().addGap(36)
-						.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_panel.createSequentialGroup()
 										.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
 												.addComponent(scrollPane, Alignment.LEADING, GroupLayout.DEFAULT_SIZE,
@@ -160,15 +266,17 @@ public class CancelarReservaSocio {
 																Short.MAX_VALUE)
 														.addComponent(btnNewButton_1)))
 										.addGap(21))
-								.addGroup(Alignment.LEADING,
-										gl_panel.createSequentialGroup().addComponent(lblNewLabel).addGap(41)
-												.addComponent(lblNewLabel_1)
-												.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(comboBox,
-														GroupLayout.PREFERRED_SIZE, 122, GroupLayout.PREFERRED_SIZE))))
-				.addGroup(gl_panel.createSequentialGroup().addContainerGap(250, Short.MAX_VALUE)
+								.addGroup(gl_panel.createSequentialGroup().addComponent(lblNewLabel).addGap(41)
+										.addComponent(lblNewLabel_1).addPreferredGap(ComponentPlacement.UNRELATED)
+										.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 122,
+												GroupLayout.PREFERRED_SIZE))))
+				.addGroup(gl_panel.createSequentialGroup().addGap(100).addComponent(lblNewLabel_2)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+								GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 						.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE)
 						.addGap(247)));
-
 		gl_panel.setVerticalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup().addGap(22)
 						.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE).addComponent(lblNewLabel)
@@ -177,7 +285,10 @@ public class CancelarReservaSocio {
 								.addComponent(lblNewLabel_1))
 						.addPreferredGap(ComponentPlacement.RELATED)
 						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 122, GroupLayout.PREFERRED_SIZE)
-						.addGap(33).addComponent(btnNewButton)
+						.addGap(33)
+						.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE).addComponent(btnNewButton)
+								.addComponent(lblNewLabel_2).addComponent(textField, GroupLayout.PREFERRED_SIZE,
+										GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 						.addPreferredGap(ComponentPlacement.RELATED, 36, Short.MAX_VALUE).addComponent(btnNewButton_1)
 						.addContainerGap()));
 
@@ -189,24 +300,34 @@ public class CancelarReservaSocio {
 		model.setRowCount(0);
 		int idsocio = clientesModel.getID(dni);
 		lReservas = reservasModel.todasReservasSocio(idsocio);
+		lPagos = pagosModel.getPagosCliente(dni);
+		lPagos2 = new String[lPagos.size()];
+		reservasPagadas = new Vector<String>();
+		boolean pagada = false;
+		reservasCancelar = new Vector<String>();
+		for (int i = 0; i < lPagos.size(); i++) {
+			lPagos2[i] = lPagos.get(i)[0].toString();
+			reservasPagadas.add(pagosModel.getReserva(lPagos2[i]));
+		}
+
 		if (lReservas.size() == 0) {
 			System.out.println("Sin reservas");
 		} else {
 			Iterator<Object[]> iter = lReservas.iterator();
 			while (iter.hasNext()) {
-
+				String pagada2 = "";
 				Object[] datos = iter.next();
-				// System.out.println(datos[0]);
-				// System.out.println(datos[1]);
-				// System.out.println(datos[2]);
-				// System.out.println(datos[3]);
 				String id_reserva = datos[0].toString();
-				String fecha = datos[2].toString();
-				String precio = datos[3].toString();
-				String instalacion = datos[1].toString();
-				boolean pagada = false;
-
-				model.addRow(new Object[] { id_reserva, instalacion, fecha, precio });
+				String id_socio = datos[1].toString();
+				Object instalacion = datos[2].toString();
+				Object fecha = datos[3];
+				String precio = datos[4].toString();
+				if (reservasPagadas.contains(datos[0].toString())) {
+					pagada2 = "Sí";
+				} else {
+					pagada2 = "No";
+				}
+				model.addRow(new Object[] { id_reserva, id_socio, instalacion, fecha, precio, pagada2 });
 
 			}
 		}

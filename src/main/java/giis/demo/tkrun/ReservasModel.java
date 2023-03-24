@@ -190,10 +190,17 @@ public class ReservasModel {
 	 * e.printStackTrace(); } return id_socio; }
 	 */
 	// método para obtener todas las reservas de un socio
-	public static final String todas_reservas = "SELECT id_reserva, id_instalaciones, fecha_reserva, precio FROM reservas WHERE id_socios = ?";
+	public static final String todas_reservas = "SELECT id_reserva, id_socios,id_instalaciones, fecha_reserva, precio FROM reservas WHERE id_socios = ?";
 
 	public List<Object[]> todasReservasSocio(int n) {
 		return bd.executeQueryArray(todas_reservas, n);
+	}
+
+	public static final String eliminar_reserva_con_ID = "DELETE from reservas WHERE id_reserva = ?;";
+
+	public void eliminarReserva(String id) {
+
+		bd.executeUpdate(eliminar_reserva_con_ID, id);
 	}
 
 }

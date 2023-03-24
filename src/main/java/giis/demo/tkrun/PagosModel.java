@@ -15,7 +15,7 @@ public class PagosModel {
 		return bd.executeQueryArray(get_pagos, cliente);
 	}
 
-	public static final String get_reserva = "SELECT reserva FROM pagos WHERE id_pago=?";
+	public static final String get_reserva = "SELECT id_reservas FROM pagos WHERE id_pago=?";
 
 	public String getReserva(String pago) {
 		List<Object[]> l = bd.executeQueryArray(get_reserva, pago);
