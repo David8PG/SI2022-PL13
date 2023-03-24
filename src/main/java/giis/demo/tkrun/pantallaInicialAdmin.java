@@ -19,6 +19,7 @@ public class pantallaInicialAdmin {
 	private ListarActividades ventanaListarActividades;
 	private VisualizarReservasInstalaciones ventanaVisualizarReservas;
 	private ModificarParametros ventanaModificarParametros;
+	private CancelarReservaSocio ventanaCancelarReserva;
 
 	/**
 	 * Launch the application.
@@ -54,7 +55,7 @@ public class pantallaInicialAdmin {
 	private void initialize() {
 		frmPantallaInicialAdministrador = new JFrame();
 		frmPantallaInicialAdministrador.setTitle("Pantalla Inicial Administrador");
-		frmPantallaInicialAdministrador.setBounds(100, 100, 450, 300);
+		frmPantallaInicialAdministrador.setBounds(100, 100, 543, 380);
 		frmPantallaInicialAdministrador.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmPantallaInicialAdministrador.getContentPane().setLayout(null);
 
@@ -87,7 +88,7 @@ public class pantallaInicialAdmin {
 		});
 		btnCrearPeriodoIns.setBounds(33, 93, 153, 23);
 		frmPantallaInicialAdministrador.getContentPane().add(btnCrearPeriodoIns);
-		
+
 		JButton btnReservarActividad = new JButton("Reservar Actividad Ins.");
 		btnReservarActividad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -127,6 +128,16 @@ public class pantallaInicialAdmin {
 		});
 		btnParametros.setBounds(33, 221, 153, 21);
 		frmPantallaInicialAdministrador.getContentPane().add(btnParametros);
+
+		JButton btnCancelarReservaSocio = new JButton("Cancelar Reserva Socio");
+		btnCancelarReservaSocio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ventanaCancelarReserva = new CancelarReservaSocio();
+				ventanaCancelarReserva.getFrmCancelarSocio().setVisible(true);
+			}
+		});
+		btnCancelarReservaSocio.setBounds(221, 25, 163, 23);
+		frmPantallaInicialAdministrador.getContentPane().add(btnCancelarReservaSocio);
 	}
 
 	public JFrame getFrmvAdmin() {

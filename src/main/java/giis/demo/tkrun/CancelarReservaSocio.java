@@ -87,7 +87,7 @@ public class CancelarReservaSocio {
 	 */
 	private void initialize() {
 		frmCancelarReservaSocio = new JFrame();
-		frmCancelarReservaSocio.setBounds(100, 100, 643, 340);
+		frmCancelarReservaSocio.setBounds(100, 100, 908, 337);
 		frmCancelarReservaSocio.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JPanel panel = new JPanel();
@@ -107,7 +107,7 @@ public class CancelarReservaSocio {
 
 		JScrollPane scrollPane = new JScrollPane();
 		model = new DefaultTableModel(new Object[][] {},
-				new String[] { "ID Reserva", "ID Socio", "ID Instalación", "Hora", "Precio (€)", "Pagado" }) {
+				new String[] { "ID Reserva", "ID Socio", "ID Instalación", "Fecha", "Precio (€)", "Pagado" }) {
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			}
@@ -119,7 +119,8 @@ public class CancelarReservaSocio {
 		JComboBox comboBox = new JComboBox();
 		comboBox.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		comboBox.setModel(new DefaultComboBoxModel(DNI_socio));
-		seleccionado = comboBox.getSelectedItem().toString();
+		String selectedDNI = (String) comboBox.getSelectedItem();
+		updateTable(selectedDNI);
 		comboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String selectedDNI = (String) comboBox.getSelectedItem();
@@ -245,14 +246,16 @@ public class CancelarReservaSocio {
 										.addGap(21))
 								.addGroup(gl_panel.createSequentialGroup().addComponent(lblNewLabel).addGap(41)
 										.addComponent(lblNewLabel_1).addPreferredGap(ComponentPlacement.UNRELATED)
-										.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 122,
-												GroupLayout.PREFERRED_SIZE))))
-				.addGroup(gl_panel.createSequentialGroup().addGap(100).addComponent(lblNewLabel_2)
+										.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 170,
+												GroupLayout.PREFERRED_SIZE)
+										.addContainerGap())))
+				.addGroup(gl_panel.createSequentialGroup().addGap(88)
+						.addComponent(lblNewLabel_2, GroupLayout.PREFERRED_SIZE, 66, GroupLayout.PREFERRED_SIZE)
 						.addPreferredGap(ComponentPlacement.RELATED)
 						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
 								GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED, 212, Short.MAX_VALUE)
+						.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 189, GroupLayout.PREFERRED_SIZE)
 						.addGap(247)));
 		gl_panel.setVerticalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup().addGap(22)
