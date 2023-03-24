@@ -3,7 +3,6 @@ package giis.demo.tkrun;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.HeadlessException;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,7 +12,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
@@ -37,15 +35,12 @@ public class CancelarReservaSocio {
 
 	private JFrame frmCancelarReservaSocio;
 	private JTable table;
-	private InstalacionesModel instalacionesModel = new InstalacionesModel();
 	private ReservasModel reservasModel = new ReservasModel();
 	private ClientesModel clientesModel = new ClientesModel();
 	private PagosModel pagosModel = new PagosModel();
-	private InicioSesion sesion;
 	int id_socio;
-	private Iterator<Object[]> iter;
 	private List<Object[]> lReservas;
-	private Vector<String> reservasCancelar;
+
 	private Vector<String> reservasPagadas;
 	private List<Object[]> lPagos;
 	private String[] lPagos2;
@@ -54,7 +49,6 @@ public class CancelarReservaSocio {
 	private int i;
 	private String seleccionado;
 	private DefaultTableModel model;
-	private long hoy;
 	private String dni;
 	private JLabel sinReservasLabel;
 	private SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
@@ -85,11 +79,6 @@ public class CancelarReservaSocio {
 
 	public CancelarReservaSocio(InicioSesion login) {
 		principal = login;
-		this.id_socio = this.principal.getId_socio();
-		this.id_socio = this.sesion.getId_socio();
-		this.dni = clientesModel.getDNI(Integer.toString(id_socio));
-		Calendar cal = Calendar.getInstance();
-		hoy = cal.getTime().getTime();
 		initialize();
 	}
 
@@ -143,23 +132,22 @@ public class CancelarReservaSocio {
 			public void actionPerformed(ActionEvent e) {
 				String idReserva;
 
+				int idsocio = clientesModel.getID(comboBox.getSelectedItem().toString());
 				if (!textField.getText().equals("")) {
 					idReserva = textField.getText();
 					try {
 						if ((reservasModel.existeReserva(Integer.parseInt(idReserva)))
-								&& (reservasModel.getCliente(idReserva).toString().equals(Integer.toString(id_socio)))
-								&& (reservasCancelar.contains(idReserva))) {
+								&& (reservasModel.getCliente(idReserva).toString().equals(Integer.toString(idsocio)))) {
 							if (reservasPagadas.contains(idReserva)) {
-								double cuota = reservasModel.nuevaCuota(id_socio);
-								double devolver = reservasModel.getPrecio(Integer.parseInt(idReserva));
-								reservasModel.añadeacuota(cuota - devolver, id_socio);
-
+								double cuota = reservasModel.nuevaCuota(idsocio);
+								double devolucion = reservasModel.getPrecio(Integer.parseInt(idReserva));
+								reservasModel.añadeacuota(cuota - devolucion, idsocio);
 								try {
-									String ruta = "src/main/resources/ReservasCanceladas" + idReserva + "Socio"
-											+ Integer.toString(id_socio) + ".txt";
-									String contenido = "Usted acaba de cancelar la reserva con id: " + idReserva
-											+ "\nLa reserva estaba pagada, se le devolverán " + devolver
-											+ " euros a fin de mes.\n";
+									String ruta = "src/main/resources/ReservasCanceladas/" + "Reserva" + idReserva
+											+ "_Socio" + Integer.toString(idsocio) + ".txt";
+									String contenido = "Se ha cancelado la Reserva con ID " + idReserva
+											+ "\nAl estar la reserva ya abonada se le devolverán " + devolucion
+											+ "€ al final del mes.\n";
 									File file = new File(ruta);
 									if (!file.exists()) {
 										file.createNewFile();
@@ -170,20 +158,21 @@ public class CancelarReservaSocio {
 									bw.close();
 
 								} catch (Exception e1) {
-									e1.printStackTrace();
+									JOptionPane.showMessageDialog(frmCancelarReservaSocio,
+											"Introduzca un ID de reserva que sea válido");
 								}
 								pagosModel.eliminaPagoReserva(idReserva);
 								reservasModel.eliminarReserva(idReserva);
 								updateTable(comboBox.getSelectedItem().toString());
 								JOptionPane.showMessageDialog(frmCancelarReservaSocio,
-										"Reserva eliminada, y se restarán " + devolver
-												+ " euros de su cuota de fin de mes.");
+										"Reserva eliminada, al estar ya abonada, se le devolverá " + devolucion
+												+ "€ al final del mes");
 							} else {
 								try {
-									String ruta = "src/main/resources/ReservasCanceladas" + idReserva + "Socio"
-											+ Integer.toString(id_socio) + ".txt";
-									String contenido = "Usted acaba de cancelar la reserva con id: " + idReserva
-											+ "\nNo estaba pagada, luego no se le devolverá nada.\n";
+									String ruta = "src/main/resources/ReservasCanceladas/" + "Reserva" + idReserva
+											+ "_Socio" + Integer.toString(idsocio) + ".txt";
+									String contenido = "Se ha cancelado la Reserva con ID " + idReserva
+											+ "\nAl no estar abonado su importe, no se le devolverá nada de dinero.\n";
 									File file = new File(ruta);
 									if (!file.exists()) {
 										file.createNewFile();
@@ -192,23 +181,22 @@ public class CancelarReservaSocio {
 									BufferedWriter bw = new BufferedWriter(fw);
 									bw.write(contenido);
 									bw.close();
-
 								} catch (Exception e1) {
-									e1.printStackTrace();
+									JOptionPane.showMessageDialog(frmCancelarReservaSocio,
+											"Introduzca un ID de reserva que sea válido");
 								}
 								reservasModel.eliminarReserva(idReserva);
 								updateTable(comboBox.getSelectedItem().toString());
 								JOptionPane.showMessageDialog(frmCancelarReservaSocio,
-										"Reserva eliminada, no estaba pagada.");
+										"Reserva eliminada, Al no estar abonado su importe, no se le devolverá nada de dinero.");
 
 							}
 						} else {
 							JOptionPane.showMessageDialog(frmCancelarReservaSocio,
-									"Introduzca un id de reserva válido.", "Error de id", JOptionPane.ERROR_MESSAGE);
+									"Introduzca un ID de reserva que sea válido", "Error de id",
+									JOptionPane.ERROR_MESSAGE);
 						}
 					} catch (NumberFormatException e1) {
-						e1.printStackTrace();
-					} catch (HeadlessException e1) {
 						e1.printStackTrace();
 					}
 				}
@@ -292,8 +280,6 @@ public class CancelarReservaSocio {
 		lPagos = pagosModel.getPagosCliente(dni);
 		lPagos2 = new String[lPagos.size()];
 		reservasPagadas = new Vector<String>();
-		boolean pagada = false;
-		reservasCancelar = new Vector<String>();
 		for (int i = 0; i < lPagos.size(); i++) {
 			lPagos2[i] = lPagos.get(i)[0].toString();
 			reservasPagadas.add(pagosModel.getReserva(lPagos2[i]));

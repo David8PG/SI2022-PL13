@@ -31,7 +31,7 @@ public class PagosModel {
 		bd.executeUpdate(elimina_pago, id_pago);
 	}
 
-	public static final String elimina_pago_reserva = "DELETE from pagos WHERE reserva=?;";
+	public static final String elimina_pago_reserva = "DELETE from pagos WHERE id_reservas=?;";
 
 	public void eliminaPagoReserva(String id_reserva) {
 
