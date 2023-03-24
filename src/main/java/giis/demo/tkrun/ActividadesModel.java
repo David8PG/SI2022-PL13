@@ -52,15 +52,16 @@ public class ActividadesModel {
 	public List<Object[]> getNombreActividades() {
 		return bd.executeQueryArray(nombres_actividades);
 	}
-	
-	/*
-	// listar actividades de una instalacion en una fecha determinada
-	public static final String actividades_fecha_det= "SELECT id_actividad FROM actividades WHERE fecha_inicio =";
 
-	public List<Object[]> pruebarara(int id_instalacion, String fecha_reserva) {
-		return bd.executeQueryArray(actividades_fecha_det + "'" + fecha_reserva + "'" + " AND id_instalaciones = " + "'" + id_instalacion + "'");
-	}
-	*/
+	/*
+	 * // listar actividades de una instalacion en una fecha determinada public
+	 * static final String actividades_fecha_det=
+	 * "SELECT id_actividad FROM actividades WHERE fecha_inicio =";
+	 * 
+	 * public List<Object[]> pruebarara(int id_instalacion, String fecha_reserva) {
+	 * return bd.executeQueryArray(actividades_fecha_det + "'" + fecha_reserva + "'"
+	 * + " AND id_instalaciones = " + "'" + id_instalacion + "'"); }
+	 */
 
 	// Listar actividades en un periodo
 	public static final String actividadesPeriodo = "SELECT id_actividad, deporte, plazas_disponibles, fecha_inicio, fecha_fin, aforo, precio_socio, precio_no_socio FROM actividades WHERE fecha_inicio >=";
@@ -68,5 +69,60 @@ public class ActividadesModel {
 	public List<Object[]> getActividadesPeriodo(String fechaInicial, String fechaFin) {
 		return bd.executeQueryArray(
 				actividadesPeriodo + "'" + fechaInicial + "'" + " AND fecha_inicio <= '" + fechaFin + "';");
+	}
+
+	public static final String precioActividadNoSocio = "SELECT precio_no_socio FROM actividades WHERE id_actividad=";
+
+	public String getPrecioActividadNoSocio(String id) {
+		List<Object[]> lista;
+		lista = bd.executeQueryArray(precioActividadNoSocio + "'" + id + "'");
+		return lista.get(0)[0].toString();
+	}
+
+	public static final String plazasActividad = "SELECT plazas_disponibles FROM actividades WHERE nombre=";
+
+	public String getPlazasActividad(String nombre) {
+		List<Object[]> lista;
+		lista = bd.executeQueryArray(plazasActividad + "'" + nombre + "'");
+		return lista.get(0)[0].toString();
+	}
+
+	public static final String restarPlazas = "UPDATE actividades SET plazas_disponibles=? WHERE nombre=?";
+
+	public void restarPlaza(String nombre) {
+		int plazas = Integer.parseInt(getPlazasActividad(nombre)) - 1;
+		bd.executeUpdate(restarPlazas, plazas, nombre);
+	}
+
+	public static final String fechaInicio = "SELECT fecha_inicio FROM actividades WHERE nombre=";
+
+	public String getFechaInicioActividad(String nombre) {
+		List<Object[]> lista;
+		lista = bd.executeQueryArray(fechaInicio + "'" + nombre + "'");
+		return lista.get(0)[0].toString();
+	}
+
+	public static final String fechaFinal = "SELECT fecha_fin FROM actividades WHERE nombre=";
+
+	public String getFechaFinActividad(String nombre) {
+		List<Object[]> lista;
+		lista = bd.executeQueryArray(fechaFinal + "'" + nombre + "'");
+		return lista.get(0)[0].toString();
+	}
+
+	public static final String getDescripcionActividad = "SELECT descripcion FROM actividades WHERE nombre=";
+
+	public String getDescripcion(String nombre) {
+		List<Object[]> lista;
+		lista = bd.executeQueryArray(getDescripcionActividad + "'" + nombre + "'");
+		return lista.get(0)[0].toString();
+	}
+
+	public static final String actividadesPeriodoInscripcion = "SELECT nombre FROM actividades WHERE id_periodo_inscripciones=";
+
+	public List<Object[]> getActividadesPeriodoInscripcion(String periodo) {
+		List<Object[]> lista;
+		lista = bd.executeQueryArray(actividadesPeriodoInscripcion + "'" + periodo + "'");
+		return lista;
 	}
 }
