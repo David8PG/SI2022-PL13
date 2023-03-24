@@ -2,9 +2,17 @@ package giis.demo.tkrun;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
-import java.text.ParseException;
+import java.awt.Font;
+import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Vector;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
@@ -24,8 +32,26 @@ public class CancelarReservaSocio {
 	private InstalacionesModel instalacionesModel = new InstalacionesModel();
 	private ReservasModel reservasModel = new ReservasModel();
 	private ClientesModel clientesModel = new ClientesModel();
+	private PagosModel pagosModel = new PagosModel();
 	private InicioSesion sesion;
 	int id_socio;
+	private Iterator<Object[]> iter;
+	private Object[][] matriz;
+	private String[][] matriz2;
+	private List<Object[]> lReservas;
+	private Vector<String> reservasCancelar;
+	private Vector<String> reservasPagadas;
+	private List<Object[]> lPagos;
+	private String[] lPagos2;
+
+	private InicioSesion principal;
+	private int i;
+	private String seleccionado;
+	private DefaultTableModel model;
+	private long hoy;
+	private String dni;
+	private JLabel sinReservasLabel;
+	private SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
 
 	/**
 	 * Launch the application.
@@ -51,8 +77,12 @@ public class CancelarReservaSocio {
 	}
 
 	public CancelarReservaSocio(InicioSesion login) {
-		this.sesion = login;
+		principal = login;
+		this.id_socio = this.principal.getId_socio();
 		this.id_socio = this.sesion.getId_socio();
+		this.dni = clientesModel.getDNI(Integer.toString(id_socio));
+		Calendar cal = Calendar.getInstance();
+		hoy = cal.getTime().getTime();
 		initialize();
 	}
 
@@ -61,7 +91,7 @@ public class CancelarReservaSocio {
 	 */
 	private void initialize() {
 		frmCancelarReservaSocio = new JFrame();
-		frmCancelarReservaSocio.setBounds(100, 100, 450, 300);
+		frmCancelarReservaSocio.setBounds(100, 100, 643, 340);
 		frmCancelarReservaSocio.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JPanel panel = new JPanel();
@@ -69,29 +99,76 @@ public class CancelarReservaSocio {
 
 		JLabel lblNewLabel = new JLabel("Reservas");
 
+		List<Object[]> lista = clientesModel.getDNITodos();
+		String[] DNI_socio = new String[lista.size()];
+		Iterator<Object[]> iterador = lista.iterator();
+
+		int i = 0;
+		while (iterador.hasNext()) {
+			DNI_socio[i] = iterador.next()[0].toString();
+			i++;
+		}
+
 		JScrollPane scrollPane = new JScrollPane();
 
 		JButton btnNewButton = new JButton("Cancelar Reserva");
 
 		JButton btnNewButton_1 = new JButton("Aceptar");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frmCancelarReservaSocio.dispose();
+			}
+		});
 
 		JLabel lblNewLabel_1 = new JLabel("DNI Socio");
 
+		model = new DefaultTableModel(new Object[][] {},
+				new String[] { "ID", "Instalación", "Fecha", "Hora", "Instalación" }) {
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};
+		table = new JTable(model);
+		scrollPane.setViewportView(table);
+		table.setEnabled(false);
+
 		JComboBox comboBox = new JComboBox();
-		GroupLayout gl_panel = new GroupLayout(frmCancelarReservaSocio.getContentPane());
-		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.TRAILING).addGroup(gl_panel
-				.createSequentialGroup().addGap(36)
-				.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 368, GroupLayout.PREFERRED_SIZE)
-						.addGroup(gl_panel.createSequentialGroup().addComponent(lblNewLabel).addGap(41)
-								.addComponent(lblNewLabel_1).addPreferredGap(ComponentPlacement.UNRELATED)
-								.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE)))
-				.addContainerGap(30, Short.MAX_VALUE))
-				.addGroup(gl_panel.createSequentialGroup().addContainerGap(342, Short.MAX_VALUE)
-						.addComponent(btnNewButton_1).addGap(21))
-				.addGroup(gl_panel.createSequentialGroup().addContainerGap(155, Short.MAX_VALUE)
+		comboBox.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		comboBox.setModel(new DefaultComboBoxModel(DNI_socio));
+		seleccionado = comboBox.getSelectedItem().toString();
+		comboBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String selectedDNI = (String) comboBox.getSelectedItem();
+				updateTable(selectedDNI);
+			}
+		});
+		GroupLayout groupLayout = new GroupLayout(frmCancelarReservaSocio.getContentPane());
+		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addComponent(panel,
+				GroupLayout.DEFAULT_SIZE, 564, Short.MAX_VALUE));
+		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addComponent(panel,
+				GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE));
+		GroupLayout gl_panel = new GroupLayout(panel);
+		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup().addGap(36)
+						.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+								.addGroup(gl_panel.createSequentialGroup()
+										.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+												.addComponent(scrollPane, Alignment.LEADING, GroupLayout.DEFAULT_SIZE,
+														570, Short.MAX_VALUE)
+												.addGroup(gl_panel.createSequentialGroup()
+														.addPreferredGap(ComponentPlacement.RELATED, 499,
+																Short.MAX_VALUE)
+														.addComponent(btnNewButton_1)))
+										.addGap(21))
+								.addGroup(Alignment.LEADING,
+										gl_panel.createSequentialGroup().addComponent(lblNewLabel).addGap(41)
+												.addComponent(lblNewLabel_1)
+												.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(comboBox,
+														GroupLayout.PREFERRED_SIZE, 122, GroupLayout.PREFERRED_SIZE))))
+				.addGroup(gl_panel.createSequentialGroup().addContainerGap(250, Short.MAX_VALUE)
 						.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE)
-						.addGap(149)));
+						.addGap(247)));
+
 		gl_panel.setVerticalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup().addGap(22)
 						.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE).addComponent(lblNewLabel)
@@ -100,88 +177,42 @@ public class CancelarReservaSocio {
 								.addComponent(lblNewLabel_1))
 						.addPreferredGap(ComponentPlacement.RELATED)
 						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 122, GroupLayout.PREFERRED_SIZE)
-						.addGap(18).addComponent(btnNewButton)
-						.addPreferredGap(ComponentPlacement.RELATED, 13, Short.MAX_VALUE).addComponent(btnNewButton_1)
+						.addGap(33).addComponent(btnNewButton)
+						.addPreferredGap(ComponentPlacement.RELATED, 36, Short.MAX_VALUE).addComponent(btnNewButton_1)
 						.addContainerGap()));
 
-		table = new JTable();
-		table.setModel(new DefaultTableModel(new Object[][] {},
-				new String[] { "ID", "ID Socio", "Instalación", "Fecha", "Coste", "Pago Realizado" }));
-		table.setEnabled(true);
-		scrollPane.setColumnHeaderView(table);
-
-		frmCancelarReservaSocio.getContentPane().setLayout(gl_panel);
+		panel.setLayout(gl_panel);
+		frmCancelarReservaSocio.getContentPane().setLayout(groupLayout);
 	}
 
-	public void tablaRellenada(JTable tabla) {
-		// Obtenemos una lista con los pagos del socio
-		listaPagos = modeloPagos.getPagosCliente(dni);
-		// pasamos esa lista a un array
-		arrayPagos = new String[listaPagos.size()];
-		reservasPagadas = new Vector<String>();
-		reservasCancelables = new Vector<String>();
-		for (int i = 0; i < listaPagos.size(); i++) {
-			arrayPagos[i] = listaPagos.get(i)[0].toString();
-			reservasPagadas.add(modeloPagos.getReserva(arrayPagos[i]));
-		}
+	private void updateTable(String dni) {
+		model.setRowCount(0);
+		int idsocio = clientesModel.getID(dni);
+		lReservas = reservasModel.todasReservasSocio(idsocio);
+		if (lReservas.size() == 0) {
+			System.out.println("Sin reservas");
+		} else {
+			Iterator<Object[]> iter = lReservas.iterator();
+			while (iter.hasNext()) {
 
-		// Obtenemos una lista con las reservas del socio
-		listaReservas = modeloReservas.todasReservasSocio(id_socio);
-		// si la lista no está vacia, mostramos los elementos
-		if (!listaReservas.isEmpty()) {
-			matriz = new Object[listaReservas.size()][5];
-			it = listaReservas.iterator();
-			i = 0;
-			while (it.hasNext()) {
-				// el vector es el siguiente elemento de la lista (una reserva en concreto del
-				// cliente)
-				vector = it.next();
-				try {
-					if (hoy + (principal.getDiasAntelacion() * 24 * 60 * 60 * 1000) < sdf.parse(vector[1].toString())
-							.getTime()) {
-						reservasCancelables.add(vector[0].toString());
-						// bucle para recorer el vector
-						for (int j = 0; j < 3; j++) {
-							if (j == 0)// si es el id
-								matriz[i][j] = vector[j];
-							else if (j == 1) {// la fecha hay que separarla
-								String[] a = (vector[j].toString()).split("T");
-								matriz[i][j] = a[0];
-								matriz[i][j + 1] = a[1];
-							} else// ahora la j va atrasada
-								matriz[i][j + 1] = vector[j];
-						}
-						if (reservasPagadas.contains(vector[0].toString()))
-							matriz[i][4] = "Sí";
-						else
-							matriz[i][4] = "No";
-						// modificamos el índice para movernos por las filas de la matriz
-						i++;
-					}
+				Object[] datos = iter.next();
+				// System.out.println(datos[0]);
+				// System.out.println(datos[1]);
+				// System.out.println(datos[2]);
+				// System.out.println(datos[3]);
+				String id_reserva = datos[0].toString();
+				String fecha = datos[2].toString();
+				String precio = datos[3].toString();
+				String instalacion = datos[1].toString();
+				boolean pagada = false;
 
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				model.addRow(new Object[] { id_reserva, instalacion, fecha, precio });
+
 			}
-
-			// copia de las primeras i filas de matriz a matriz2 para que no queden filas en
-			// blanco
-			matriz2 = new String[i][5];
-			for (int j = 0; j < i; j++) {
-				for (int k = 0; k < 5; k++) {
-					matriz2[j][k] = matriz[j][k].toString();
-				}
-			}
-
 		}
-		// sino, indicamos que no hay reservas
-		else {
-			sinReservasLabel.setVisible(true);
-		}
+	}
 
-		table.setModel(
-				new DefaultTableModel(matriz2, new String[] { "Id", "Fecha", "Hora", "Instalación", "Pagada", }));
-
+	public Window getFrmCancelarSocio() {
+		return this.frmCancelarReservaSocio;
 	}
 }
