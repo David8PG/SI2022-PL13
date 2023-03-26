@@ -37,4 +37,12 @@ public class InstalacionesModel {
 	public List<Object[]> getDeportes() {
 		return bd.executeQueryArray(deportes);
 	}
+
+	public static final String nombreInstalacion = "SELECT nombre FROM instalaciones WHERE id_instalacion=";
+
+	public String getNombre_Instalacion(String id) {
+		List<Object[]> lista;
+		lista = bd.executeQueryArray(nombreInstalacion + "'" + id + "'");
+		return lista.get(0)[0].toString();
+	}
 }

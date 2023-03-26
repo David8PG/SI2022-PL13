@@ -18,6 +18,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 
@@ -44,9 +45,8 @@ public class InscribirActividadNoSocio {
 	SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
 	Date dateHoy = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
 	String fechaHoy = formato.format(dateHoy);
-	private JTextField textField_7;
-	private JTextField textField_8;
 	private JTextField textField_9;
+	private JTextField textField_10;
 
 	/**
 	 * Launch the application.
@@ -76,7 +76,7 @@ public class InscribirActividadNoSocio {
 	 */
 	private void initialize() {
 		frmInscribirActividadNoSocio = new JFrame();
-		frmInscribirActividadNoSocio.setBounds(100, 100, 599, 401);
+		frmInscribirActividadNoSocio.setBounds(100, 100, 729, 401);
 		frmInscribirActividadNoSocio.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JPanel panel = new JPanel();
@@ -87,7 +87,7 @@ public class InscribirActividadNoSocio {
 
 		JTextPane textPane = new JTextPane();
 		textPane.setEditable(false);
-		textPane.setBounds(249, 117, 212, 38);
+		textPane.setBounds(319, 119, 212, 38);
 		panel.add(textPane);
 
 		List<Object[]> modPer = ModeloPeriodo.getFechasNoSocio(fechaHoy);
@@ -100,7 +100,7 @@ public class InscribirActividadNoSocio {
 				actividades.add(iteradorAct.next()[0].toString());
 			}
 		}
-
+		System.out.println(actividades.size());
 		String[] listaActividades = new String[actividades.size()];
 		Iterator<String> iteradorTodas = actividades.iterator();
 		int iAct = 0;
@@ -110,13 +110,13 @@ public class InscribirActividadNoSocio {
 		}
 
 		JLabel lblNewLabel_1 = new JLabel("DNI");
-		lblNewLabel_1.setBounds(19, 58, 18, 14);
+		lblNewLabel_1.setBounds(19, 58, 49, 14);
 
 		JLabel lblNewLabel_2 = new JLabel("Nombre");
 		lblNewLabel_2.setBounds(19, 27, 49, 14);
 
 		JLabel lblNewLabel_1_1 = new JLabel("Teléfono");
-		lblNewLabel_1_1.setBounds(19, 91, 58, 14);
+		lblNewLabel_1_1.setBounds(19, 91, 71, 14);
 
 		textField = new JTextField();
 		textField.setBounds(94, 24, 86, 20);
@@ -132,40 +132,40 @@ public class InscribirActividadNoSocio {
 
 		textField_3 = new JTextField();
 		textField_3.setEditable(false);
-		textField_3.setBounds(94, 171, 86, 20);
+		textField_3.setBounds(105, 171, 86, 20);
 		textField_3.setColumns(10);
 
 		textField_4 = new JTextField();
 		textField_4.setEditable(false);
-		textField_4.setBounds(94, 208, 86, 20);
+		textField_4.setBounds(105, 208, 86, 20);
 		textField_4.setColumns(10);
 		panel.add(textField_4);
 
 		textField_5 = new JTextField();
 		textField_5.setEditable(false);
-		textField_5.setBounds(447, 171, 86, 20);
+		textField_5.setBounds(262, 171, 86, 20);
 		textField_5.setColumns(10);
 		panel.add(textField_5);
 
 		textField_6 = new JTextField();
 		textField_6.setEditable(false);
-		textField_6.setBounds(447, 208, 86, 20);
+		textField_6.setBounds(262, 208, 86, 20);
 		textField_6.setColumns(10);
 
 		JButton btnNewButton = new JButton("Cancelar");
-		btnNewButton.setBounds(10, 328, 75, 23);
+		btnNewButton.setBounds(10, 328, 89, 23);
 
 		btnInscribir = new JButton("Inscribir");
-		btnInscribir.setBounds(234, 303, 89, 23);
+		btnInscribir.setBounds(259, 328, 89, 23);
 
 		lblNewLabel_3 = new JLabel("Fecha Inicio");
-		lblNewLabel_3.setBounds(19, 174, 57, 14);
+		lblNewLabel_3.setBounds(19, 174, 71, 14);
 
 		lblNewLabel_4 = new JLabel("Fecha Fin");
 		lblNewLabel_4.setBounds(19, 211, 57, 14);
 
-		lblNewLabel_5 = new JLabel("Plazas");
-		lblNewLabel_5.setBounds(404, 174, 57, 14);
+		lblNewLabel_5 = new JLabel("Aforo");
+		lblNewLabel_5.setBounds(215, 174, 57, 14);
 
 		panel.setLayout(null);
 		panel.add(lblNewLabel);
@@ -192,53 +192,51 @@ public class InscribirActividadNoSocio {
 		comboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				textPane.setText(ModeloActividades.getDescripcion(comboBox.getSelectedItem().toString()));
-				textField_6.setText(ModeloActividades.getPrecioActividadNoSocio(comboBox.getSelectedItem().toString()));
+				textField_6
+						.setText(ModeloActividades.getPrecioActividadNoSocio2(comboBox.getSelectedItem().toString()));
 				textField_3.setText(ModeloActividades.getFechaInicioActividad(comboBox.getSelectedItem().toString()));
 				textField_4.setText(ModeloActividades.getFechaFinActividad(comboBox.getSelectedItem().toString()));
-				textField_5.setText(ModeloActividades.getPlazasActividad(comboBox.getSelectedItem().toString()));
+				textField_5.setText(ModeloActividades.getAforo(comboBox.getSelectedItem().toString()));
+				textField_9.setText(ModeloActividades.getPlazasActividad(comboBox.getSelectedItem().toString()));
+				textField_10.setText(ModeloInstalaciones.getNombre_Instalacion(
+						ModeloActividades.getInstalacion(comboBox.getSelectedItem().toString())));
 			}
 		});
 
-		comboBox.setBounds(94, 119, 116, 22);
+		comboBox.setBounds(94, 119, 178, 22);
 		panel.add(comboBox);
 
 		JLabel lblNewLabel_7 = new JLabel("Precio");
-		lblNewLabel_7.setBounds(404, 211, 46, 14);
+		lblNewLabel_7.setBounds(215, 211, 46, 14);
 		panel.add(lblNewLabel_7);
 
 		JLabel lblNewLabel_8 = new JLabel("Descripción");
-		lblNewLabel_8.setBounds(319, 92, 71, 14);
+		lblNewLabel_8.setBounds(390, 94, 71, 14);
 		panel.add(lblNewLabel_8);
 
-		JLabel lblNewLabel_9 = new JLabel("Hora Inicio");
-		lblNewLabel_9.setBounds(217, 174, 71, 14);
-		panel.add(lblNewLabel_9);
-
-		JLabel lblNewLabel_9_1 = new JLabel("Hora Fin");
-		lblNewLabel_9_1.setBounds(217, 211, 71, 14);
-		panel.add(lblNewLabel_9_1);
-
-		textField_7 = new JTextField();
-		textField_7.setEditable(false);
-		textField_7.setBounds(282, 171, 86, 20);
-		panel.add(textField_7);
-		textField_7.setColumns(10);
-
-		textField_8 = new JTextField();
-		textField_8.setEditable(false);
-		textField_8.setColumns(10);
-		textField_8.setBounds(282, 208, 86, 20);
-		panel.add(textField_8);
-
 		JLabel lblNewLabel_10 = new JLabel("Plazas Disponibles");
-		lblNewLabel_10.setBounds(19, 247, 110, 14);
+		lblNewLabel_10.setBounds(375, 174, 127, 14);
 		panel.add(lblNewLabel_10);
 
 		textField_9 = new JTextField();
 		textField_9.setEditable(false);
-		textField_9.setBounds(117, 244, 86, 20);
+		textField_9.setBounds(490, 171, 86, 20);
 		panel.add(textField_9);
 		textField_9.setColumns(10);
+
+		JLabel lblNewLabel_11 = new JLabel("Instalación");
+		lblNewLabel_11.setBounds(375, 211, 86, 14);
+		panel.add(lblNewLabel_11);
+
+		textField_10 = new JTextField();
+		textField_10.setEditable(false);
+		textField_10.setBounds(449, 208, 127, 20);
+		panel.add(textField_10);
+		textField_10.setColumns(10);
+
+		JTextArea textArea = new JTextArea();
+		textArea.setBounds(19, 246, 250, 69);
+		panel.add(textArea);
 
 	}
 }

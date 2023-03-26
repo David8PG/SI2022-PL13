@@ -87,6 +87,14 @@ public class ActividadesModel {
 		return lista.get(0)[0].toString();
 	}
 
+	public static final String aforo = "SELECT aforo FROM actividades WHERE nombre=";
+
+	public String getAforo(String nombre) {
+		List<Object[]> lista;
+		lista = bd.executeQueryArray(aforo + "'" + nombre + "'");
+		return lista.get(0)[0].toString();
+	}
+
 	public static final String restarPlazas = "UPDATE actividades SET plazas_disponibles=? WHERE nombre=?";
 
 	public void restarPlaza(String nombre) {
@@ -125,4 +133,21 @@ public class ActividadesModel {
 		lista = bd.executeQueryArray(actividadesPeriodoInscripcion + "'" + periodo + "'");
 		return lista;
 	}
+
+	public static final String precioActividadNoSocio2 = "SELECT precio_no_socio FROM actividades WHERE nombre=";
+
+	public String getPrecioActividadNoSocio2(String nombre) {
+		List<Object[]> lista;
+		lista = bd.executeQueryArray(precioActividadNoSocio2 + "'" + nombre + "'");
+		return lista.get(0)[0].toString();
+	}
+
+	public static final String get_instalacion = "SELECT id_instalaciones FROM actividades WHERE nombre=";
+
+	public String getInstalacion(String nombre) {
+		List<Object[]> lista;
+		lista = bd.executeQueryArray(get_instalacion + "'" + nombre + "'");
+		return lista.get(0)[0].toString();
+	}
+
 }
