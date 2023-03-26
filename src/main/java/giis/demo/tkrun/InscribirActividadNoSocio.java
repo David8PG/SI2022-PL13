@@ -17,6 +17,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -216,31 +217,37 @@ public class InscribirActividadNoSocio {
 		panel.add(comboBox);
 
 		btnInscribir = new JButton("Inscribir");
-		/*
-		 * btnInscribir.addActionListener(new ActionListener() { public void
-		 * actionPerformed(ActionEvent e) { String dni = textField_3.getText(); if
-		 * (!ModeloClientes.existeDNI(dni)) { ModeloClientes.nuevoCliente(null, dni,
-		 * null); } if (yaInscrito(dni, comboBox.getSelectedItem().toString())) {
-		 * JOptionPane.showMessageDialog(frmInscribirActividadNoSocio,
-		 * "El cliente ya está inscrito en la actividad.", "Error",
-		 * JOptionPane.ERROR_MESSAGE); } else { if
-		 * (quedanPlazas(comboBox.getSelectedItem().toString())) {
-		 * ModeloActividades.restarPlaza(comboBox.getSelectedItem().toString()); long
-		 * idInscripcion = ModeloInscripciones.nuevaInscripcionRetornaId(dni, "" +
-		 * ModeloActividades.getIdActividad(comboBox.getSelectedItem().toString()),
-		 * fechaHoy); ModeloPagos.nuevoPago(fechaHoy, dni, "" + idInscripcion, "" + 0);
-		 * JOptionPane.showMessageDialog( frmInscribirActividadNoSocio,
-		 * "Cliente inscrito en la actividad.\nRecibo: \n-Importe: " +
-		 * textField.getText() + " €\n-Fecha: " + fechaHoy, "Inscrito",
-		 * JOptionPane.INFORMATION_MESSAGE); frmInscribirActividadNoSocio.dispose(); }
-		 * else { JOptionPane.showMessageDialog(frmInscribirActividadNoSocio,
-		 * "No quedan plazas disponibles, el cliente pasará a la lista de espera.",
-		 * "Error", JOptionPane.ERROR_MESSAGE); // ModeloCola.nuevaCola(dni, // "" +
-		 * ModeloActividades.getIdActividad(comboBox.getSelectedItem().toString()), //
-		 * fechaHoy); } } }
-		 * 
-		 * });
-		 */
+
+		btnInscribir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String dni = textField_1.getText();
+				if (!ModeloClientes.existeDNI(dni)) {
+					ModeloClientes.nuevoCliente(null, dni, null);
+				}
+				if (yaInscrito(dni, comboBox.getSelectedItem().toString())) {
+					JOptionPane.showMessageDialog(frmInscribirActividadNoSocio,
+							"El cliente ya está inscrito en la actividad.", "Error", JOptionPane.ERROR_MESSAGE);
+				} else {
+					if (quedanPlazas(comboBox.getSelectedItem().toString())) {
+						ModeloActividades.restarPlaza(comboBox.getSelectedItem().toString());
+						long idInscripcion = ModeloInscripciones.nuevaInscripcionRetornaId(dni,
+								"" + ModeloActividades.getIdActividad(comboBox.getSelectedItem().toString()), fechaHoy);
+						ModeloPagos.nuevoPago(fechaHoy, dni, "" + idInscripcion, "" + 0);
+						JOptionPane.showMessageDialog(
+								frmInscribirActividadNoSocio, "Cliente inscrito en la actividad.\nRecibo: \n-Importe: "
+										+ textField.getText() + " €\n-Fecha: " + fechaHoy,
+								"Inscrito", JOptionPane.INFORMATION_MESSAGE);
+						frmInscribirActividadNoSocio.dispose();
+					} else {
+						JOptionPane.showMessageDialog(frmInscribirActividadNoSocio,
+								"No quedan plazas disponibles, el cliente pasará a la lista de espera.", "Error",
+								JOptionPane.ERROR_MESSAGE);
+					}
+				}
+			}
+
+		});
+
 		btnInscribir.setBounds(259, 328, 89, 23);
 		panel.add(btnInscribir);
 
