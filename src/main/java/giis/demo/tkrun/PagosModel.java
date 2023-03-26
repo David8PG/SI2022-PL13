@@ -38,4 +38,18 @@ public class PagosModel {
 		bd.executeUpdate(elimina_pago_reserva, id_reserva);
 	}
 
+	public static final String nuevo_pago = "INSERT INTO pagos (id_pago, fecha, dni_clientes, id_inscripciones, id_reservas) VALUES (?, ?, ?, ?, ?);";
+
+	public void nuevoPago(String fecha, String persona, String inscripcion, String reserva) {
+
+		bd.executeUpdate(nuevo_pago, Long.toString(siguienteId()), fecha, persona, inscripcion, reserva);
+	}
+
+	public static final String siguienteID = "SELECT MAX(id_pago) from pagos;";
+
+	public long siguienteId() {
+		List<Object[]> lista;
+		lista = bd.executeQueryArray(siguienteID);
+		return (long) lista.get(0)[0] + 1;
+	}
 }

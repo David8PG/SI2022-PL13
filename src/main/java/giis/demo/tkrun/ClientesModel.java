@@ -56,4 +56,22 @@ public class ClientesModel {
 		lista = bd.executeQueryArray(get_id + "'" + id + "'");
 		return Integer.parseInt(lista.get(0)[0].toString());
 	}
+
+	public static final String existe_DNI = "SELECT dni FROM clientes WHERE dni=";
+
+	public boolean existeDNI(String dni) {
+		List<Object[]> lista;
+		lista = bd.executeQueryArray(existe_DNI + "'" + dni + "'");
+		if (lista.size() == 0) {
+			return false;
+		}
+		return true;
+	}
+
+	public static final String nuevo_cliente = "INSERT INTO clientes (nombre,dni, id_socio, fecha_nacimiento, PagoPendiente, contraseña, cuotaInicial, cuotaReservas, cuotaActividades,telefono, direccion) VALUES (?, ?, ?, ?, ?, ?, ?, ?,? ,?, ?);";
+
+	public void nuevoCliente(String nombre, String dni, String telefono) {
+
+		bd.executeUpdate(nuevo_cliente, nombre, dni, null, null, 0, null, null, null, null, telefono, null);
+	}
 }

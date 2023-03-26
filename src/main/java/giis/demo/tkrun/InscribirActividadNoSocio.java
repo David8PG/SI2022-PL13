@@ -37,9 +37,12 @@ public class InscribirActividadNoSocio {
 	private JLabel lblNewLabel_4;
 	private JLabel lblNewLabel_5;
 	private JLabel lblNewLabel_6;
+	private ClientesModel ModeloClientes = new ClientesModel();
 	private ActividadesModel ModeloActividades = new ActividadesModel();
 	private PeriodosInscripcionModel ModeloPeriodo = new PeriodosInscripcionModel();
 	private InstalacionesModel ModeloInstalaciones = new InstalacionesModel();
+	private InscripcionesModel ModeloInscripciones = new InscripcionesModel();
+	private PagosModel ModeloPagos = new PagosModel();
 	private SesionesModel ModeloSesiones = new SesionesModel();
 	List<String> actividades = new ArrayList<String>();
 	SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
@@ -159,9 +162,6 @@ public class InscribirActividadNoSocio {
 		JButton btnNewButton = new JButton("Cancelar");
 		btnNewButton.setBounds(10, 328, 89, 23);
 
-		btnInscribir = new JButton("Inscribir");
-		btnInscribir.setBounds(259, 328, 89, 23);
-
 		lblNewLabel_3 = new JLabel("Fecha Inicio");
 		lblNewLabel_3.setBounds(19, 174, 71, 14);
 
@@ -186,7 +186,6 @@ public class InscribirActividadNoSocio {
 		panel.add(lblNewLabel_1_1);
 		panel.add(textField_2);
 		panel.add(btnNewButton);
-		panel.add(btnInscribir);
 
 		lblNewLabel_6 = new JLabel("Precio");
 		lblNewLabel_6.setBounds(226, 211, 57, 14);
@@ -194,6 +193,7 @@ public class InscribirActividadNoSocio {
 		JComboBox comboBox = new JComboBox();
 		comboBox.setModel(new DefaultComboBoxModel(listaActividades));
 		comboBox.addActionListener(new ActionListener() {
+
 			public void actionPerformed(ActionEvent e) {
 				String sele = comboBox.getSelectedItem().toString();
 				List<Object[]> Lista = ModeloSesiones.getSesiones(ModeloActividades.getIdActividad(sele));
@@ -212,9 +212,37 @@ public class InscribirActividadNoSocio {
 				}
 			}
 		});
-
 		comboBox.setBounds(94, 119, 178, 22);
 		panel.add(comboBox);
+
+		btnInscribir = new JButton("Inscribir");
+		/*
+		 * btnInscribir.addActionListener(new ActionListener() { public void
+		 * actionPerformed(ActionEvent e) { String dni = textField_3.getText(); if
+		 * (!ModeloClientes.existeDNI(dni)) { ModeloClientes.nuevoCliente(null, dni,
+		 * null); } if (yaInscrito(dni, comboBox.getSelectedItem().toString())) {
+		 * JOptionPane.showMessageDialog(frmInscribirActividadNoSocio,
+		 * "El cliente ya está inscrito en la actividad.", "Error",
+		 * JOptionPane.ERROR_MESSAGE); } else { if
+		 * (quedanPlazas(comboBox.getSelectedItem().toString())) {
+		 * ModeloActividades.restarPlaza(comboBox.getSelectedItem().toString()); long
+		 * idInscripcion = ModeloInscripciones.nuevaInscripcionRetornaId(dni, "" +
+		 * ModeloActividades.getIdActividad(comboBox.getSelectedItem().toString()),
+		 * fechaHoy); ModeloPagos.nuevoPago(fechaHoy, dni, "" + idInscripcion, "" + 0);
+		 * JOptionPane.showMessageDialog( frmInscribirActividadNoSocio,
+		 * "Cliente inscrito en la actividad.\nRecibo: \n-Importe: " +
+		 * textField.getText() + " €\n-Fecha: " + fechaHoy, "Inscrito",
+		 * JOptionPane.INFORMATION_MESSAGE); frmInscribirActividadNoSocio.dispose(); }
+		 * else { JOptionPane.showMessageDialog(frmInscribirActividadNoSocio,
+		 * "No quedan plazas disponibles, el cliente pasará a la lista de espera.",
+		 * "Error", JOptionPane.ERROR_MESSAGE); // ModeloCola.nuevaCola(dni, // "" +
+		 * ModeloActividades.getIdActividad(comboBox.getSelectedItem().toString()), //
+		 * fechaHoy); } } }
+		 * 
+		 * });
+		 */
+		btnInscribir.setBounds(259, 328, 89, 23);
+		panel.add(btnInscribir);
 
 		JLabel lblNewLabel_7 = new JLabel("Precio");
 		lblNewLabel_7.setBounds(215, 211, 46, 14);
@@ -244,5 +272,20 @@ public class InscribirActividadNoSocio {
 		panel.add(textField_10);
 		textField_10.setColumns(10);
 
+	}
+
+	public boolean yaInscrito(String dni, String nombreActividad) {
+		boolean retur = false;
+		retur = ModeloInscripciones.clienteInscripcionActividad(ModeloActividades.getIdActividad(nombreActividad), dni);
+		return retur;
+	}
+
+	public boolean quedanPlazas(String nombreActividad) {
+		boolean bool = true;
+		String plazas = ModeloActividades.getPlazasActividad(nombreActividad);
+		if (plazas.equals("0")) {
+			bool = false;
+		}
+		return bool;
 	}
 }
