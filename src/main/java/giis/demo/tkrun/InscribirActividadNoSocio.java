@@ -122,6 +122,10 @@ public class InscribirActividadNoSocio {
 		textField.setBounds(94, 24, 86, 20);
 		textField.setColumns(10);
 
+		JTextArea textArea = new JTextArea();
+		textArea.setBounds(19, 246, 414, 69);
+		panel.add(textArea);
+
 		textField_1 = new JTextField();
 		textField_1.setBounds(94, 55, 86, 20);
 		textField_1.setColumns(10);
@@ -191,15 +195,21 @@ public class InscribirActividadNoSocio {
 		comboBox.setModel(new DefaultComboBoxModel(listaActividades));
 		comboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				textPane.setText(ModeloActividades.getDescripcion(comboBox.getSelectedItem().toString()));
-				textField_6
-						.setText(ModeloActividades.getPrecioActividadNoSocio2(comboBox.getSelectedItem().toString()));
-				textField_3.setText(ModeloActividades.getFechaInicioActividad(comboBox.getSelectedItem().toString()));
-				textField_4.setText(ModeloActividades.getFechaFinActividad(comboBox.getSelectedItem().toString()));
-				textField_5.setText(ModeloActividades.getAforo(comboBox.getSelectedItem().toString()));
-				textField_9.setText(ModeloActividades.getPlazasActividad(comboBox.getSelectedItem().toString()));
-				textField_10.setText(ModeloInstalaciones.getNombre_Instalacion(
-						ModeloActividades.getInstalacion(comboBox.getSelectedItem().toString())));
+				String sele = comboBox.getSelectedItem().toString();
+				List<Object[]> Lista = ModeloSesiones.getSesiones(ModeloActividades.getIdActividad(sele));
+				textPane.setText(ModeloActividades.getDescripcion(sele));
+				textField_6.setText(ModeloActividades.getPrecioActividadNoSocio2(sele));
+				textField_3.setText(ModeloActividades.getFechaInicioActividad(sele));
+				textField_4.setText(ModeloActividades.getFechaFinActividad(sele));
+				textField_5.setText(ModeloActividades.getAforo(sele));
+				textField_9.setText(ModeloActividades.getPlazasActividad(sele));
+				textField_10.setText(ModeloInstalaciones.getNombre_Instalacion(ModeloActividades.getInstalacion(sele)));
+				for (Object[] sesion : Lista) {
+					for (Object elemento : sesion) {
+						textArea.setText("Dia: " + sesion[0].toString() + " | Hora de inicio: " + sesion[1].toString()
+								+ " | Hora de fin: " + sesion[2].toString() + "\n");
+					}
+				}
 			}
 		});
 
@@ -233,10 +243,6 @@ public class InscribirActividadNoSocio {
 		textField_10.setBounds(449, 208, 127, 20);
 		panel.add(textField_10);
 		textField_10.setColumns(10);
-
-		JTextArea textArea = new JTextArea();
-		textArea.setBounds(19, 246, 250, 69);
-		panel.add(textArea);
 
 	}
 }
