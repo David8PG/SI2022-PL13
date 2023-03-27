@@ -98,3 +98,12 @@ CREATE TABLE pagos(
     foreign key (id_reservas) references reservas(id_reserva) ON DELETE CASCADE
 
 ); 
+
+CREATE TABLE cola( 
+    id_cola integer unsigned unique not null primary key, 
+    dni_clientes varchar(9),
+	foreign key (dni_clientes) references clientes(dni), 
+    id_actividades integer unsigned,
+    foreign key (id_actividades) references actividades(id_actividad) ON DELETE CASCADE, 
+    fecha datetime 
+   );
