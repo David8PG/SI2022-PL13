@@ -42,6 +42,7 @@ public class InscribirActividadNoSocio {
 	private ActividadesModel ModeloActividades = new ActividadesModel();
 	private PeriodosInscripcionModel ModeloPeriodo = new PeriodosInscripcionModel();
 	private InstalacionesModel ModeloInstalaciones = new InstalacionesModel();
+	private ColaModel ModeloCola = new ColaModel();
 	private InscripcionesModel ModeloInscripciones = new InscripcionesModel();
 	private PagosModel ModeloPagos = new PagosModel();
 	private SesionesModel ModeloSesiones = new SesionesModel();
@@ -161,6 +162,11 @@ public class InscribirActividadNoSocio {
 		textField_6.setColumns(10);
 
 		JButton btnNewButton = new JButton("Cancelar");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frmInscribirActividadNoSocio.dispose();
+			}
+		});
 		btnNewButton.setBounds(10, 328, 89, 23);
 
 		lblNewLabel_3 = new JLabel("Fecha Inicio");
@@ -171,6 +177,29 @@ public class InscribirActividadNoSocio {
 
 		lblNewLabel_5 = new JLabel("Aforo");
 		lblNewLabel_5.setBounds(215, 174, 57, 14);
+		JLabel lblNewLabel_7 = new JLabel("Precio");
+		lblNewLabel_7.setBounds(215, 211, 46, 14);
+		panel.add(lblNewLabel_7);
+
+		JLabel lblNewLabel_8 = new JLabel("Descripción");
+		lblNewLabel_8.setBounds(390, 94, 71, 14);
+		panel.add(lblNewLabel_8);
+
+		JLabel lblNewLabel_10 = new JLabel("Plazas Disponibles");
+		lblNewLabel_10.setBounds(375, 174, 127, 14);
+		panel.add(lblNewLabel_10);
+
+		textField_9 = new JTextField();
+		textField_9.setEditable(false);
+		textField_9.setBounds(490, 171, 86, 20);
+		panel.add(textField_9);
+		textField_9.setColumns(10);
+
+		textField_10 = new JTextField();
+		textField_10.setEditable(false);
+		textField_10.setBounds(449, 208, 127, 20);
+		panel.add(textField_10);
+		textField_10.setColumns(10);
 
 		panel.setLayout(null);
 		panel.add(lblNewLabel);
@@ -216,68 +245,71 @@ public class InscribirActividadNoSocio {
 		comboBox.setBounds(94, 119, 178, 22);
 		panel.add(comboBox);
 
-		btnInscribir = new JButton("Inscribir");
+		String sele = comboBox.getSelectedItem().toString();
+		List<Object[]> Lista = ModeloSesiones.getSesiones(ModeloActividades.getIdActividad(sele));
+		textPane.setText(ModeloActividades.getDescripcion(sele));
+		textField_6.setText(ModeloActividades.getPrecioActividadNoSocio2(sele));
+		textField_3.setText(ModeloActividades.getFechaInicioActividad(sele));
+		textField_4.setText(ModeloActividades.getFechaFinActividad(sele));
+		textField_5.setText(ModeloActividades.getAforo(sele));
+		textField_9.setText(ModeloActividades.getPlazasActividad(sele));
+		textField_10.setText(ModeloInstalaciones.getNombre_Instalacion(ModeloActividades.getInstalacion(sele)));
+		for (Object[] sesion : Lista) {
+			for (Object elemento : sesion) {
+				textArea.setText("Dia: " + sesion[0].toString() + " | Hora de inicio: " + sesion[1].toString()
+						+ " | Hora de fin: " + sesion[2].toString() + "\n");
+			}
+		}
 
+		btnInscribir = new JButton("Inscribir");
 		btnInscribir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String nombre = textField.getText();
 				String dni = textField_1.getText();
-				if (!ModeloClientes.existeDNI(dni)) {
-					ModeloClientes.nuevoCliente(null, dni, null);
-				}
-				if (yaInscrito(dni, comboBox.getSelectedItem().toString())) {
-					JOptionPane.showMessageDialog(frmInscribirActividadNoSocio,
-							"El cliente ya está inscrito en la actividad.", "Error", JOptionPane.ERROR_MESSAGE);
+				String telefono = textField_2.getText();
+				if (nombre.equals("") || dni.equals("") || telefono.equals("")) {
+					JOptionPane.showMessageDialog(frmInscribirActividadNoSocio, "Debes rellenar todos los campos.",
+							"Error", JOptionPane.ERROR_MESSAGE);
 				} else {
-					if (quedanPlazas(comboBox.getSelectedItem().toString())) {
-						ModeloActividades.restarPlaza(comboBox.getSelectedItem().toString());
-						long idInscripcion = ModeloInscripciones.nuevaInscripcionRetornaId(dni,
-								"" + ModeloActividades.getIdActividad(comboBox.getSelectedItem().toString()), fechaHoy);
-						ModeloPagos.nuevoPago(fechaHoy, dni, "" + idInscripcion, "" + 0);
-						JOptionPane.showMessageDialog(
-								frmInscribirActividadNoSocio, "Cliente inscrito en la actividad.\nRecibo: \n-Importe: "
-										+ textField.getText() + " €\n-Fecha: " + fechaHoy,
-								"Inscrito", JOptionPane.INFORMATION_MESSAGE);
-						frmInscribirActividadNoSocio.dispose();
-					} else {
+					if (!ModeloClientes.existeDNI(dni)) {
+						ModeloClientes.nuevoCliente(nombre, dni, telefono);
+					}
+					if (yaInscrito(dni, comboBox.getSelectedItem().toString())) {
 						JOptionPane.showMessageDialog(frmInscribirActividadNoSocio,
-								"No quedan plazas disponibles, el cliente pasará a la lista de espera.", "Error",
-								JOptionPane.ERROR_MESSAGE);
+								"El cliente ya está inscrito en la actividad.", "Error", JOptionPane.ERROR_MESSAGE);
+					} else {
+						if (quedanPlazas(comboBox.getSelectedItem().toString())) {
+							ModeloActividades.restarPlaza(comboBox.getSelectedItem().toString());
+							long idInscripcion = ModeloInscripciones.nuevaInscripcionRetornaId(dni,
+									"" + ModeloActividades.getIdActividad(comboBox.getSelectedItem().toString()),
+									fechaHoy);
+							ModeloPagos.nuevoPago(fechaHoy, dni, "" + idInscripcion, "" + 0);
+							JOptionPane
+									.showMessageDialog(frmInscribirActividadNoSocio,
+											"Cliente inscrito en la actividad.\nRecibo: \n-Importe: "
+													+ textField.getText() + " €\n-Fecha: " + fechaHoy,
+											"Inscrito", JOptionPane.INFORMATION_MESSAGE);
+							frmInscribirActividadNoSocio.dispose();
+						} else {
+							JOptionPane.showMessageDialog(frmInscribirActividadNoSocio,
+									"No quedan plazas disponibles, el cliente pasará a la lista de espera.", "Error",
+									JOptionPane.ERROR_MESSAGE);
+							ModeloCola.nuevaCola(dni,
+									"" + ModeloActividades.getIdActividad(comboBox.getSelectedItem().toString()),
+									fechaHoy);
+							frmInscribirActividadNoSocio.dispose();
+						}
 					}
 				}
 			}
-
 		});
 
 		btnInscribir.setBounds(259, 328, 89, 23);
 		panel.add(btnInscribir);
 
-		JLabel lblNewLabel_7 = new JLabel("Precio");
-		lblNewLabel_7.setBounds(215, 211, 46, 14);
-		panel.add(lblNewLabel_7);
-
-		JLabel lblNewLabel_8 = new JLabel("Descripción");
-		lblNewLabel_8.setBounds(390, 94, 71, 14);
-		panel.add(lblNewLabel_8);
-
-		JLabel lblNewLabel_10 = new JLabel("Plazas Disponibles");
-		lblNewLabel_10.setBounds(375, 174, 127, 14);
-		panel.add(lblNewLabel_10);
-
-		textField_9 = new JTextField();
-		textField_9.setEditable(false);
-		textField_9.setBounds(490, 171, 86, 20);
-		panel.add(textField_9);
-		textField_9.setColumns(10);
-
 		JLabel lblNewLabel_11 = new JLabel("Instalación");
 		lblNewLabel_11.setBounds(375, 211, 86, 14);
 		panel.add(lblNewLabel_11);
-
-		textField_10 = new JTextField();
-		textField_10.setEditable(false);
-		textField_10.setBounds(449, 208, 127, 20);
-		panel.add(textField_10);
-		textField_10.setColumns(10);
 
 	}
 

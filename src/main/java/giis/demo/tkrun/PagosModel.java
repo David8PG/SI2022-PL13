@@ -40,9 +40,9 @@ public class PagosModel {
 
 	public static final String nuevo_pago = "INSERT INTO pagos (id_pago, fecha, dni_clientes, id_inscripciones, id_reservas) VALUES (?, ?, ?, ?, ?);";
 
-	public void nuevoPago(String fecha, String persona, String inscripcion, String reserva) {
+	public void nuevoPago(String fecha, String cliente, String inscripcion, String reserva) {
 
-		bd.executeUpdate(nuevo_pago, Long.toString(siguienteId()), fecha, persona, inscripcion, reserva);
+		bd.executeUpdate(nuevo_pago, Long.toString(siguienteId()), fecha, cliente, inscripcion, reserva);
 	}
 
 	public static final String siguienteID = "SELECT MAX(id_pago) from pagos;";
