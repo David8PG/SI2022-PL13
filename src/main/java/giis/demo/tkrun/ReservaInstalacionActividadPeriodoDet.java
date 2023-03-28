@@ -5,6 +5,9 @@ import java.awt.EventQueue;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -166,15 +169,6 @@ public class ReservaInstalacionActividadPeriodoDet {
 		JButton btnReservar = new JButton("Tramitar Reserva");
 		btnReservar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				boolean fecha_valida = true;
-				String comprobacion1 = formato.format(dateChooser_FechaInicio.getDate());
-				String comprobacion2 = formato.format(dateChooser_FechaFin.getDate());
-				if (comparar(comprobacion1, comprobacion2)) {
-					JOptionPane.showMessageDialog(frmReservaInstalacionActividadPeriodoDet,
-							"Los campos Fecha Inicio y Fecha Fin no pueden ser iguales.", "Ha ocurrido un error",
-							JOptionPane.INFORMATION_MESSAGE);
-					fecha_valida = false;
-				}
 				// Instalacion que se va a reservar
 				String id_instalacion;
 
@@ -204,6 +198,15 @@ public class ReservaInstalacionActividadPeriodoDet {
 				String diaYhora = "";
 
 				if (!ejecutado) {
+					boolean fecha_valida = true;
+					String comprobacion1 = formato.format(dateChooser_FechaInicio.getDate());
+					String comprobacion2 = formato.format(dateChooser_FechaFin.getDate());
+					if (comparar(comprobacion1, comprobacion2)) {
+						JOptionPane.showMessageDialog(frmReservaInstalacionActividadPeriodoDet,
+								"Los campos Fecha Inicio y Fecha Fin no pueden ser iguales.", "Ha ocurrido un error",
+								JOptionPane.INFORMATION_MESSAGE);
+						fecha_valida = false;
+					}
 					String fecha_inicioS = formato.format(dateChooser_FechaInicio.getDate());
 					String fecha_finS = formato.format(dateChooser_FechaFin.getDate());
 
@@ -332,9 +335,44 @@ public class ReservaInstalacionActividadPeriodoDet {
 						if (reserva_socio == 1) {
 							JOptionPane.showMessageDialog(frmReservaInstalacionActividadPeriodoDet, mensaje,
 									"La reserva se ha realizado con éxito", JOptionPane.INFORMATION_MESSAGE);
-						} else
+							try {
+					            String ruta = "src/main/resources/Reserva"+modeloReservas.get_idreserva_hora_instalacion(diaYhora,id_instalacion)+"Socio"+modeloReservas.obtener_socio2(Integer.parseInt(id_instalacion), diaYhora)+".txt";
+					            String contenido = "Se le ha cancelado la reserva con fecha "+ diaYhora +" en la instalación "+modeloInstalaciones.getNombre_Instalacion(id_instalacion)+" por causas administrativas.\n"
+					            		+ "La instalación " + modeloInstalaciones.getNombre_Instalacion(id_instalacion) + " ahora se utiliza para la actividad "
+					            		+ comboBoxActividad.getSelectedItem().toString() + ".";
+					            File file = new File(ruta);
+					            if (!file.exists()) {
+					                file.createNewFile();
+					            }
+					            FileWriter fw = new FileWriter(file);
+					            BufferedWriter bw = new BufferedWriter(fw);
+					            bw.write(contenido);
+							    bw.close();
+							    
+					        } catch (Exception e1) {
+					            e1.printStackTrace();
+					        }
+						} else {
 							JOptionPane.showMessageDialog(frmReservaInstalacionActividadPeriodoDet,
 									"Se ha completado la reserva.\n");
+							try {
+					            String ruta = "src/main/resources/Reserva"+modeloReservas.get_idreserva_hora_instalacion(diaYhora,id_instalacion)+"Socio"+id_socio+".txt";
+					            String contenido = "Se ha completado la reserva para la fecha "+ diaYhora +" en la instalación "+modeloInstalaciones.getNombre_Instalacion(id_instalacion)+".\n"
+					            		+ "La instalación " + modeloInstalaciones.getNombre_Instalacion(id_instalacion) + " ahora se utiliza para la actividad "
+					            		+ comboBoxActividad.getSelectedItem().toString() + ".";
+					            File file = new File(ruta);
+					            if (!file.exists()) {
+					                file.createNewFile();
+					            }
+					            FileWriter fw = new FileWriter(file);
+					            BufferedWriter bw = new BufferedWriter(fw);
+					            bw.write(contenido);
+							    bw.close();
+							    
+					        } catch (Exception e1) {
+					            e1.printStackTrace();
+					        }
+						}
 					}
 				} else {
 					int inicio = Integer.parseInt(comboBoxHoraIni.getSelectedItem().toString().split(":")[0]);
@@ -391,10 +429,44 @@ public class ReservaInstalacionActividadPeriodoDet {
 													+ "\nFecha de inicio de la reserva: "
 													+ lista_reservasCliente_eliminadas.get(0)[1],
 											"La reserva se ha realizado con éxito", JOptionPane.INFORMATION_MESSAGE);
+									try {
+							            String ruta = "src/main/resources/Reserva"+modeloReservas.get_idreserva_hora_instalacion(diaYhora,id_instalacion)+"Socio"+id_socio+".txt";
+							            String contenido = "Se le ha cancelado la reserva con fecha "+ diaYhora +" en la instalación "+modeloInstalaciones.getNombre_Instalacion(id_instalacion)+" por causas administrativas.\n"
+							            		+ "La instalación " + modeloInstalaciones.getNombre_Instalacion(id_instalacion) + " ahora se utiliza para la actividad "
+							            		+ comboBoxActividad.getSelectedItem().toString() + ".";
+							            File file = new File(ruta);
+							            if (!file.exists()) {
+							                file.createNewFile();
+							            }
+							            FileWriter fw = new FileWriter(file);
+							            BufferedWriter bw = new BufferedWriter(fw);
+							            bw.write(contenido);
+									    bw.close();
+									    
+							        } catch (Exception e1) {
+							            e1.printStackTrace();
+							        }
 								} else {
 									JOptionPane.showMessageDialog(frmReservaInstalacionActividadPeriodoDet,
 											"Se ha completado la reserva.", "La reserva se ha realizado con éxito",
 											JOptionPane.INFORMATION_MESSAGE);
+									try {
+							            String ruta = "src/main/resources/Reserva"+modeloReservas.get_idreserva_hora_instalacion(diaYhora,id_instalacion)+"Socio"+id_socio+".txt";
+							            String contenido = "Se ha completado la reserva para la fecha "+ diaYhora +" en la instalación "+modeloInstalaciones.getNombre_Instalacion(id_instalacion)+".\n"
+							            		+ "La instalación " + modeloInstalaciones.getNombre_Instalacion(id_instalacion) + " ahora se utiliza para la actividad "
+							            		+ comboBoxActividad.getSelectedItem().toString() + ".";
+							            File file = new File(ruta);
+							            if (!file.exists()) {
+							                file.createNewFile();
+							            }
+							            FileWriter fw = new FileWriter(file);
+							            BufferedWriter bw = new BufferedWriter(fw);
+							            bw.write(contenido);
+									    bw.close();
+									    
+							        } catch (Exception e1) {
+							            e1.printStackTrace();
+							        }
 								}
 
 							}

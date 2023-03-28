@@ -225,4 +225,44 @@ public class ReservasModel {
 		List<Object[]> l = bd.executeQueryArray(get_precio, id_reserva);
 		return Double.parseDouble(l.get(0)[0].toString());
 	}
+	
+	public static final String get_idreserva_fecha_instalacion = "SELECT id_reserva FROM reservas WHERE fecha_reserva=? AND id_instalaciones=?";
+	
+	public String get_idreserva_hora_instalacion(String fecha, String ninstalacion){
+		
+		List<Object[]> lista = bd.executeQueryArray(get_idreserva_fecha_instalacion, fecha, ninstalacion);
+		if (!lista.isEmpty()) {
+		    return lista.get(0)[0].toString();
+		} else {
+	        throw new RuntimeException("No se encontraron resultados para la consulta.");
+		}
+	}
+	
+	public static final String obtener_id_socio2 = "SELECT id_socios from reservas WHERE id_instalaciones=? AND fecha_reserva=?;";
+
+	public long obtener_socio2(int id_instalacion, String fecha_reserva) {
+		List<Object[]> listaSocios = bd.executeQueryArray(obtener_id_socio2, id_instalacion, fecha_reserva); 
+		if (!listaSocios.isEmpty()) {
+		    return (long) listaSocios.get(0)[0];
+		} else {
+	        throw new RuntimeException("No se encontraron resultados para la consulta.");
+		}	
+	}
+
+	// Obtencion de la actividad de una reserva
+	public static final String obtener_actividad_instalacion = "SELECT actividad FROM reservas WHERE fecha_reserva=? AND id_instalaciones=?";
+
+	public String getActividadReserva(String fechareserva, String instalacion) {
+
+		List<Object[]> l = bd.executeQueryArray(obtener_actividad_instalacion, fechareserva, instalacion);
+		return l.get(0)[0].toString();
+	}
+	
+	// Obtencion del número de socio de una reserva
+	public static final String obtener_socio_res_inst = "SELECT id_socios FROM reservas WHERE fecha_reserva=? AND id_instalaciones=?";
+	public String getSocioDef(String fechareserva, String instalacion){
+		
+		List<Object[]> lista = bd.executeQueryArray(obtener_socio_res_inst, fechareserva, instalacion);
+		return lista.get(0)[0].toString();
+	}
 }

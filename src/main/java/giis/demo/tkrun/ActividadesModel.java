@@ -149,5 +149,24 @@ public class ActividadesModel {
 		lista = bd.executeQueryArray(get_instalacion + "'" + nombre + "'");
 		return lista.get(0)[0].toString();
 	}
+	
+	public static final String nombre_actividad_porID = "SELECT nombre FROM actividades WHERE id_actividad=";
+		
+	public String getNombreActividad_porID(String id_actividad){
+		List<Object[]> lista = bd.executeQueryArray(nombre_actividad_porID + "'" + id_actividad + "'");
+		if (!lista.isEmpty()) {
+		    return lista.get(0)[0].toString();
+		} else {
+	        throw new RuntimeException("No se encontraron resultados para la consulta.");
+		}	
+	}
+	
+	public static final String nombre_instalacion = "SELECT id_instalaciones FROM actividades WHERE nombre=";
+	
+	public String getInstalacionActividad(String nombre){
+		List<Object[]> lista;
+		lista = bd.executeQueryArray(nombre_instalacion + "'" + nombre + "'");
+		return lista.get(0)[0].toString(); 	
+	}
 
 }

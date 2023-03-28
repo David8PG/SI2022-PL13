@@ -20,6 +20,7 @@ public class pantallaInicialAdmin {
 	private VisualizarReservasInstalaciones ventanaVisualizarReservas;
 	private ModificarParametros ventanaModificarParametros;
 	private CancelarReservaSocio ventanaCancelarReserva;
+	private ReservaAutomatica ventanaReservaAutomatica;
 
 	/**
 	 * Launch the application.
@@ -138,6 +139,16 @@ public class pantallaInicialAdmin {
 		});
 		btnCancelarReservaSocio.setBounds(221, 25, 163, 23);
 		frmPantallaInicialAdministrador.getContentPane().add(btnCancelarReservaSocio);
+		
+		JButton btnReservaAutomatica = new JButton("Reserva Automática");
+		btnReservaAutomatica.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ventanaReservaAutomatica = new ReservaAutomatica();
+				ventanaReservaAutomatica.getFrmReservaAutomaticaActividad().setVisible(true);
+			}
+		});
+		btnReservaAutomatica.setBounds(221, 60, 163, 21);
+		frmPantallaInicialAdministrador.getContentPane().add(btnReservaAutomatica);
 	}
 
 	public JFrame getFrmvAdmin() {
