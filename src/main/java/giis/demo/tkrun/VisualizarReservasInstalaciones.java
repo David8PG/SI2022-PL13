@@ -281,7 +281,7 @@ public class VisualizarReservasInstalaciones {
 							&& comparar(obtenerFechaDesdeString(listaReservas.get(cont)[0].toString()),
 									tabla.getValueAt(0, i).toString())) {
 						if (listaReservas.get(cont)[1] == null) {
-							tabla.setValueAt("null", j, i);
+							tabla.setValueAt("ACTIVIDAD", j, i);
 							System.out.println("ENTRE CON NULL");
 
 						} else {
