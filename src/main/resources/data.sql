@@ -1,4 +1,5 @@
 SET SQL_SAFE_UPDATES = 0;
+DELETE FROM cola;
 DELETE FROM pagos;
 DELETE FROM reservas;
 DELETE FROM inscripciones;

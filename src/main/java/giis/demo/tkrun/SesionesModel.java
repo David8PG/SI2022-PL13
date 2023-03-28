@@ -28,4 +28,8 @@ public class SesionesModel {
 	public List<Object[]> getSesiones(long l) {
 		return bd.executeQueryArray(sesiones_actividad + l + "'");
 	}
+	
+	public List<Object[]> getSesiones2(String l) {
+		return bd.executeQueryArray(sesiones_actividad + l + "'");
+	}
 }
