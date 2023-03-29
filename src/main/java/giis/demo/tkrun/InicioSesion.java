@@ -196,7 +196,7 @@ public class InicioSesion {
 
 					} else {
 						JOptionPane.showMessageDialog(frmInicio_de_sesion,
-								"Usuario y contraseña incorrectos.", "Debes introducir bien las credenciales.",
+								"Contraseña de socio incorrecta.", "Introduzca los datos de forma correcta.",
 								JOptionPane.ERROR_MESSAGE);
 					}
 				} catch (Exception e2) {
@@ -205,8 +205,8 @@ public class InicioSesion {
 				}
 			}
 		} else {
-			JOptionPane.showMessageDialog(frmInicio_de_sesion, "Usuario y contraseña incorrectos.",
-					"Debes introducir bien las credenciales.", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(frmInicio_de_sesion, "Debes rellenar los campos usuario y contraseña.",
+					"Introduzca los datos necesarios.", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 }

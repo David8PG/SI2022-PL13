@@ -20,7 +20,8 @@ public class InstalacionesModel {
 		return bd.executeQueryArray(id_instalacion + "'" + nombre_instalacion + "'");
 	}
 
-	// método para obtener el precio de reserva de una instalación a partir de su nombre
+	// método para obtener el precio de reserva de una instalación a partir de su
+	// nombre
 	public static final String precio_instalacion = "SELECT precio FROM instalaciones WHERE nombre=";
 
 	public String getPrecio(String nombre_instalacion) {
@@ -35,5 +36,13 @@ public class InstalacionesModel {
 
 	public List<Object[]> getDeportes() {
 		return bd.executeQueryArray(deportes);
+	}
+
+	public static final String nombreInstalacion = "SELECT nombre FROM instalaciones WHERE id_instalacion=";
+
+	public String getNombre_Instalacion(String id) {
+		List<Object[]> lista;
+		lista = bd.executeQueryArray(nombreInstalacion + "'" + id + "'");
+		return lista.get(0)[0].toString();
 	}
 }

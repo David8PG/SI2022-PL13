@@ -106,17 +106,17 @@ public class ReservasModel {
 		bd.executeUpdate(eliminar_reserva, id_instalacion, fecha_reserva);
 	}
 
-	
-	//Método para cambiar la cuota de un cliente
+	// Método para cambiar la cuota de un cliente
 	public static final String SQL_SUMA_CUOTA = "UPDATE clientes SET cuotaReservas=? WHERE (id_socio=?);";
-	public void añadeacuota(double cuota, int id_socio) {	
-		//System.out.println("La cuota es"+cuota);
-		bd.executeUpdate(SQL_SUMA_CUOTA,cuota, id_socio);
+
+	public void añadeacuota(double cuota, int id_socio) {
+		// System.out.println("La cuota es"+cuota);
+		bd.executeUpdate(SQL_SUMA_CUOTA, cuota, id_socio);
 	}
 
-
-	//Metodo para saber la cuota de reservas que tienen los socio
+	// Metodo para saber la cuota de reservas que tienen los socio
 	public static final String SQL_CUOTA = "SELECT cuotaReservas from clientes WHERE (id_socio=?);";
+
 	public double nuevaCuota(int id_socio) {
 		List<Object[]> lista;
 		lista = bd.executeQueryArray(SQL_CUOTA, id_socio);
@@ -124,40 +124,45 @@ public class ReservasModel {
 
 	}
 
-	//Metodo para ver todas las reservas de un socio
+	// Metodo para ver todas las reservas de un socio
 	public static final String SQL_RESERVAS_SOCIO = "SELECT fecha_reserva FROM reservas WHERE ((id_socios=?) AND (id_instalaciones=?))";
-	public List<Object[]> getListaReservasUsuario(int idsocio, String instalaciones){
+
+	public List<Object[]> getListaReservasUsuario(int idsocio, String instalaciones) {
 		return bd.executeQueryArray(SQL_RESERVAS_SOCIO, idsocio, instalaciones);
 	}
 
-	//SQL para ver todas las reservas de un socio
+	// SQL para ver todas las reservas de un socio
 	public static final String SQL_RESERVAS_SOCIO_GENERAL = "SELECT id_socios FROM reservas WHERE ((id_socios= ?) AND (fecha_reserva >= ?)) ";
-	public List<Object[]> getListaReservasUsuario_ampliada(int idsocio, String fecha){
+
+	public List<Object[]> getListaReservasUsuario_ampliada(int idsocio, String fecha) {
 		return bd.executeQueryArray(SQL_RESERVAS_SOCIO_GENERAL, idsocio, fecha);
 	}
 
-	//SQL para ver todas las reservas de un socio
+	// SQL para ver todas las reservas de un socio
 	public static final String SQL_RESERVAS_SOCIO_DIA = "SELECT fecha_reserva FROM reservas WHERE ((id_socios=?) AND (fecha_reserva >= ?) AND (fecha_reserva <= ?)) ";
-	public List<Object[]> getListaReservasUsuario_ampliada2(int idsocio, String fecha, String fecha1){
+
+	public List<Object[]> getListaReservasUsuario_ampliada2(int idsocio, String fecha, String fecha1) {
 		return bd.executeQueryArray(SQL_RESERVAS_SOCIO_DIA, idsocio, fecha, fecha1);
 	}
 
-	//Método para instertar una nueva reserva
+	// Método para instertar una nueva reserva
 	public static final String SQL_NUEVA_RESERVA_SOCIO = "INSERT INTO reservas (id_reserva, id_socios, id_instalaciones, fecha, fecha_reserva, precio, actividad) VALUES (?, ?, ?, ?, ?, ?, ?);";
-	public void nuevaReserva_ampliada(int socio, int instalacion, String fecha, String fecha_reserva, String precio, Object actividad) {
+
+	public void nuevaReserva_ampliada(int socio, int instalacion, String fecha, String fecha_reserva, String precio,
+			Object actividad) {
 		long id;
 		id = siguienteIdReserva();
 		bd.executeUpdate(SQL_NUEVA_RESERVA_SOCIO, id, socio, instalacion, fecha, fecha_reserva, precio, actividad);
 	}
 
-	//Saber reservas de una instalacion
-	public static final String SQL_RESERVAS_INSTALACIONES= "SELECT id_socios, fecha_reserva, actividad, id_reserva FROM reservas WHERE id_instalaciones=";
-	public List<Object[]> getReservasInstalaciones(long id_instalacion){
-		return bd.executeQueryArray(SQL_RESERVAS_INSTALACIONES+ "'"+id_instalacion+"'");
+	// Saber reservas de una instalacion
+	public static final String SQL_RESERVAS_INSTALACIONES = "SELECT id_socios, fecha_reserva, actividad, id_reserva FROM reservas WHERE id_instalaciones=";
+
+	public List<Object[]> getReservasInstalaciones(long id_instalacion) {
+		return bd.executeQueryArray(SQL_RESERVAS_INSTALACIONES + "'" + id_instalacion + "'");
 	}
 
-
-	//Saber reserva de una actividad sin fecha
+	// Saber reserva de una actividad sin fecha
 	public static final String SQL_ACTIVIDAD = "SELECT nombre FROM actividades WHERE id_actividad=";
 
 	public List<Object[]> getActividad(long id_actividad) {
@@ -184,4 +189,80 @@ public class ReservasModel {
 	 * Manejar cualquier excepción que pueda ocurrir al leer el resultado
 	 * e.printStackTrace(); } return id_socio; }
 	 */
+	// método para obtener todas las reservas de un socio
+	public static final String todas_reservas = "SELECT id_reserva, id_socios,id_instalaciones, fecha_reserva, precio FROM reservas WHERE id_socios = ?";
+
+	public List<Object[]> todasReservasSocio(int n) {
+		return bd.executeQueryArray(todas_reservas, n);
+	}
+
+	public static final String eliminar_reserva_con_ID = "DELETE from reservas WHERE id_reserva = ?;";
+
+	public void eliminarReserva(String id) {
+
+		bd.executeUpdate(eliminar_reserva_con_ID, id);
+	}
+
+	public static final String existe_reserva = "SELECT id_instalaciones FROM reservas WHERE id_reserva = ? AND id_socios IS NOT NULL";
+
+	public boolean existeReserva(int id) {
+		List<Object[]> l = bd.executeQueryArray(existe_reserva, id);
+		if (l.isEmpty())
+			return false;
+		return true;
+	}
+
+	public static final String get_cliente = "SELECT id_socios FROM reservas WHERE id_reserva=?";
+
+	public Object getCliente(String id_reserva) {
+		List<Object[]> lista = bd.executeQueryArray(get_cliente, id_reserva);
+		return lista.get(0)[0];
+	}
+
+	public static final String get_precio = "SELECT precio FROM reservas WHERE id_reserva = ?";
+
+	public double getPrecio(int id_reserva) {
+		List<Object[]> l = bd.executeQueryArray(get_precio, id_reserva);
+		return Double.parseDouble(l.get(0)[0].toString());
+	}
+	
+	public static final String get_idreserva_fecha_instalacion = "SELECT id_reserva FROM reservas WHERE fecha_reserva=? AND id_instalaciones=?";
+	
+	public String get_idreserva_hora_instalacion(String fecha, String ninstalacion){
+		
+		List<Object[]> lista = bd.executeQueryArray(get_idreserva_fecha_instalacion, fecha, ninstalacion);
+		if (!lista.isEmpty()) {
+		    return lista.get(0)[0].toString();
+		} else {
+	        throw new RuntimeException("No se encontraron resultados para la consulta.");
+		}
+	}
+	
+	public static final String obtener_id_socio2 = "SELECT id_socios from reservas WHERE id_instalaciones=? AND fecha_reserva=?;";
+
+	public long obtener_socio2(int id_instalacion, String fecha_reserva) {
+		List<Object[]> listaSocios = bd.executeQueryArray(obtener_id_socio2, id_instalacion, fecha_reserva); 
+		if (!listaSocios.isEmpty()) {
+		    return (long) listaSocios.get(0)[0];
+		} else {
+	        throw new RuntimeException("No se encontraron resultados para la consulta.");
+		}	
+	}
+
+	// Obtencion de la actividad de una reserva
+	public static final String obtener_actividad_instalacion = "SELECT actividad FROM reservas WHERE fecha_reserva=? AND id_instalaciones=?";
+
+	public String getActividadReserva(String fechareserva, String instalacion) {
+
+		List<Object[]> l = bd.executeQueryArray(obtener_actividad_instalacion, fechareserva, instalacion);
+		return l.get(0)[0].toString();
+	}
+	
+	// Obtencion del número de socio de una reserva
+	public static final String obtener_socio_res_inst = "SELECT id_socios FROM reservas WHERE fecha_reserva=? AND id_instalaciones=?";
+	public String getSocioDef(String fechareserva, String instalacion){
+		
+		List<Object[]> lista = bd.executeQueryArray(obtener_socio_res_inst, fechareserva, instalacion);
+		return lista.get(0)[0].toString();
+	}
 }

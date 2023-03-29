@@ -1,4 +1,5 @@
 SET SQL_SAFE_UPDATES = 0;
+DELETE FROM cola;
 DELETE FROM pagos;
 DELETE FROM reservas;
 DELETE FROM inscripciones;
@@ -30,7 +31,7 @@ INSERT INTO instalaciones(id_instalacion, nombre, deporte, precio) VALUES
 
  
 INSERT INTO reservas(id_reserva, id_socios, id_instalaciones, fecha, fecha_reserva, precio, actividad) VALUES 
-
+(0,NULL,NULL,NULL,NULL,NULL,NULL),
 (1, '1', 1,  '2023-02-01', '2023-03-6 15:00:00', 10.00,3),
 (2, '3', 3,  '2023-02-02', '2023-03-11 16:00:00', 15.00,0),
 (3, '4', 6,  '2023-02-03', '2023-03-11 17:00:00', 20.00,2),
@@ -41,7 +42,7 @@ INSERT INTO reservas(id_reserva, id_socios, id_instalaciones, fecha, fecha_reser
 
  
 INSERT INTO periodos_inscripcion(id_periodo_inscripcion, nombre_periodo, descripcion, fecha_inicio_socio, fecha_fin_socio, fecha_fin_no_socio) VALUES 
-(1, 'Periodo 1', 'Periodo Verano', '2023-6-24', '2023-7-5', '2023-7-30'), 
+(1, 'Periodo 1', 'Periodo Verano', '2023-2-24', '2023-3-5', '2023-7-30'), 
 (2, 'Periodo 2', 'Periodo Otoño','2023-9-22', '2023-10-3', '2023-10-30'), 
 (3, 'Periodo 3', 'Periodo Invierno','2023-1-20', '2023-2-4', '2023-2-27'); 
 
@@ -52,7 +53,7 @@ INSERT INTO periodos_inscripcion(id_periodo_inscripcion, nombre_periodo, descrip
 (3, 'Clase de natación', 'Clase de natación para gente que no sabe nadar', 15, 15, 10.00, 15.00, '2023-03-03', '2023-04-03', 'Natación', 1, 1),
 (4, 'Entrenamiento de boxeo', 'Entrenamiento de boxeo para todos los niveles', 12, 12, 7.00, 12.00, '2023-03-04', '2023-04-04', 'Boxeo', 3, 1),
 (5, 'Clase de baile', 'Clase de baile para principiantes', 25, 25, 8.00, 13.00, '2023-03-05', '2023-04-05', 'Baile', 3, 1),
-(6, 'Partido pádel', 'Pepe se enfrenta a tí', 4, 4, 8.00, 13.00, '2023-03-05', '2023-04-05', 'Pádel', 4, 1);
+(6, 'Partido pádel', 'Pepe se enfrenta a tí', 4, 0, 8.00, 13.00, '2023-03-05', '2023-04-05', 'Pádel', 4, 1);
 
 
 INSERT INTO inscripciones(id_inscripcion, dni_clientes, id_actividades, fecha) VALUES 
@@ -81,3 +82,5 @@ INSERT INTO pagos(id_pago, fecha, dni_clientes, id_inscripciones, id_reservas) V
 (6, '2022-03-29', '44444444D', NULL, 6),
 (7, '2022-03-25', '66666666F', 4, 1);
 
+INSERT INTO cola(id_cola, dni_clientes, id_actividades, fecha) VALUES
+(0,NULL,NULL,NULL);

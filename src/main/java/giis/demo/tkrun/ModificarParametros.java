@@ -22,6 +22,9 @@ public class ModificarParametros {
 
 	private JFrame frameModificarParametros;
 	private JSpinner spinnerPeriodoReservas;
+	private JSpinner spinnerDiasAntelacion;
+	private JSpinner spinnerHorasMax;
+	private JSpinner spinnerHorasMaxDia;
 
 	/**
 	 * Launch the application.
@@ -60,8 +63,20 @@ public class ModificarParametros {
 		panel.setLayout(null);
 
 		JLabel lblTextoPeriodoReservas = new JLabel("Periodo de visualización de reservas:");
-		lblTextoPeriodoReservas.setBounds(10, 10, 294, 13);
+		lblTextoPeriodoReservas.setBounds(38, 35, 177, 13);
 		panel.add(lblTextoPeriodoReservas);
+
+		JLabel lblAntelacion = new JLabel("Días Antelacion: ");
+		lblAntelacion.setBounds(38, 70, 165, 13);
+		panel.add(lblAntelacion);
+
+		JLabel lblHoraMaxima = new JLabel("Hora máx: ");
+		lblHoraMaxima.setBounds(38, 105, 165, 13);
+		panel.add(lblHoraMaxima);
+
+		JLabel lblHorasDiaMax = new JLabel("Número de horas máximo por día: ");
+		lblHorasDiaMax.setBounds(38, 140, 165, 13);
+		panel.add(lblHorasDiaMax);
 
 		JButton btnAceptar = new JButton("Aceptar");
 		btnAceptar.addActionListener(new ActionListener() {
@@ -74,10 +89,28 @@ public class ModificarParametros {
 		panel.add(btnAceptar);
 
 		SpinnerNumberModel model = new SpinnerNumberModel(1, 1, Integer.MAX_VALUE, 1);
+		SpinnerNumberModel model1 = new SpinnerNumberModel(1, 1, Integer.MAX_VALUE, 1);
+		SpinnerNumberModel model2 = new SpinnerNumberModel(1, 1, Integer.MAX_VALUE, 1);
+		SpinnerNumberModel model3 = new SpinnerNumberModel(1, 1, Integer.MAX_VALUE, 1);
 		spinnerPeriodoReservas = new JSpinner(model);
-		spinnerPeriodoReservas.setBounds(240, 7, 30, 20);
+		spinnerPeriodoReservas.setBounds(225, 32, 30, 20);
 		spinnerPeriodoReservas.setValue(leerCSV(0));
 		panel.add(spinnerPeriodoReservas);
+
+		spinnerDiasAntelacion = new JSpinner(model1);
+		spinnerDiasAntelacion.setBounds(225, 67, 30, 20);
+		spinnerDiasAntelacion.setValue(leerCSV(1));
+		panel.add(spinnerDiasAntelacion);
+
+		spinnerHorasMax = new JSpinner(model2);
+		spinnerHorasMax.setBounds(225, 102, 30, 20);
+		spinnerHorasMax.setValue(leerCSV(2));
+		panel.add(spinnerHorasMax);
+
+		spinnerHorasMaxDia = new JSpinner(model3);
+		spinnerHorasMaxDia.setBounds(225, 137, 30, 20);
+		spinnerHorasMaxDia.setValue(leerCSV(3));
+		panel.add(spinnerHorasMaxDia);
 
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.addActionListener(new ActionListener() {
@@ -87,6 +120,7 @@ public class ModificarParametros {
 		});
 		btnCancelar.setBounds(325, 232, 85, 21);
 		panel.add(btnCancelar);
+
 	}
 
 	public static int leerCSV(int posicion) {
@@ -110,8 +144,10 @@ public class ModificarParametros {
 	private void guardarParametros() {
 		try {
 			String ruta = "src/main/resources/parametros.csv";
-			String contenido = Integer.toString((int) spinnerPeriodoReservas.getValue());
-
+			String contenido = Integer.toString((int) spinnerPeriodoReservas.getValue()) + ";"
+					+ Integer.toString((int) spinnerDiasAntelacion.getValue()) + ";"
+					+ Integer.toString((int) spinnerHorasMax.getValue()) + ";"
+					+ Integer.toString((int) spinnerHorasMaxDia.getValue());
 			File file = new File(ruta);
 			// Se crea el archivo si no existe
 			if (!file.exists()) {

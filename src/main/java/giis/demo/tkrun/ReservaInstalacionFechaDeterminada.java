@@ -24,6 +24,9 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -255,7 +258,10 @@ public class ReservaInstalacionFechaDeterminada {
 				if (modeloReservas.comprobarDisponibilidad(id_instalacion, diaYhora_inicio)) {
 					if (modeloClientes.validarId(id_socio)) {
 						if (diferencia_en_dias >= 0 && diferencia_en_años >= 0) {
+							// no se puede con 15 dias antelacion
+							// meter que sea parametrizable ese 15
 							if (diferencia_en_dias <= 15 || diferencia_en_años > 0) {
+								// meter por aquí un if para que haya horas máximas que sean parametrizables
 								if (hora_de_inicioReserva < hora_de_finReserva) {
 									for (int k = 0; k <= hora_de_finReserva - hora_de_inicioReserva; k++) {
 										Calendar cal = Calendar.getInstance(); // Crear un objeto Calendar
@@ -270,7 +276,26 @@ public class ReservaInstalacionFechaDeterminada {
 											"La reserva se ha hecho correctamente.\n" + "  Coste reserva: " + precio_instalacion
 													+ "\n  Nº Socio solicitante: " + id_socio
 													+ "\n  Instalación reservada: " + nInstalacion
-													+ "\n  Reservada el " + dia + " de " + hora_inicio + " a " + hora_fin);
+													+ "\n  Reservada el " + dia + " de " + hora_inicio + " a " + hora_fin
+													+ "\n Formulario guardado con éxito.");
+									// formulario de reserva exitosa
+									try {
+							            String ruta = "src/main/resources/Reserva"+modeloReservas.get_idreserva_hora_instalacion(diaYhora_inicio,id_instalacion)+"Socio"+id_socio+".txt";
+							            String contenido = "Se ha completado la reserva para el día "+ dia +" desde las "+ hora_inicio + " hasta las " + hora_fin + "\n"
+							            		+ "El socio nº " + id_socio + " ha reservado " + nInstalacion + "\n"
+							            		+ "El coste por hora de la reserva es: " + precio_instalacion;
+							            File file = new File(ruta);
+							            if (!file.exists()) {
+							                file.createNewFile();
+							            }
+							            FileWriter fw = new FileWriter(file);
+							            BufferedWriter bw = new BufferedWriter(fw);
+							            bw.write(contenido);
+									    bw.close();
+									    
+							        } catch (Exception e1) {
+							            e1.printStackTrace();
+							        }
 								} else {
 									JOptionPane.showMessageDialog(frmReservarInstalacionFechaDet,
 											"No puedes seleccionar una hora de fin de reserva anterior o igual a la de inicio",
