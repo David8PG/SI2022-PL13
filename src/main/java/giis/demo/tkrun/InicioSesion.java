@@ -69,7 +69,7 @@ public class InicioSesion {
 		
 		// Inicializamos pantallas admin y socio
 		vAdmin = new pantallaInicialAdmin(this);
-		vSocio = new pantallaInicialSocio(this);
+		
 		
 		JLabel lblUsuario = new JLabel("Usuario:");
 		lblUsuario.setBounds(38, 25, 45, 13);
@@ -190,6 +190,7 @@ public class InicioSesion {
 					List<Object[]> LContraseñas = modelClientes.getContraseña(Integer.toString(id_socio));
 					contraseña = LContraseñas.get(0)[0].toString();
 					if (Arrays.equals(passFieldContraseña.getPassword(), contraseña.toCharArray())) {
+						vSocio = new pantallaInicialSocio(this);
 						vSocio.getFrmvSocio().setVisible(true);
 						frmInicio_de_sesion.setVisible(false);
 

@@ -7,6 +7,8 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
 
 public class pantallaInicialSocio {
 
@@ -15,6 +17,8 @@ public class pantallaInicialSocio {
 	private ReservasModel modeloReservas = new ReservasModel();
 	private VisualizarReservasSocio verReservas;
 	private ReservarInstalacionSocio rSocio;
+	private int id_socio;
+	private JTextField tSocio;
 	
 	/**
 	 * Launch the application.
@@ -41,7 +45,11 @@ public class pantallaInicialSocio {
 	
 	public pantallaInicialSocio(InicioSesion vInicioSesion) {
 		this.vInicioSesion=vInicioSesion;
+		this.id_socio=this.vInicioSesion.getId_socio();
+		System.out.println(id_socio);
 		initialize();
+		System.out.println(id_socio);
+		System.out.println(vInicioSesion.getId_socio());
 	}
 
 	/**
@@ -59,7 +67,7 @@ public class pantallaInicialSocio {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				vInicioSesion.getFrmInicioSesion().setVisible(true);
-				frmPantallaInicialSocio.setVisible(false);
+				//frmPantallaInicialSocio.setVisible(false);
 			}
 		});
 		btnNewButton.setBounds(164, 119, 85, 21);
@@ -70,7 +78,7 @@ public class pantallaInicialSocio {
 			public void actionPerformed(ActionEvent e) {
 				verReservas = new VisualizarReservasSocio(vInicioSesion);
 				verReservas.getFrame().setVisible(true);
-				frmPantallaInicialSocio.setVisible(false);
+				//frmPantallaInicialSocio.setVisible(false);
 			}
 		});
 		bVerReservas.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -82,12 +90,24 @@ public class pantallaInicialSocio {
 			public void actionPerformed(ActionEvent e) {
 				rSocio = new ReservarInstalacionSocio(vInicioSesion);
 				rSocio.getFrame().setVisible(true);
-				frmPantallaInicialSocio.setVisible(false);
+				//frmPantallaInicialSocio.setVisible(false);
 			}
 		});
 		bRevervar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		bRevervar.setBounds(260, 59, 132, 23);
 		frmPantallaInicialSocio.getContentPane().add(bRevervar);
+		
+		JLabel lblNewLabel = new JLabel("Nº Socio:");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblNewLabel.setBounds(149, 22, 65, 15);
+		frmPantallaInicialSocio.getContentPane().add(lblNewLabel);
+		
+		tSocio = new JTextField();
+		tSocio.setBounds(205, 21, 33, 19);
+		frmPantallaInicialSocio.getContentPane().add(tSocio);
+		tSocio.setText("");
+		tSocio.setEditable(false);
+		tSocio.setColumns(10);
 	}
 	
 	public JFrame getFrmvSocio() {
