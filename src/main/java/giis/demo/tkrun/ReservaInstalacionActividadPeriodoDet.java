@@ -196,6 +196,7 @@ public class ReservaInstalacionActividadPeriodoDet {
 
 				Date fecha_actual = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
 				String diaYhora = "";
+				String numero_socio = "";
 
 				if (!ejecutado) {
 					boolean fecha_valida = true;
@@ -329,6 +330,7 @@ public class ReservaInstalacionActividadPeriodoDet {
 						String[] vector_iterador;
 						while (iterador2.hasNext()) {
 							vector_iterador = iterador2.next();
+							numero_socio = vector_iterador[2];
 							mensaje += "\nSocio nº " + vector_iterador[2] + "\nInstalación reservada: "
 									+ vector_iterador[0] + "\nFecha de inicio de la reserva: " + vector_iterador[1];
 						}
@@ -336,8 +338,8 @@ public class ReservaInstalacionActividadPeriodoDet {
 							JOptionPane.showMessageDialog(frmReservaInstalacionActividadPeriodoDet, mensaje,
 									"La reserva se ha realizado con éxito", JOptionPane.INFORMATION_MESSAGE);
 							try {
-					            String ruta = "src/main/resources/Reserva"+modeloReservas.get_idreserva_hora_instalacion(diaYhora,id_instalacion)+"Socio"+modeloReservas.obtener_socio2(Integer.parseInt(id_instalacion), diaYhora)+".txt";
-					            String contenido = "Se le ha cancelado la reserva con fecha "+ diaYhora +" en la instalación "+modeloInstalaciones.getNombre_Instalacion(id_instalacion)+" por causas administrativas.\n"
+					            String ruta = "src/main/resources/Reserva"+modeloReservas.get_idreserva_hora_instalacion(diaYhora,id_instalacion)+"Socio"+numero_socio+".txt";
+					            String contenido = "Se le ha cancelado la reserva con fecha "+ diaYhora +" al socio número "+ numero_socio + " en la instalación "+modeloInstalaciones.getNombre_Instalacion(id_instalacion)+" por causas administrativas.\n"
 					            		+ "La instalación " + modeloInstalaciones.getNombre_Instalacion(id_instalacion) + " ahora se utiliza para la actividad "
 					            		+ comboBoxActividad.getSelectedItem().toString() + ".";
 					            File file = new File(ruta);
@@ -431,7 +433,7 @@ public class ReservaInstalacionActividadPeriodoDet {
 											"La reserva se ha realizado con éxito", JOptionPane.INFORMATION_MESSAGE);
 									try {
 							            String ruta = "src/main/resources/Reserva"+modeloReservas.get_idreserva_hora_instalacion(diaYhora,id_instalacion)+"Socio"+id_socio+".txt";
-							            String contenido = "Se le ha cancelado la reserva con fecha "+ diaYhora +" en la instalación "+modeloInstalaciones.getNombre_Instalacion(id_instalacion)+" por causas administrativas.\n"
+							            String contenido = "Se le ha cancelado la reserva con fecha "+ diaYhora +" en la instalación "+modeloInstalaciones.getNombre_Instalacion(id_instalacion)+ " al socio nº " + id_socio + " por causas administrativas.\n"
 							            		+ "La instalación " + modeloInstalaciones.getNombre_Instalacion(id_instalacion) + " ahora se utiliza para la actividad "
 							            		+ comboBoxActividad.getSelectedItem().toString() + ".";
 							            File file = new File(ruta);
