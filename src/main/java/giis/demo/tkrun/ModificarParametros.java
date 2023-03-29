@@ -97,17 +97,17 @@ public class ModificarParametros {
 		spinnerPeriodoReservas.setValue(leerCSV(0));
 		panel.add(spinnerPeriodoReservas);
 
-		JSpinner spinnerDiasAntelacion = new JSpinner(model1);
+		spinnerDiasAntelacion = new JSpinner(model1);
 		spinnerDiasAntelacion.setBounds(225, 67, 30, 20);
 		spinnerDiasAntelacion.setValue(leerCSV(1));
 		panel.add(spinnerDiasAntelacion);
 
-		JSpinner spinnerHorasMax = new JSpinner(model2);
+		spinnerHorasMax = new JSpinner(model2);
 		spinnerHorasMax.setBounds(225, 102, 30, 20);
 		spinnerHorasMax.setValue(leerCSV(2));
 		panel.add(spinnerHorasMax);
 
-		JSpinner spinnerHorasMaxDia = new JSpinner(model3);
+		spinnerHorasMaxDia = new JSpinner(model3);
 		spinnerHorasMaxDia.setBounds(225, 137, 30, 20);
 		spinnerHorasMaxDia.setValue(leerCSV(3));
 		panel.add(spinnerHorasMaxDia);
