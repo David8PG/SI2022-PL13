@@ -74,6 +74,7 @@ public class VisualizarReservasSocio {
 		this.sesion = login;
 		this.id_socio=this.sesion.getId_socio();
 		initialize();
+		System.out.println(id_socio);
 	}
 
 	public JFrame getFrame() {
