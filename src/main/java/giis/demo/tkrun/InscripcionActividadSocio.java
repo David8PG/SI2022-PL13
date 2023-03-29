@@ -18,6 +18,8 @@ public class InscripcionActividadSocio {
 	private JTextField tfPrecio;
 	private JTextField tfIniAct;
 	private JTextField tfFinAct;
+	private JButton bCancelar;
+	private JButton bIncribirse;
 
 	/**
 	 * Launch the application.
@@ -47,6 +49,7 @@ public class InscripcionActividadSocio {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.setTitle("Inscripción a un actividad");
 		frame.setBounds(100, 100, 565, 280);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
@@ -134,14 +137,18 @@ public class InscripcionActividadSocio {
 		frame.getContentPane().add(tfFinAct);
 		tfFinAct.setColumns(10);
 		
-		JButton bCancelar = new JButton("Cancelar");
+		bCancelar = new JButton("Cancelar");
 		bCancelar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		bCancelar.setBounds(78, 199, 85, 21);
 		frame.getContentPane().add(bCancelar);
 		
-		JButton bIncribirse = new JButton("Incribirse");
+		bIncribirse = new JButton("Incribirse");
 		bIncribirse.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		bIncribirse.setBounds(381, 200, 85, 21);
 		frame.getContentPane().add(bIncribirse);
 	}
+	
+	public JFrame getFrame() { return this.frame; }
+	public JButton getBIncribirse() { return this.bIncribirse; }
+	public JButton getBCancelar() { return this.bCancelar; }
 }
