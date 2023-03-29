@@ -155,6 +155,7 @@ public class pantallaInicialAdmin {
 		btnVisualizarContabilidad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ventanaVisualizarContabilidad = new VisualizarContabilidad();
+				ventanaVisualizarContabilidad.getVisualizarContabilidad().setVisible(true);
 			}
 		});
 		btnVisualizarContabilidad.setBounds(33, 252, 153, 21);

@@ -2,6 +2,9 @@ package giis.demo.tkrun;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -14,7 +17,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class VisualizarContabilidad {
 
-	private JFrame frame;
+	private JFrame VisualizarContabilidad;
 	private JTable table;
 
 	/**
@@ -25,7 +28,7 @@ public class VisualizarContabilidad {
 			public void run() {
 				try {
 					VisualizarContabilidad window = new VisualizarContabilidad();
-					window.frame.setVisible(true);
+					window.VisualizarContabilidad.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -44,12 +47,13 @@ public class VisualizarContabilidad {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		VisualizarContabilidad = new JFrame();
+		VisualizarContabilidad.setTitle("Visualizador de la contabilidad");
+		VisualizarContabilidad.setBounds(100, 100, 450, 300);
+		VisualizarContabilidad.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JPanel panel = new JPanel();
-		frame.getContentPane().add(panel, BorderLayout.CENTER);
+		VisualizarContabilidad.getContentPane().add(panel, BorderLayout.CENTER);
 
 		JButton btnContabilidad = new JButton("Mostar la contabilidad");
 
@@ -75,5 +79,14 @@ public class VisualizarContabilidad {
 		table = new JTable();
 		scrollPane.setColumnHeaderView(table);
 		panel.setLayout(gl_panel);
+		btnAceptar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VisualizarContabilidad.dispose();
+			}
+		});
+	}
+
+	public Window getVisualizarContabilidad() {
+		return this.VisualizarContabilidad;
 	}
 }
