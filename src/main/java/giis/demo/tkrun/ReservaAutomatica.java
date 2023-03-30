@@ -92,7 +92,7 @@ public class ReservaAutomatica {
 		int i = 0;
 		String[] nombresActividades = new String[sesionesList.size()];
 		for (String IdsActividad : sesionesArray) {
-			nombresActividades[i] = modeloActividades.toma_jorge(IdsActividad);
+			nombresActividades[i] = modeloActividades.getNombreActPorID(IdsActividad);
 			i++;
 		}
 

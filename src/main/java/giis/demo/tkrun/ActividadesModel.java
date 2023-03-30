@@ -183,9 +183,7 @@ public class ActividadesModel {
 		return lista.get(0)[0].toString();
 	}
 
-	public static final String tomajorge = "SELECT nombre FROM actividades WHERE id_actividad=";
-
-	public String toma_jorge(String id_actividad) {
+	public String getNombreActPorID(String id_actividad) {
 		List<Object[]> lista = bd.executeQueryArray(nombre_actividad_porID + "'" + id_actividad + "'");
 		if (!lista.isEmpty()) {
 			return lista.get(0)[0].toString();
