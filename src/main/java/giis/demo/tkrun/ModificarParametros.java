@@ -70,7 +70,7 @@ public class ModificarParametros {
 		lblAntelacion.setBounds(38, 70, 203, 13);
 		panel.add(lblAntelacion);
 
-		JLabel lblHoraMaxima = new JLabel("Días máximos de reserva: ");
+		JLabel lblHoraMaxima = new JLabel("Número de horas máximo:");
 		lblHoraMaxima.setBounds(38, 105, 203, 13);
 		panel.add(lblHoraMaxima);
 
