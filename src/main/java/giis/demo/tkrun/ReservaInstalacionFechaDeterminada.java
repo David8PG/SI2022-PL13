@@ -280,7 +280,7 @@ public class ReservaInstalacionFechaDeterminada {
 													+ "\n Formulario guardado con éxito.");
 									// formulario de reserva exitosa
 									try {
-							            String ruta = "src/main/resources/Reserva"+modeloReservas.get_idreserva_hora_instalacion(diaYhora_inicio,id_instalacion)+"Socio"+id_socio+".txt";
+							            String ruta = "src/main/resources/ReservaSocio"+id_socio+".txt";
 							            String contenido = "Se ha completado la reserva para el día "+ dia +" desde las "+ hora_inicio + " hasta las " + hora_fin + "\n"
 							            		+ "El socio nº " + id_socio + " ha reservado " + nInstalacion + "\n"
 							            		+ "El coste por hora de la reserva es: " + precio_instalacion;

@@ -82,15 +82,20 @@ public class ReservaAutomatica {
 		panel.setLayout(null);
 
 		// Almacenamos todas las actividades en un vector para el comboBox
-		List<Object[]> lActividades = modeloActividades.getNombreActividades();
-		String[] vActividades = new String[lActividades.size()];
-		Iterator<Object[]> itActividades = lActividades.iterator();
+		List<Object[]> sesionesList = modeloSesiones.getIdsActividades();
+		List<Object[]> nombresActividades = null;
+		for (Object[] IdsActividad : sesionesList) {
+			nombresActividades.add(modeloActividades.getNombreActividad_porID2(IdsActividad));
+		}
+
+		String[] vActividades = new String[nombresActividades.size()];
+		Iterator<Object[]> itActividades = nombresActividades.iterator();
 		int i = 0;
 		while (itActividades.hasNext()) {
 			vActividades[i] = itActividades.next()[0].toString();
 			i++;
 		}
-
+		
 		JLabel lblListado = new JLabel("Listado de actividades: ");
 		lblListado.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblListado.setBounds(10, 10, 133, 13);
@@ -174,28 +179,6 @@ public class ReservaAutomatica {
 											formato_fecha.format(fecha_actual), fecha_inicio_reserva, "0",
 											modeloActividades.getIdActividad(
 													comboBoxListaActividades.getSelectedItem().toString()));
-									try {
-										String ruta = "src/main/resources/Reserva" + modeloReservas
-												.get_idreserva_hora_instalacion(fecha_inicio_reserva, nombreInstalacion)
-												+ "Socio" + id_socio + ".txt";
-										String contenido = "Se ha realizado la reserva con fecha '"
-												+ fecha_inicio_reserva + "' en la instalación '"
-												+ modeloInstalaciones.getNombre_Instalacion(nombreInstalacion)
-												+ ".\nAhora la instalación se utiliza para la actividad"
-												+ comboBoxListaActividades.getSelectedItem().toString() + "con sesión: "
-												+ modeloSesiones.getSesiones(modeloActividades.getIdActividad(
-														comboBoxListaActividades.getSelectedItem().toString()));
-										File file = new File(ruta);
-										if (!file.exists()) {
-											file.createNewFile();
-										}
-										FileWriter fw = new FileWriter(file);
-										BufferedWriter bw = new BufferedWriter(fw);
-										bw.write(contenido);
-										bw.close();
-									} catch (Exception e1) {
-										e1.printStackTrace();
-									}
 								} else {
 									id_socio = modeloReservas.getSocioDef(fecha_inicio_reserva, nombreInstalacion);
 									mensaje = mensaje + "Se ha cancelado una reserva del socio con id '" + id_socio
@@ -203,14 +186,8 @@ public class ReservaAutomatica {
 											+ "' y ha sido reservada para esta actividad.\n";
 									modeloReservas.eliminarReserva(Integer.parseInt(nombreInstalacion),
 											fecha_inicio_reserva);
-									modeloReservas.nuevaReserva(0, Integer.parseInt(nombreInstalacion),
-											formato_fecha.format(fecha_actual), fecha_inicio_reserva, "0",
-											modeloActividades.getIdActividad(
-													comboBoxListaActividades.getSelectedItem().toString()));
 									try {
-										String ruta = "src/main/resources/Reserva" + modeloReservas
-												.get_idreserva_hora_instalacion(fecha_inicio_reserva, nombreInstalacion)
-												+ "Socio" + id_socio + ".txt";
+										String ruta = "src/main/resources/ReservaSocio" + id_socio + ".txt";
 										String contenido = "Se le ha cancelado la reserva con fecha '"
 												+ fecha_inicio_reserva + "' en la instalación '"
 												+ modeloInstalaciones.getNombre_Instalacion(nombreInstalacion)
@@ -233,6 +210,10 @@ public class ReservaAutomatica {
 										e1.printStackTrace();
 									}
 									// ANTES LA ELIMINACION Y CREACION DE LA RESERVA ERA AQUI
+									modeloReservas.nuevaReserva(0, Integer.parseInt(nombreInstalacion),
+											formato_fecha.format(fecha_actual), fecha_inicio_reserva, "0",
+											modeloActividades.getIdActividad(
+													comboBoxListaActividades.getSelectedItem().toString()));
 								}
 								// SUMAMOS UNA HORA
 								calendario_horas.setTime(hora_inicio);

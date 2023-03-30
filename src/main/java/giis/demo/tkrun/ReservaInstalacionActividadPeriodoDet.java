@@ -338,7 +338,7 @@ public class ReservaInstalacionActividadPeriodoDet {
 							JOptionPane.showMessageDialog(frmReservaInstalacionActividadPeriodoDet, mensaje,
 									"La reserva se ha realizado con éxito", JOptionPane.INFORMATION_MESSAGE);
 							try {
-					            String ruta = "src/main/resources/Reserva"+modeloReservas.get_idreserva_hora_instalacion(diaYhora,id_instalacion)+"Socio"+numero_socio+".txt";
+					            String ruta = "src/main/resources/ReservaSocio"+numero_socio+".txt";
 					            String contenido = "Se le ha cancelado la reserva con fecha "+ diaYhora +" al socio número "+ numero_socio + " en la instalación "+modeloInstalaciones.getNombre_Instalacion(id_instalacion)+" por causas administrativas.\n"
 					            		+ "La instalación " + modeloInstalaciones.getNombre_Instalacion(id_instalacion) + " ahora se utiliza para la actividad "
 					            		+ comboBoxActividad.getSelectedItem().toString() + ".";
@@ -357,23 +357,6 @@ public class ReservaInstalacionActividadPeriodoDet {
 						} else {
 							JOptionPane.showMessageDialog(frmReservaInstalacionActividadPeriodoDet,
 									"Se ha completado la reserva.\n");
-							try {
-					            String ruta = "src/main/resources/Reserva"+modeloReservas.get_idreserva_hora_instalacion(diaYhora,id_instalacion)+"Socio"+id_socio+".txt";
-					            String contenido = "Se ha completado la reserva para la fecha "+ diaYhora +" en la instalación "+modeloInstalaciones.getNombre_Instalacion(id_instalacion)+".\n"
-					            		+ "La instalación " + modeloInstalaciones.getNombre_Instalacion(id_instalacion) + " ahora se utiliza para la actividad "
-					            		+ comboBoxActividad.getSelectedItem().toString() + ".";
-					            File file = new File(ruta);
-					            if (!file.exists()) {
-					                file.createNewFile();
-					            }
-					            FileWriter fw = new FileWriter(file);
-					            BufferedWriter bw = new BufferedWriter(fw);
-					            bw.write(contenido);
-							    bw.close();
-							    
-					        } catch (Exception e1) {
-					            e1.printStackTrace();
-					        }
 						}
 					}
 				} else {
@@ -432,7 +415,7 @@ public class ReservaInstalacionActividadPeriodoDet {
 													+ lista_reservasCliente_eliminadas.get(0)[1],
 											"La reserva se ha realizado con éxito", JOptionPane.INFORMATION_MESSAGE);
 									try {
-							            String ruta = "src/main/resources/Reserva"+modeloReservas.get_idreserva_hora_instalacion(diaYhora,id_instalacion)+"Socio"+id_socio+".txt";
+							            String ruta = "src/main/resources/ReservaSocio"+id_socio+".txt";
 							            String contenido = "Se le ha cancelado la reserva con fecha "+ diaYhora +" en la instalación "+modeloInstalaciones.getNombre_Instalacion(id_instalacion)+ " al socio nº " + id_socio + " por causas administrativas.\n"
 							            		+ "La instalación " + modeloInstalaciones.getNombre_Instalacion(id_instalacion) + " ahora se utiliza para la actividad "
 							            		+ comboBoxActividad.getSelectedItem().toString() + ".";
@@ -452,23 +435,6 @@ public class ReservaInstalacionActividadPeriodoDet {
 									JOptionPane.showMessageDialog(frmReservaInstalacionActividadPeriodoDet,
 											"Se ha completado la reserva.", "La reserva se ha realizado con éxito",
 											JOptionPane.INFORMATION_MESSAGE);
-									try {
-							            String ruta = "src/main/resources/Reserva"+modeloReservas.get_idreserva_hora_instalacion(diaYhora,id_instalacion)+"Socio"+id_socio+".txt";
-							            String contenido = "Se ha completado la reserva para la fecha "+ diaYhora +" en la instalación "+modeloInstalaciones.getNombre_Instalacion(id_instalacion)+".\n"
-							            		+ "La instalación " + modeloInstalaciones.getNombre_Instalacion(id_instalacion) + " ahora se utiliza para la actividad "
-							            		+ comboBoxActividad.getSelectedItem().toString() + ".";
-							            File file = new File(ruta);
-							            if (!file.exists()) {
-							                file.createNewFile();
-							            }
-							            FileWriter fw = new FileWriter(file);
-							            BufferedWriter bw = new BufferedWriter(fw);
-							            bw.write(contenido);
-									    bw.close();
-									    
-							        } catch (Exception e1) {
-							            e1.printStackTrace();
-							        }
 								}
 
 							}

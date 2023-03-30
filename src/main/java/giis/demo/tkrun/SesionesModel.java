@@ -32,4 +32,10 @@ public class SesionesModel {
 	public List<Object[]> getSesiones2(String l) {
 		return bd.executeQueryArray(sesiones_actividad + l + "'");
 	}
+	
+	public static final String actividad_ensesion = "SELECT id_actividades FROM sesiones";
+
+	public List<Object[]> getIdsActividades() {
+		return bd.executeQueryArray(actividad_ensesion);
+	}
 }
