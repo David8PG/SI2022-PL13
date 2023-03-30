@@ -169,15 +169,14 @@ public class ReservaInstalacionFechaDeterminada {
 				String hora_fin = (String) comboBoxHoraFinReserva.getSelectedItem();
 				String diaYhora_inicio = dia + " " + hora_inicio;
 				String diaYhora_fin = dia + " " + hora_fin;
-				int hora_comienzo = (int) comboBoxHoraInicioReserva.getSelectedItem();
-				int hora_finaliza = (int) comboBoxHoraFinReserva.getSelectedItem();
-				int diferencia_horas = hora_finaliza - hora_comienzo;
-
+				
 				LocalTime hora1 = LocalTime.parse(hora_inicio);
 				int hora_de_inicioReserva = hora1.getHour();
 
 				LocalTime hora2 = LocalTime.parse(hora_fin);
 				int hora_de_finReserva = hora2.getHour();
+				
+				int diferencia_horas = hora_de_finReserva -  hora_de_inicioReserva;
 
 				// Creamos una variable entera para la hora de inicio de la reserva
 				int indice = comboBoxHoraInicioReserva.getSelectedIndex();
@@ -301,6 +300,10 @@ public class ReservaInstalacionFechaDeterminada {
 										} catch (Exception e1) {
 											e1.printStackTrace();
 										}
+									} else {
+										JOptionPane.showMessageDialog(frmReservarInstalacionFechaDet,
+												"No puedes reservar más de " + modificaParametros.leerCSV(3) + " horas un mismo día.",
+												"Ha ocurrido un error al hacer la reserva", JOptionPane.ERROR_MESSAGE);
 									}
 								} else {
 									JOptionPane.showMessageDialog(frmReservarInstalacionFechaDet,
@@ -309,7 +312,7 @@ public class ReservaInstalacionFechaDeterminada {
 								}
 							} else {
 								JOptionPane.showMessageDialog(frmReservarInstalacionFechaDet,
-										"No se puede reservar con más de 15 días de antelación (periodo mínimo estipulado).",
+										"No se puede reservar con más de " + modificaParametros.leerCSV(1) + " días de antelación.",
 										"Ha ocurrido un error al hacer la reserva", JOptionPane.ERROR_MESSAGE);
 							}
 						} else {

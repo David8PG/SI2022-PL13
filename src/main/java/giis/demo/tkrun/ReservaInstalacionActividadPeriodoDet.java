@@ -224,8 +224,7 @@ public class ReservaInstalacionActividadPeriodoDet {
 						fecha_inicio = formato.parse(fecha_inicioS);
 						fecha_fin = formato.parse(fecha_finS);
 
-						// Calculamos la diferencia entre fecha inicio del comboBox y fecha actual en
-						// milisegundos
+						// Calculamos la diferencia entre fecha inicio del comboBox y fecha inicio reserva
 						long difference_In_Time = fecha_fin.getTime() - fecha_inicio.getTime();
 
 						// Tras calcular esa diferencia, pasamos ese resultado a:
