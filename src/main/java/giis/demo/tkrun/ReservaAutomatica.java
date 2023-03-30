@@ -1,17 +1,14 @@
 package giis.demo.tkrun;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 import java.awt.BorderLayout;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
+import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -22,11 +19,14 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.awt.event.ActionListener;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.awt.event.ActionEvent;
+
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 public class ReservaAutomatica {
 
@@ -83,26 +83,26 @@ public class ReservaAutomatica {
 
 		// Almacenamos todas las actividades en un vector para el comboBox
 		List<Object[]> sesionesList = modeloSesiones.getIdsActividades();
-		List<Object[]> nombresActividades = null;
-		for (Object[] IdsActividad : sesionesList) {
-			nombresActividades.add(modeloActividades.getNombreActividad_porID2(IdsActividad));
+		String[] sesionesArray = new String[sesionesList.size()];
+		for (int i = 0; i < sesionesList.size(); i++) {
+			Object[] sesion = sesionesList.get(i);
+			String sesionStr = sesion[0].toString();
+			sesionesArray[i] = sesionStr;
 		}
-
-		String[] vActividades = new String[nombresActividades.size()];
-		Iterator<Object[]> itActividades = nombresActividades.iterator();
 		int i = 0;
-		while (itActividades.hasNext()) {
-			vActividades[i] = itActividades.next()[0].toString();
+		String[] nombresActividades = new String[sesionesList.size()];
+		for (String IdsActividad : sesionesArray) {
+			nombresActividades[i] = modeloActividades.toma_jorge(IdsActividad);
 			i++;
 		}
-		
+
 		JLabel lblListado = new JLabel("Listado de actividades: ");
 		lblListado.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblListado.setBounds(10, 10, 133, 13);
 		panel.add(lblListado);
 
 		JComboBox comboBoxListaActividades = new JComboBox();
-		comboBoxListaActividades.setModel(new DefaultComboBoxModel(vActividades));
+		comboBoxListaActividades.setModel(new DefaultComboBoxModel(nombresActividades));
 		comboBoxListaActividades.setBounds(153, 6, 187, 21);
 		panel.add(comboBoxListaActividades);
 

@@ -149,26 +149,26 @@ public class ActividadesModel {
 		lista = bd.executeQueryArray(get_instalacion + "'" + nombre + "'");
 		return lista.get(0)[0].toString();
 	}
-	
+
 	public static final String nombre_actividad_porID = "SELECT nombre FROM actividades WHERE id_actividad=";
-		
-	public String getNombreActividad_porID(String id_actividad){
+
+	public String getNombreActividad_porID(String id_actividad) {
 		List<Object[]> lista = bd.executeQueryArray(nombre_actividad_porID + "'" + id_actividad + "'");
 		if (!lista.isEmpty()) {
-		    return lista.get(0)[0].toString();
+			return lista.get(0)[0].toString();
 		} else {
-	        throw new RuntimeException("No se encontraron resultados para la consulta.");
-		}	
+			throw new RuntimeException("No se encontraron resultados para la consulta.");
+		}
 	}
-	
+
 	public static final String nombre_instalacion = "SELECT id_instalaciones FROM actividades WHERE nombre=";
-	
-	public String getInstalacionActividad(String nombre){
+
+	public String getInstalacionActividad(String nombre) {
 		List<Object[]> lista;
 		lista = bd.executeQueryArray(nombre_instalacion + "'" + nombre + "'");
-		return lista.get(0)[0].toString(); 	
+		return lista.get(0)[0].toString();
 	}
-	
+
 	public static final String idActividades = "SELECT id_actividad FROM actividades WHERE nombre=";
 
 	public String getListaIdsActividades(String nombreActividad) {
@@ -176,13 +176,21 @@ public class ActividadesModel {
 		lista = bd.executeQueryArray(idActividades + "'" + nombreActividad + "'");
 		return lista.get(0)[0].toString();
 	}
-	
-	public List<Object[]> getNombreActividad_porID2(Object id_actividad){
+
+	public String getNombreActividad_porID2(Object id_actividad) {
+		List<Object[]> lista;
+		lista = bd.executeQueryArray(idActividades + "'" + id_actividad + "'");
+		return lista.get(0)[0].toString();
+	}
+
+	public static final String tomajorge = "SELECT nombre FROM actividades WHERE id_actividad=";
+
+	public String toma_jorge(String id_actividad) {
 		List<Object[]> lista = bd.executeQueryArray(nombre_actividad_porID + "'" + id_actividad + "'");
 		if (!lista.isEmpty()) {
-		    return lista;
+			return lista.get(0)[0].toString();
 		} else {
-	        return null;
+			return null;
 		}
 	}
 
