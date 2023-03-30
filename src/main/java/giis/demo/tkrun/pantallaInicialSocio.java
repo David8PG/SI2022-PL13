@@ -1,12 +1,14 @@
 package giis.demo.tkrun;
 
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
 
 public class pantallaInicialSocio {
 
@@ -15,7 +17,10 @@ public class pantallaInicialSocio {
 	private ReservasModel modeloReservas = new ReservasModel();
 	private VisualizarReservasSocio verReservas;
 	private ReservarInstalacionSocio rSocio;
-	
+	private MostrarReservasSocio ventanaMostrarReservasSocio;
+	private int id_socio;
+	private JTextField tSocio;
+
 	/**
 	 * Launch the application.
 	 */
@@ -38,10 +43,14 @@ public class pantallaInicialSocio {
 	public pantallaInicialSocio() {
 		initialize();
 	}
-	
+
 	public pantallaInicialSocio(InicioSesion vInicioSesion) {
-		this.vInicioSesion=vInicioSesion;
+		this.vInicioSesion = vInicioSesion;
+		this.id_socio = this.vInicioSesion.getId_socio();
+		System.out.println(id_socio);
 		initialize();
+		System.out.println(id_socio);
+		System.out.println(vInicioSesion.getId_socio());
 	}
 
 	/**
@@ -53,43 +62,66 @@ public class pantallaInicialSocio {
 		frmPantallaInicialSocio.setBounds(100, 100, 450, 220);
 		frmPantallaInicialSocio.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmPantallaInicialSocio.getContentPane().setLayout(null);
-		
+
 		JButton btnNewButton = new JButton("Cancelar");
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				vInicioSesion.getFrmInicioSesion().setVisible(true);
-				frmPantallaInicialSocio.setVisible(false);
+				// frmPantallaInicialSocio.setVisible(false);
 			}
 		});
-		btnNewButton.setBounds(164, 119, 85, 21);
+		btnNewButton.setBounds(168, 152, 85, 21);
 		frmPantallaInicialSocio.getContentPane().add(btnNewButton);
-		
-		JButton bVerReservas = new JButton("Ver reservas");
+
+		JButton bVerReservas = new JButton("Ver disponibilidad");
 		bVerReservas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				verReservas = new VisualizarReservasSocio(vInicioSesion);
 				verReservas.getFrame().setVisible(true);
-				frmPantallaInicialSocio.setVisible(false);
+				// frmPantallaInicialSocio.setVisible(false);
 			}
 		});
 		bVerReservas.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		bVerReservas.setBounds(64, 59, 120, 23);
 		frmPantallaInicialSocio.getContentPane().add(bVerReservas);
-		
+
 		JButton bRevervar = new JButton("Hacer reserva");
 		bRevervar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				rSocio = new ReservarInstalacionSocio(vInicioSesion);
 				rSocio.getFrame().setVisible(true);
-				frmPantallaInicialSocio.setVisible(false);
+				// frmPantallaInicialSocio.setVisible(false);
 			}
 		});
 		bRevervar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		bRevervar.setBounds(260, 59, 132, 23);
 		frmPantallaInicialSocio.getContentPane().add(bRevervar);
+
+		JLabel lblNewLabel = new JLabel("Nº Socio:");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblNewLabel.setBounds(149, 22, 65, 15);
+		frmPantallaInicialSocio.getContentPane().add(lblNewLabel);
+
+		tSocio = new JTextField();
+		tSocio.setBounds(205, 21, 33, 19);
+		frmPantallaInicialSocio.getContentPane().add(tSocio);
+		tSocio.setText("");
+		tSocio.setEditable(false);
+		tSocio.setColumns(10);
+
+		JButton btnMostrarReservas = new JButton("Ver reservas");
+		btnMostrarReservas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ventanaMostrarReservasSocio = new MostrarReservasSocio();
+				ventanaMostrarReservasSocio.getMostrarReservasSocio().setVisible(true);
+			}
+		});
+		btnMostrarReservas.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnMostrarReservas.setBounds(64, 92, 120, 23);
+		frmPantallaInicialSocio.getContentPane().add(btnMostrarReservas);
 	}
-	
+
 	public JFrame getFrmvSocio() {
 		return this.frmPantallaInicialSocio;
 	}

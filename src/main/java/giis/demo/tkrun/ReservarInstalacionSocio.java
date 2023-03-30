@@ -37,6 +37,7 @@ public class ReservarInstalacionSocio {
 	private int id_socio;
 	private String precio="";
 	private String date;
+	private pantallaInicialSocio vSocio;
 	private InstalacionesModel instalacionesModel = new InstalacionesModel();
 	private ReservasModel reservasModel = new ReservasModel();
 	private ClientesModel clientesModel = new ClientesModel();
