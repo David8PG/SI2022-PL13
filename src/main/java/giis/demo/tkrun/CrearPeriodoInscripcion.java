@@ -8,7 +8,9 @@ import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -116,17 +118,32 @@ public class CrearPeriodoInscripcion {
 		JButton btnNewButton = new JButton("Crear Periodo ");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// Tengo que implementar la fecha
+				boolean a = false;
 				Date FechaInicioSocio = dateChooser.getDate();
 				Date FechaFinSocio = dateChooser_1.getDate();
 				Date FechaFinNoSocio = dateChooser_2.getDate();
 				SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
-				// fecha de hoy
+				String nombre = textField.getText();
+				List<Object[]> nombresPeriodos = PeriodosModel.getPeriodosInscripcion();
+				for (Object[] nombrePeriodo : nombresPeriodos) {
+					if (("[" + nombre + "]").equals(Arrays.toString(nombrePeriodo))) {
+						a = true;
+					}
+				}
+				String descripcion = textField_1.getText();
+				String FechaInicioSocio1 = formatoFecha.format(FechaInicioSocio);
+				String FechaFinSocio1 = formatoFecha.format(FechaFinSocio);
+				String FechaFinNoSocio1 = formatoFecha.format(FechaFinNoSocio);
 				Date dateHoy = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
+
 				if (textField.getText().equals("")) {
 					JOptionPane.showMessageDialog(frmCrearPeriodoDe,
 							"El periodo de inscripción no se ha podido realizar. Debes introducir un nombre.", "Error",
 							JOptionPane.ERROR_MESSAGE);
+				} else if (a) {
+					JOptionPane.showMessageDialog(frmCrearPeriodoDe,
+							"El periodo de inscripción no se ha podido realizar. El nombre de inscripción ya esta escogido.",
+							"Error", JOptionPane.ERROR_MESSAGE);
 				} else if (textField_1.getText().equals("")) {
 					JOptionPane.showMessageDialog(frmCrearPeriodoDe,
 							"El periodo de inscripción no se ha podido realizar. Debes introducir una descripción.",
@@ -164,12 +181,6 @@ public class CrearPeriodoInscripcion {
 							"El periodo de inscripción no se ha podido realizar. La fecha final de no socios no puede ser anterior a la actual.",
 							"Error", JOptionPane.ERROR_MESSAGE);
 				} else {
-					String nombre = textField.getText();
-					String descripcion = textField_1.getText();
-					String FechaInicioSocio1 = formatoFecha.format(FechaInicioSocio);
-					String FechaFinSocio1 = formatoFecha.format(FechaFinSocio);
-					String FechaFinNoSocio1 = formatoFecha.format(FechaFinNoSocio);
-
 					PeriodosModel.nuevoPeriodoInscripcion(nombre, descripcion, FechaInicioSocio1, FechaFinSocio1,
 							FechaFinNoSocio1);
 					JOptionPane.showMessageDialog(frmCrearPeriodoDe, "Periodo de inscripción creado correctamente",
