@@ -21,6 +21,7 @@ public class pantallaInicialAdmin {
 	private ModificarParametros ventanaModificarParametros;
 	private CancelarReservaSocio ventanaCancelarReserva;
 	private ReservaAutomatica ventanaReservaAutomatica;
+	private VisualizarContabilidad ventanaVisualizarContabilidad;
 
 	/**
 	 * Launch the application.
@@ -139,7 +140,7 @@ public class pantallaInicialAdmin {
 		});
 		btnCancelarReservaSocio.setBounds(221, 25, 163, 23);
 		frmPantallaInicialAdministrador.getContentPane().add(btnCancelarReservaSocio);
-		
+
 		JButton btnReservaAutomatica = new JButton("Reserva Automática");
 		btnReservaAutomatica.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -149,6 +150,16 @@ public class pantallaInicialAdmin {
 		});
 		btnReservaAutomatica.setBounds(221, 60, 163, 21);
 		frmPantallaInicialAdministrador.getContentPane().add(btnReservaAutomatica);
+
+		JButton btnVisualizarContabilidad = new JButton("Visualizar contabilidad");
+		btnVisualizarContabilidad.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ventanaVisualizarContabilidad = new VisualizarContabilidad();
+				ventanaVisualizarContabilidad.getVisualizarContabilidad().setVisible(true);
+			}
+		});
+		btnVisualizarContabilidad.setBounds(33, 252, 153, 21);
+		frmPantallaInicialAdministrador.getContentPane().add(btnVisualizarContabilidad);
 	}
 
 	public JFrame getFrmvAdmin() {
