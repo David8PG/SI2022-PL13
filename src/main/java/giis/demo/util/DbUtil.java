@@ -35,7 +35,7 @@ public abstract class DbUtil {
 	
 	/** Obtiene un objeto conexion para esta base de datos */
 	public Connection getConnection() throws SQLException {
-		return DriverManager.getConnection(getUrl(),"root","1234");
+		return DriverManager.getConnection(getUrl());
 	}
 
 	//Documentacion de apache dbutils:
