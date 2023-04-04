@@ -47,7 +47,7 @@ INSERT INTO periodos_inscripcion(id_periodo_inscripcion, nombre_periodo, descrip
 (3, 'Periodo 3', 'Periodo Invierno','2023-1-20', '2023-2-4', '2023-2-27'); 
 
 
- INSERT INTO actividades(id_actividad, nombre, descripcion, aforo, plazas_disponibles, precio_socio, precio_no_socio, fecha_inicio, fecha_fin, deporte , id_instalaciones, id_periodo_inscripciones) VALUES 
+INSERT INTO actividades(id_actividad, nombre, descripcion, aforo, plazas_disponibles, precio_socio, precio_no_socio, fecha_inicio, fecha_fin, deporte , id_instalaciones, id_periodo_inscripciones) VALUES 
 (1, 'Clase de yoga', 'Clase de yoga para todos los niveles', 20, 20, 5.00, 10.00, '2023-03-01', '2023-04-01', 'Yoga', 3, 1),
 (2, 'Partido de fútbol', 'Solteros vs Casados', 22, 22, 0.00, 5.00, '2023-03-02', '2023-03-02', 'Fútbol', 6, 1),
 (3, 'Clase de natación', 'Clase de natación para gente que no sabe nadar', 15, 15, 10.00, 15.00, '2023-03-03', '2023-04-03', 'Natación', 1, 1),
@@ -56,7 +56,7 @@ INSERT INTO periodos_inscripcion(id_periodo_inscripcion, nombre_periodo, descrip
 (6, 'Partido pádel', 'Pepe se enfrenta a tí', 4, 0, 8.00, 13.00, '2023-03-05', '2023-04-05', 'Pádel', 4, 1);
 
 
-INSERT INTO inscripciones(id_inscripcion, dni_clientes, id_actividades, fecha) VALUES 
+INSERT INTO inscripciones(id_inscripcion, dni_clientes, id_actividades, fecha) VALUES
 (1,'44444444D', 1, '2023-2-23 17:00:00'), 
 (2,'44444444D', 2,'2023-2-24 18:00:00'), 
 (3,'44444444D', 3,'2023-2-25 19:00:00'),

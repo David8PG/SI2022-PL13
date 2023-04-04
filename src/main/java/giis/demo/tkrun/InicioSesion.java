@@ -187,8 +187,10 @@ public class InicioSesion {
 			} else {
 				try {
 					setId_socio(Integer.parseInt(textFieldUsuario.getText()));
-					List<Object[]> LContraseñas = modelClientes.getContraseña(Integer.toString(id_socio));
+					List<Object[]> LContraseñas = modelClientes.getContraseña(Integer.toString(getId_socio()));
 					contraseña = LContraseñas.get(0)[0].toString();
+					System.out.println(getId_socio());
+					System.out.println(contraseña);
 					if (Arrays.equals(passFieldContraseña.getPassword(), contraseña.toCharArray())) {
 						vSocio = new pantallaInicialSocio(this);
 						vSocio.getFrmvSocio().setVisible(true);
@@ -196,7 +198,7 @@ public class InicioSesion {
 
 					} else {
 						JOptionPane.showMessageDialog(frmInicio_de_sesion,
-								"Contraseña de socio incorrecta.", "Introduzca los datos de forma correcta.",
+								"Usuario o contraseña de socio incorrecta.", "Introduzca los datos de forma correcta.",
 								JOptionPane.ERROR_MESSAGE);
 					}
 				} catch (Exception e2) {

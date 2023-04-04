@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 public class pantallaInicialSocio {
 
@@ -20,6 +21,8 @@ public class pantallaInicialSocio {
 	private MostrarReservasSocio ventanaMostrarReservasSocio;
 	private int id_socio;
 	private JTextField tSocio;
+	private InscripcionActSocController inscripcionactivcont;
+	private InscripcionActividadSocio inscripcionactividad;
 
 	/**
 	 * Launch the application.
@@ -68,7 +71,7 @@ public class pantallaInicialSocio {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				vInicioSesion.getFrmInicioSesion().setVisible(true);
-				// frmPantallaInicialSocio.setVisible(false);
+				frmPantallaInicialSocio.setVisible(false);
 			}
 		});
 		btnNewButton.setBounds(168, 152, 85, 21);
@@ -106,7 +109,7 @@ public class pantallaInicialSocio {
 		tSocio = new JTextField();
 		tSocio.setBounds(205, 21, 33, 19);
 		frmPantallaInicialSocio.getContentPane().add(tSocio);
-		tSocio.setText("");
+		tSocio.setText(Integer.toString(id_socio));
 		tSocio.setEditable(false);
 		tSocio.setColumns(10);
 
@@ -120,6 +123,18 @@ public class pantallaInicialSocio {
 		btnMostrarReservas.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnMostrarReservas.setBounds(64, 92, 120, 23);
 		frmPantallaInicialSocio.getContentPane().add(btnMostrarReservas);
+		
+		JButton bReservarAct = new JButton("Reservar Actividad");
+		bReservarAct.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				inscripcionactividad = new InscripcionActividadSocio(vInicioSesion);
+				inscripcionactividad.getFrame().setVisible(true);
+				//inscripcionactivcont = new InscripcionActSocController(inscripcionactividad, vInicioSesion);
+			}
+		});
+		bReservarAct.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		bReservarAct.setBounds(260, 92, 132, 23);
+		frmPantallaInicialSocio.getContentPane().add(bReservarAct);
 	}
 
 	public JFrame getFrmvSocio() {
