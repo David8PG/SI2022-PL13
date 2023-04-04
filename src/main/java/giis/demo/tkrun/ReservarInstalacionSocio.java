@@ -69,8 +69,6 @@ public class ReservarInstalacionSocio {
 		this.sesion= login;
 		this.id_socio=this.sesion.getId_socio();
 		initialize();
-		System.out.println(id_socio);
-		System.out.println(sesion.getId_socio());
 	}
 
 	public JFrame getFrame() {

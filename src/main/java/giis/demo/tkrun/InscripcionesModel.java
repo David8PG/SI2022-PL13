@@ -34,4 +34,15 @@ public class InscripcionesModel {
 		lista = bd.executeQueryArray(siguiente_id);
 		return (long) lista.get(0)[0] + 1;
 	}
+	
+	public static final String persona_actividad = "SELECT id_inscripcion FROM inscripciones WHERE id_actividades=? AND dni_clientes=?";
+	
+	public boolean personaInscritaenActividad(long actividad, String cliente) {
+		List<Object[]> lista;
+		lista = bd.executeQueryArray(persona_actividad, actividad, cliente);
+		if(lista.size()==0) {
+			return false;
+		}
+		else return true;
+	}
 }

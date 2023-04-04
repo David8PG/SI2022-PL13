@@ -50,4 +50,19 @@ public class PeriodosInscripcionModel {
 		return bd.executeQueryArray(getFechasNoSocio, fecha, fecha);
 	}
 
+	public static final String plazo_abierto_socio = "SELECT id_periodo_inscripcion FROM periodos_inscripcion WHERE fecha_inicio_socio<=? AND fecha_fin_socio>=?";
+
+	public List<Object[]> getFechasAbiertasSocio(String fecha){
+		return bd.executeQueryArray(plazo_abierto_socio,fecha,fecha);	
+	}
+
+	public static final String fecha_fin_socio = "SELECT fecha_fin_socio FROM periodos_inscripcion WHERE id_periodo_inscripcion=?";
+
+	public String getFechaFinSocio(int id){
+		List<Object[]> lista;
+		lista = bd.executeQueryArray(fecha_fin_socio,id);
+		return lista.get(0)[0].toString() ;
+	
+	}
+
 }
