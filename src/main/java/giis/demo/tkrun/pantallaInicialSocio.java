@@ -9,7 +9,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 
 public class pantallaInicialSocio {
 
@@ -116,20 +115,21 @@ public class pantallaInicialSocio {
 		JButton btnMostrarReservas = new JButton("Ver reservas");
 		btnMostrarReservas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ventanaMostrarReservasSocio = new MostrarReservasSocio();
+				ventanaMostrarReservasSocio = new MostrarReservasSocio(vInicioSesion);
 				ventanaMostrarReservasSocio.getMostrarReservasSocio().setVisible(true);
 			}
 		});
 		btnMostrarReservas.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnMostrarReservas.setBounds(64, 92, 120, 23);
 		frmPantallaInicialSocio.getContentPane().add(btnMostrarReservas);
-		
+
 		JButton bReservarAct = new JButton("Reservar Actividad");
 		bReservarAct.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				inscripcionactividad = new InscripcionActividadSocio(vInicioSesion);
 				inscripcionactividad.getFrame().setVisible(true);
-				//inscripcionactivcont = new InscripcionActSocController(inscripcionactividad, vInicioSesion);
+				// inscripcionactivcont = new InscripcionActSocController(inscripcionactividad,
+				// vInicioSesion);
 			}
 		});
 		bReservarAct.setFont(new Font("Tahoma", Font.PLAIN, 12));
