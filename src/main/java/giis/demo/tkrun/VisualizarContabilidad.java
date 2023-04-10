@@ -70,13 +70,6 @@ public class VisualizarContabilidad {
 		JScrollPane scrollPane = new JScrollPane();
 
 		JButton btnAceptar = new JButton("Aceptar");
-
-		JButton btnGenerarListado = new JButton("Generar listado");
-		btnGenerarListado.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-			}
-		});
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panel.createSequentialGroup()
@@ -85,19 +78,13 @@ public class VisualizarContabilidad {
 								.addGroup(gl_panel.createSequentialGroup().addGap(47).addComponent(scrollPane,
 										GroupLayout.PREFERRED_SIZE, 338, GroupLayout.PREFERRED_SIZE)))
 						.addContainerGap(51, Short.MAX_VALUE))
-				.addGroup(gl_panel.createSequentialGroup().addContainerGap(248, Short.MAX_VALUE)
-						.addComponent(btnGenerarListado).addPreferredGap(ComponentPlacement.RELATED)
+				.addGroup(gl_panel.createSequentialGroup().addContainerGap(339, Short.MAX_VALUE)
 						.addComponent(btnAceptar).addGap(30)));
-		gl_panel.setVerticalGroup(
-				gl_panel.createParallelGroup(Alignment.LEADING)
-						.addGroup(
-								gl_panel.createSequentialGroup().addGap(5).addComponent(btnContabilidad).addGap(55)
-										.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 124,
-												GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
-										.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-												.addComponent(btnAceptar).addComponent(btnGenerarListado))
-										.addContainerGap()));
+		gl_panel.setVerticalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup().addGap(5).addComponent(btnContabilidad).addGap(55)
+						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED, 27, Short.MAX_VALUE).addComponent(btnAceptar)
+						.addContainerGap()));
 
 		table = new JTable();
 		scrollPane.setColumnHeaderView(table);
