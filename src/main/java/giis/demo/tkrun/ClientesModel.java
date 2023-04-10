@@ -74,4 +74,33 @@ public class ClientesModel {
 
 		bd.executeUpdate(nuevo_cliente, nombre, dni, null, null, 0, null, null, null, null, telefono, null);
 	}
+
+//Metodo para obtener la contabilidad en un periodo de fechas en formato yyyy-MM-dd Falla contando la contabilidad de las actividades
+	public List<Object[]> getContabilidadPeriodo(String fechaInicial, String fechaFin) {
+		return bd.executeQueryArray(
+				"SELECT clientes.nombre, clientes.dni, COALESCE(SUM(actividades.precio_socio), 0) AS sum_precio_socio, COALESCE(SUM(reservas.precio), 0) AS sum_precio_reservas, COALESCE(SUM(actividades.precio_socio), 0) + COALESCE(SUM(reservas.precio), 0) AS total FROM clientes LEFT JOIN inscripciones ON clientes.dni = inscripciones.dni_clientes LEFT JOIN actividades ON inscripciones.id_actividades = actividades.id_actividad LEFT JOIN reservas ON clientes.id_socio = reservas.id_socios WHERE (reservas.fecha_reserva BETWEEN "
+						+ "'" + fechaInicial + "'" + " AND " + "'" + fechaFin + "'"
+						+ " OR actividades.fecha_inicio BETWEEN " + "'" + fechaInicial + "'" + " AND " + "'" + fechaFin
+						+ "'" + ") GROUP BY clientes.dni;");
+
+	}
+
+	// Metodo para obtener la contabilidad de las reservas
+	public List<Object[]> getContabilidadReservas(String fechaInicial, String fechaFin) {
+		return bd.executeQueryArray("SELECT c.nombre, c.dni, " + "COALESCE(SUM(CASE WHEN r.fecha_reserva BETWEEN " + "'"
+				+ fechaInicial + "'" + " AND " + "'" + fechaFin + "'"
+				+ " THEN r.precio ELSE 0 END), 0) AS precio_reserva " + "FROM clientes c "
+				+ "LEFT JOIN reservas r ON c.id_socio = r.id_socios " + "WHERE (r.fecha_reserva BETWEEN " + "'"
+				+ fechaInicial + "'" + " AND " + "'" + fechaFin + "'" + " ) " + "GROUP BY c.nombre, c.dni;");
+	}
+
+	// Metodo para obtener la contabilidad de las actividades
+	public List<Object[]> getContabilidadActividades(String fechaInicial, String fechaFin) {
+		return bd.executeQueryArray("SELECT c.nombre, c.dni, IFNULL(SUM(a.precio_socio), 0) AS total_precio_socio "
+				+ "FROM clientes c" + " LEFT JOIN inscripciones i ON c.dni = i.dni_clientes "
+				+ "LEFT JOIN actividades a ON i.id_actividades = a.id_actividad " + "WHERE ((a.fecha_inicio BETWEEN "
+				+ "'" + fechaInicial + "'" + " AND " + "'" + fechaFin + "'" + " )and c.id_socio is not null) "
+				+ "GROUP BY c.nombre, c.dni;");
+	}
+
 }
