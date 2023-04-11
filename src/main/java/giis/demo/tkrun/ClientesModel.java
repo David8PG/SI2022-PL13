@@ -75,6 +75,7 @@ public class ClientesModel {
 		bd.executeUpdate(nuevo_cliente, nombre, dni, null, null, 0, null, null, null, null, telefono, null);
 	}
 
+
 //Metodo para obtener la contabilidad en un periodo de fechas en formato yyyy-MM-dd Falla contando la contabilidad de las actividades
 	public List<Object[]> getContabilidadPeriodo(String fechaInicial, String fechaFin) {
 		return bd.executeQueryArray(
@@ -101,6 +102,20 @@ public class ClientesModel {
 				+ "LEFT JOIN actividades a ON i.id_actividades = a.id_actividad " + "WHERE ((a.fecha_inicio BETWEEN "
 				+ "'" + fechaInicial + "'" + " AND " + "'" + fechaFin + "'" + " )and c.id_socio is not null) "
 				+ "GROUP BY c.nombre, c.dni;");
+	}
+
+
+	
+	public static final String añadir_cuota_reserva = "UPDATE clientes SET cuotaReservas=? WHERE (id_socio=?);";
+	public void añadirCuotaReserva(double cuota, int id_socio) {
+		// System.out.println("La cuota es"+cuota);
+		bd.executeUpdate(añadir_cuota_reserva, cuota, id_socio);
+	}
+	
+	public static final String añadir_cuota_actividad = "UPDATE clientes SET cuotaActividades=? WHERE (id_socio=?);";
+	public void añadirCuotaActividad(double cuota, int id_socio) {
+		// System.out.println("La cuota es"+cuota);
+		bd.executeUpdate(añadir_cuota_actividad, cuota, id_socio);
 	}
 
 }
