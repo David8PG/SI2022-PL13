@@ -46,11 +46,11 @@ public class PagosModel {
 		bd.executeUpdate(elimina_pago_reserva, id_reserva);
 	}
 
-	public static final String nuevo_pago = "INSERT INTO pagos (id_pago, fecha, dni_clientes, id_inscripciones, id_reservas, pagado) VALUES (?, ?, ?, ?, ?, ?);";
+	public static final String nuevo_pago = "INSERT INTO pagos (id_pago, fecha, dni_clientes, id_inscripciones, id_reservas) VALUES (?, ?, ?, ?, ?);";
 
 	public void nuevoPago(String fecha, String cliente, String inscripcion, String reserva) {
 
-		bd.executeUpdate(nuevo_pago, Long.toString(siguienteId()), fecha, cliente, inscripcion, reserva, 0);
+		bd.executeUpdate(nuevo_pago, Long.toString(siguienteId()), fecha, cliente, inscripcion, reserva);
 	}
 
 	public static final String siguienteID = "SELECT MAX(id_pago) from pagos;";
@@ -65,6 +65,18 @@ public class PagosModel {
 	public boolean getPagoInscripcion(String inscripcion){
 		
 		List<Object[]> l = bd.executeQueryArray(pago_inscripcion, inscripcion);
+		if (l.isEmpty()) {
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+	
+	public static final String pago_reserva = "SELECT id_pago FROM pagos WHERE id_reservas=?";
+	public boolean getPagoReserva(String reserva){
+			
+		List<Object[]> l = bd.executeQueryArray(pago_reserva, reserva);
 		if (l.isEmpty()) {
 			return false;
 		}

@@ -46,7 +46,7 @@ public class InscripcionesModel {
 		else return true;
 	}
 	
-	public static final String todas_socio = "SELECT id_inscripcion, dni_cliente, id_actividades, fecha FROM inscripciones WHERE dni_clientes=? AND fecha>=? AND fecha<=? ORDER BY fecha DESC";
+	public static final String todas_socio = "SELECT id_inscripcion, dni_clientes, id_actividades, fecha FROM inscripciones WHERE dni_clientes=? AND fecha>=? AND fecha<=? ORDER BY fecha DESC";
 	public List<Object[]> getTodasInscripcionesSocio(String persona, String ini, String fin){
 		
 		return bd.executeQueryArray(todas_socio, persona, ini, fin);

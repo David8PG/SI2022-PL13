@@ -219,5 +219,13 @@ public class ActividadesModel {
 		return Integer.parseInt(lista.get(0)[0].toString()); 	
 	}
 	
+	public static final String precio_SOC_actividad = "SELECT precio_socio FROM actividades WHERE id_actividad=";
+	
+	public String getPrecioSocioActividad(String id){
+		List<Object[]> lista;
+		lista = bd.executeQueryArray(precio_SOC_actividad+"'"+id+"'");
+		return lista.get(0)[0].toString(); 	
+	}
+	
 
 }
