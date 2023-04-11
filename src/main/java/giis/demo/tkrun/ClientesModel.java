@@ -103,4 +103,18 @@ public class ClientesModel {
 				+ "GROUP BY c.nombre, c.dni;");
 	}
 
+	public static final String añadir_cuota_reserva = "UPDATE clientes SET cuotaReservas=? WHERE (id_socio=?);";
+
+	public void añadirCuotaReserva(double cuota, int id_socio) {
+		// System.out.println("La cuota es"+cuota);
+		bd.executeUpdate(añadir_cuota_reserva, cuota, id_socio);
+	}
+
+	public static final String añadir_cuota_actividad = "UPDATE clientes SET cuotaActividades=? WHERE (id_socio=?);";
+
+	public void añadirCuotaActividad(double cuota, int id_socio) {
+		// System.out.println("La cuota es"+cuota);
+		bd.executeUpdate(añadir_cuota_actividad, cuota, id_socio);
+	}
+
 }

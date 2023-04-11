@@ -22,6 +22,7 @@ public class pantallaInicialSocio {
 	private JTextField tSocio;
 	private InscripcionActSocController inscripcionactivcont;
 	private InscripcionActividadSocio inscripcionactividad;
+	private ConsultaPagosSocio consultapagos;
 
 	/**
 	 * Launch the application.
@@ -61,7 +62,7 @@ public class pantallaInicialSocio {
 	private void initialize() {
 		frmPantallaInicialSocio = new JFrame();
 		frmPantallaInicialSocio.setTitle("Pantalla Inicial Socio");
-		frmPantallaInicialSocio.setBounds(100, 100, 450, 220);
+		frmPantallaInicialSocio.setBounds(100, 100, 450, 249);
 		frmPantallaInicialSocio.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmPantallaInicialSocio.getContentPane().setLayout(null);
 
@@ -73,7 +74,7 @@ public class pantallaInicialSocio {
 				frmPantallaInicialSocio.setVisible(false);
 			}
 		});
-		btnNewButton.setBounds(168, 152, 85, 21);
+		btnNewButton.setBounds(175, 166, 85, 21);
 		frmPantallaInicialSocio.getContentPane().add(btnNewButton);
 
 		JButton bVerReservas = new JButton("Ver disponibilidad");
@@ -135,6 +136,17 @@ public class pantallaInicialSocio {
 		bReservarAct.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		bReservarAct.setBounds(260, 92, 132, 23);
 		frmPantallaInicialSocio.getContentPane().add(bReservarAct);
+		
+		JButton bPagos = new JButton("Ver pagos");
+		bPagos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				consultapagos = new ConsultaPagosSocio(vInicioSesion);
+				consultapagos.getFrame().setVisible(true);
+			}
+		});
+		bPagos.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		bPagos.setBounds(260, 125, 132, 21);
+		frmPantallaInicialSocio.getContentPane().add(bPagos);
 	}
 
 	public JFrame getFrmvSocio() {

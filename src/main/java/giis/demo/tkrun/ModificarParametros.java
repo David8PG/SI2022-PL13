@@ -167,4 +167,16 @@ public class ModificarParametros {
 	public Window getModificarParametros() {
 		return this.frameModificarParametros;
 	}
+	
+	public int getDiasAntelacion() {
+		return (int) spinnerDiasAntelacion.getValue();
+	}
+	
+	public int getHorasMax() {
+		return (int) spinnerHorasMax.getValue();
+	}
+	
+	public int getHorasMaxDia() {
+		return (int) spinnerHorasMaxDia.getValue();
+	}
 }
