@@ -319,7 +319,6 @@ public class ReservaInstalacionActividadPeriodoDet {
 								modeloReservas.nuevaReserva(id_socio, Integer.parseInt(id_instalacion),
 										formato.format(fecha_actual), diaYhora, "0",
 										modeloActividades.getIdActividad((String) comboBoxActividad.getSelectedItem()));
-								// AQUI GENERAR TXT???
 							}
 							// Añadimos 1 a la fecha de la instancia de calendario
 							calendario.add(calendario.DATE, 1);
