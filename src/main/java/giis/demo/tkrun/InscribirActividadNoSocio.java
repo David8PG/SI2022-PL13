@@ -280,106 +280,114 @@ public class InscribirActividadNoSocio {
 				String nombre = textField.getText();
 				String dni = textField_1.getText();
 				String telefono = textField_2.getText();
-				if (textArea.getText().isEmpty()) {
+				if (ModeloClientes.existeDNI(dni) && comprueba(dni)) {
 					JOptionPane.showMessageDialog(frmInscribirActividadNoSocio,
-							"No hay sesiones disponibles para esta actividad", "Error", JOptionPane.ERROR_MESSAGE);
+							"Esta ventana es para inscribir solo a no socios", "Error", JOptionPane.ERROR_MESSAGE);
 				} else {
-					if (nombre.equals("") || dni.equals("") || telefono.equals("")) {
-						JOptionPane.showMessageDialog(frmInscribirActividadNoSocio, "Debes rellenar todos los campos.",
-								"Error", JOptionPane.ERROR_MESSAGE);
+					if (textArea.getText().isEmpty()) {
+						JOptionPane.showMessageDialog(frmInscribirActividadNoSocio,
+								"No hay sesiones disponibles para esta actividad", "Error", JOptionPane.ERROR_MESSAGE);
 					} else {
-
-						if (!ModeloClientes.existeDNI(dni)) {
-							ModeloClientes.nuevoCliente(nombre, dni, telefono);
-						}
-						if (yaInscrito(dni, comboBox.getSelectedItem().toString())) {
+						if (nombre.equals("") || dni.equals("") || telefono.equals("")) {
 							JOptionPane.showMessageDialog(frmInscribirActividadNoSocio,
-									"El cliente ya está inscrito en la actividad.", "Error", JOptionPane.ERROR_MESSAGE);
-						} else {
+									"Debes rellenar todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
+						}
 
-							if (quedanPlazas(comboBox.getSelectedItem().toString())) {
-								ModeloActividades.restarPlaza(comboBox.getSelectedItem().toString());
-								long idInscripcion = ModeloInscripciones.nuevaInscripcionRetornaId(dni,
-										"" + ModeloActividades.getIdActividad(comboBox.getSelectedItem().toString()),
-										fechaHoy);
-								ModeloPagos.nuevoPago(fechaHoy, dni, "" + idInscripcion, "" + 0);
+						else {
+
+							if (!ModeloClientes.existeDNI(dni)) {
+								ModeloClientes.nuevoCliente(nombre, dni, telefono);
+							}
+							if (yaInscrito(dni, comboBox.getSelectedItem().toString())) {
 								JOptionPane.showMessageDialog(frmInscribirActividadNoSocio,
-										"Cliente inscrito en la actividad. \n- Importe: " + textField_6.getText()
-												+ " €\n- Fecha: " + fechaHoy,
-										"Inscrito", JOptionPane.INFORMATION_MESSAGE);
-
-								String ruta = "src/main/resources/InscripcionesActividades/" + dni + "_Inscripcion"
-										+ idInscripcion + ".txt";
-								String contenido = "Se ha inscrito al cliente " + nombre + " con DNI " + dni
-										+ " y teléfono " + telefono + " en la Actividad "
-										+ comboBox.getSelectedItem().toString() + " el día " + fechaHoy
-										+ " con un precio de " + textField_6.getText();
-								File file = new File(ruta);
-								if (!file.exists()) {
-									try {
-										file.createNewFile();
-									} catch (IOException e1) {
-										e1.printStackTrace();
-									}
-								}
-								FileWriter fw = null;
-								try {
-									fw = new FileWriter(file);
-								} catch (IOException e1) {
-									e1.printStackTrace();
-								}
-								BufferedWriter bw = new BufferedWriter(fw);
-								try {
-									bw.write(contenido);
-								} catch (IOException e1) {
-
-									e1.printStackTrace();
-								}
-								try {
-									bw.close();
-								} catch (IOException e1) {
-									e1.printStackTrace();
-								}
-								frmInscribirActividadNoSocio.dispose();
+										"El cliente ya está inscrito en la actividad.", "Error",
+										JOptionPane.ERROR_MESSAGE);
 							} else {
-								JOptionPane.showMessageDialog(frmInscribirActividadNoSocio,
-										"No quedan plazas disponibles, el cliente pasará a la lista de espera.",
-										"Error", JOptionPane.ERROR_MESSAGE);
-								ModeloCola.nuevaCola(dni,
-										"" + ModeloActividades.getIdActividad(comboBox.getSelectedItem().toString()),
-										fechaHoy);
-								String ruta = "src/main/resources/InscripcionesActividades/" + dni + "_InscripcionCola"
-										+ ".txt";
-								String contenido = "Se ha inscrito al cliente " + nombre + " con DNI " + dni
-										+ " y teléfono " + telefono + " en la lista de espera de la Actividad "
-										+ comboBox.getSelectedItem().toString() + " el día " + fechaHoy;
-								File file = new File(ruta);
-								if (!file.exists()) {
+
+								if (quedanPlazas(comboBox.getSelectedItem().toString())) {
+									ModeloActividades.restarPlaza(comboBox.getSelectedItem().toString());
+									long idInscripcion = ModeloInscripciones.nuevaInscripcionRetornaId(dni, ""
+											+ ModeloActividades.getIdActividad(comboBox.getSelectedItem().toString()),
+											fechaHoy);
+									ModeloPagos.nuevoPago(fechaHoy, dni, "" + idInscripcion, "" + 0);
+									JOptionPane.showMessageDialog(frmInscribirActividadNoSocio,
+											"Cliente inscrito en la actividad. \n- Importe: " + textField_6.getText()
+													+ " €\n- Fecha: " + fechaHoy,
+											"Inscrito", JOptionPane.INFORMATION_MESSAGE);
+
+									String ruta = "src/main/resources/InscripcionesActividades/" + dni + "_Inscripcion"
+											+ idInscripcion + ".txt";
+									String contenido = "Se ha inscrito al cliente " + nombre + " con DNI " + dni
+											+ " y teléfono " + telefono + " en la Actividad "
+											+ comboBox.getSelectedItem().toString() + " el día " + fechaHoy
+											+ " con un precio de " + textField_6.getText();
+									File file = new File(ruta);
+									if (!file.exists()) {
+										try {
+											file.createNewFile();
+										} catch (IOException e1) {
+											e1.printStackTrace();
+										}
+									}
+									FileWriter fw = null;
 									try {
-										file.createNewFile();
+										fw = new FileWriter(file);
 									} catch (IOException e1) {
 										e1.printStackTrace();
 									}
-								}
-								FileWriter fw = null;
-								try {
-									fw = new FileWriter(file);
-								} catch (IOException e1) {
-									e1.printStackTrace();
-								}
-								BufferedWriter bw = new BufferedWriter(fw);
-								try {
-									bw.write(contenido);
-								} catch (IOException e1) {
+									BufferedWriter bw = new BufferedWriter(fw);
+									try {
+										bw.write(contenido);
+									} catch (IOException e1) {
 
-									e1.printStackTrace();
+										e1.printStackTrace();
+									}
+									try {
+										bw.close();
+									} catch (IOException e1) {
+										e1.printStackTrace();
+									}
+									frmInscribirActividadNoSocio.dispose();
+								} else {
+									JOptionPane.showMessageDialog(frmInscribirActividadNoSocio,
+											"No quedan plazas disponibles, el cliente pasará a la lista de espera.",
+											"Error", JOptionPane.ERROR_MESSAGE);
+									ModeloCola.nuevaCola(dni, ""
+											+ ModeloActividades.getIdActividad(comboBox.getSelectedItem().toString()),
+											fechaHoy);
+									String ruta = "src/main/resources/InscripcionesActividades/" + dni
+											+ "_InscripcionCola" + ".txt";
+									String contenido = "Se ha inscrito al cliente " + nombre + " con DNI " + dni
+											+ " y teléfono " + telefono + " en la lista de espera de la Actividad "
+											+ comboBox.getSelectedItem().toString() + " el día " + fechaHoy;
+									File file = new File(ruta);
+									if (!file.exists()) {
+										try {
+											file.createNewFile();
+										} catch (IOException e1) {
+											e1.printStackTrace();
+										}
+									}
+									FileWriter fw = null;
+									try {
+										fw = new FileWriter(file);
+									} catch (IOException e1) {
+										e1.printStackTrace();
+									}
+									BufferedWriter bw = new BufferedWriter(fw);
+									try {
+										bw.write(contenido);
+									} catch (IOException e1) {
+
+										e1.printStackTrace();
+									}
+									try {
+										bw.close();
+									} catch (IOException e1) {
+										e1.printStackTrace();
+									}
+									frmInscribirActividadNoSocio.dispose();
 								}
-								try {
-									bw.close();
-								} catch (IOException e1) {
-									e1.printStackTrace();
-								}
-								frmInscribirActividadNoSocio.dispose();
 							}
 						}
 					}
@@ -409,6 +417,22 @@ public class InscribirActividadNoSocio {
 			bool = false;
 		}
 		return bool;
+	}
+
+	public boolean comprueba(String dni) {
+		List<Object[]> DNIsocios = ModeloClientes.getDNITodos();
+		for (Object[] socio : DNIsocios) {
+
+			if (socio != null) { // Comprueba si el objeto no es nulo antes de convertirlo a String
+				String dniSocio = socio[0].toString();
+				if (dniSocio.equals(dni)) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+
 	}
 
 	public Window getFrmActividadNoSocio() {
