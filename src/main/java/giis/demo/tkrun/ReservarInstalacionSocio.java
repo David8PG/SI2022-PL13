@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -26,6 +27,9 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemListener;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.awt.event.ItemEvent;
 
 public class ReservarInstalacionSocio {
@@ -41,6 +45,7 @@ public class ReservarInstalacionSocio {
 	private InstalacionesModel instalacionesModel = new InstalacionesModel();
 	private ReservasModel reservasModel = new ReservasModel();
 	private ClientesModel clientesModel = new ClientesModel();
+	private ModificarParametros modpar = new ModificarParametros();
 
 	/**
 	 * Launch the application.
@@ -140,14 +145,19 @@ public class ReservarInstalacionSocio {
 		cHoraInicio.setModel(new DefaultComboBoxModel(new String[] {"09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00"}));
 		frame.getContentPane().add(cHoraInicio);
 
-		JLabel lblNewLabel_3 = new JLabel("Hora de fin:");
+		JLabel lblNewLabel_3 = new JLabel("Horas seguidas:");
 		lblNewLabel_3.setBounds(44, 152, 75, 17);
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		frame.getContentPane().add(lblNewLabel_3);
+		
+		String[] seguidas = new String[modpar.getHorasMaxDia()];
+		for (int k=1;k<=seguidas.length;k++) {
+			seguidas[k-1] = ""+k;
+		}
 
 		JComboBox cHoraFin = new JComboBox();
 		cHoraFin.setBounds(125, 152, 93, 21);
-		cHoraFin.setModel(new DefaultComboBoxModel(new String[] {"10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00"}));
+		cHoraFin.setModel(new DefaultComboBoxModel(seguidas));
 		frame.getContentPane().add(cHoraFin);
 
 		JLabel lblNewLabel_4 = new JLabel("Coste:");
@@ -161,10 +171,13 @@ public class ReservarInstalacionSocio {
 		tCoste.setText(instalacionesModel.getPrecio((String)cInstalaciones.getSelectedItem()));
 		tCoste.setEditable(false);
 		tCoste.setColumns(10);
+		
+		System.out.println(cHoraInicio.getSelectedItem().toString().split(":")[0]+1);
 
 		JDateChooser dFecha = new JDateChooser();
 		dFecha.setBounds(164, 86, 113, 19);
 		frame.getContentPane().add(dFecha);
+
 
 		JButton bCancelar = new JButton("Cancelar");
 		bCancelar.addActionListener(new ActionListener() {
@@ -312,19 +325,52 @@ public class ReservarInstalacionSocio {
 					tCoste.setText(precio);
 
 					if (clientesModel.validarId(id_socio)) {
+						
 						if (diferencia_dias >= 0 && diferencia_años >= 0) {
-							if (diferencia_dias <= 15 || diferencia_años>0) {	
+							
+							if (diferencia_dias <= modpar.getDiasAntelacion() || diferencia_años>0) {	
 								JOptionPane.showMessageDialog(frame, "  Has reservado.\n"
 										+ "  Precio de la reserva: "+precio
 										+"\n  Socio que lo solicita: "+id_socio
 										+"\n  Instalación a reservar: "+id
 										+"\n  Fecha de reserva: "+diaHora);
-								reservasModel.nuevaReserva_ampliada(Integer.parseInt(id_socio), Integer.parseInt(id), sdf.format(d1), diaHora, precio ,0);
+								String aux;
+								aux=cHoraInicio.getSelectedItem().toString().split(":")[0];
+								int a = 0;
+								a=Integer.parseInt(aux);
+								aux=date+" "+a+":00";
+								for(int t=0;t<Integer.parseInt(cHoraFin.getSelectedItem().toString());t++) {
+								reservasModel.nuevaReserva_ampliada(Integer.parseInt(id_socio), Integer.parseInt(id), sdf.format(d1), aux, precio ,0);
+								a=a+1;
+								aux=date+" "+a+":00";
+								}
 								bReservar.setSelected(true);
+								
+								try {
+						            String ruta = "D://Descargas HDD/Ticket.txt";
+						            String contenido1 = "Has reservado: "+ cInstalaciones.getSelectedItem().toString();
+						            String contenido2 = "\nFecha de reserva: " + diaHora;
+						            String contenido3 = "\nNº de horas: " + cHoraFin.getSelectedItem();
+						            String contenido4 = "\nImporte: "+tCoste.getText();
+						            File file = new File(ruta);
+						            // Si el archivo no existe es creado
+						            if (!file.exists()) {
+						                file.createNewFile();
+						            }
+						            FileWriter fw = new FileWriter(file);
+						            BufferedWriter bw = new BufferedWriter(fw);
+						            bw.write(contenido1);
+						            bw.write(contenido2);
+						            bw.write(contenido3);
+						            bw.write(contenido4);
+						            bw.close();
+						        } catch (Exception u) {
+						            u.printStackTrace();
+						        }
 							}								
 							else {
 								JOptionPane.showMessageDialog(frame,
-										"No puedes reservar con más de 15 días de antelación.",
+										"No puedes reservar con más de " + modpar.getDiasAntelacion() + " días de antelación.",
 										"No puedes reservar",
 										JOptionPane.ERROR_MESSAGE);								
 							}	
