@@ -230,9 +230,8 @@ public class InscripcionActividadSocio {
 						Long actividad = actividadesmodel.getIdActividad(cActividades.getSelectedItem().toString());
 						long id_nuevainscripcion = insmodel.nuevaInscripcionRetornaId(clientesmodel.getDNI(""+id_socio), actividad.toString(), hoy);
 						actividadesmodel.restarPlaza(cActividades.getSelectedItem().toString());
-						double cuota = reservasmodel.nuevaCuota(id_socio);
-						cuota = cuota + Double.parseDouble(actividadesmodel.getPrecioSocio((String)cActividades.getSelectedItem()).toString());
-						reservasmodel.añadeacuota(cuota, id_socio);
+						double cuota = Double.parseDouble(actividadesmodel.getPrecioSocio((String)cActividades.getSelectedItem()).toString());
+						clientesmodel.añadirCuotaActividad(cuota, id_socio);
 						JOptionPane.showMessageDialog(frame,"Te has inscrito en esta actividad.\nID de la reserva: "+id_nuevainscripcion+"\nImporte: "+tfPrecio.getText()+" €\nSe añadirá el importe a tu próxima cuota.","Inscrito",JOptionPane.INFORMATION_MESSAGE);
 						frame.dispose();
 						
