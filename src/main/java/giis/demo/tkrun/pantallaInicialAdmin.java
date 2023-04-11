@@ -22,6 +22,7 @@ public class pantallaInicialAdmin {
 	private CancelarReservaSocio ventanaCancelarReserva;
 	private ReservaAutomatica ventanaReservaAutomatica;
 	private VisualizarContabilidad ventanaVisualizarContabilidad;
+	private InscribirActividadNoSocio ventanaInscribirActividadNoSocio;
 
 	/**
 	 * Launch the application.
@@ -160,6 +161,16 @@ public class pantallaInicialAdmin {
 		});
 		btnVisualizarContabilidad.setBounds(33, 252, 153, 21);
 		frmPantallaInicialAdministrador.getContentPane().add(btnVisualizarContabilidad);
+
+		JButton btnNewButton_1 = new JButton("Inscribir Actividad no Socio");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ventanaInscribirActividadNoSocio = new InscribirActividadNoSocio();
+				ventanaInscribirActividadNoSocio.getFrmActividadNoSocio().setVisible(true);
+			}
+		});
+		btnNewButton_1.setBounds(221, 93, 233, 23);
+		frmPantallaInicialAdministrador.getContentPane().add(btnNewButton_1);
 	}
 
 	public JFrame getFrmvAdmin() {
