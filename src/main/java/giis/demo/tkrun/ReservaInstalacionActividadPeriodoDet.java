@@ -319,6 +319,7 @@ public class ReservaInstalacionActividadPeriodoDet {
 								modeloReservas.nuevaReserva(id_socio, Integer.parseInt(id_instalacion),
 										formato.format(fecha_actual), diaYhora, "0",
 										modeloActividades.getIdActividad((String) comboBoxActividad.getSelectedItem()));
+								// AQUI GENERAR TXT???
 							}
 							// Añadimos 1 a la fecha de la instancia de calendario
 							calendario.add(calendario.DATE, 1);
@@ -337,7 +338,7 @@ public class ReservaInstalacionActividadPeriodoDet {
 							JOptionPane.showMessageDialog(frmReservaInstalacionActividadPeriodoDet, mensaje,
 									"La reserva se ha realizado con éxito", JOptionPane.INFORMATION_MESSAGE);
 							try {
-					            String ruta = "src/main/resources/ReservaSocio"+numero_socio+".txt";
+								String ruta = "src/main/resources/CancelacionReservaSocio"+id_socio+".txt";
 					            String contenido = "Se le ha cancelado la reserva con fecha "+ diaYhora +" al socio número "+ numero_socio + " en la instalación "+modeloInstalaciones.getNombre_Instalacion(id_instalacion)+" por causas administrativas.\n"
 					            		+ "La instalación " + modeloInstalaciones.getNombre_Instalacion(id_instalacion) + " ahora se utiliza para la actividad "
 					            		+ comboBoxActividad.getSelectedItem().toString() + ".";
@@ -414,7 +415,7 @@ public class ReservaInstalacionActividadPeriodoDet {
 													+ lista_reservasCliente_eliminadas.get(0)[1],
 											"La reserva se ha realizado con éxito", JOptionPane.INFORMATION_MESSAGE);
 									try {
-							            String ruta = "src/main/resources/ReservaSocio"+id_socio+".txt";
+							            String ruta = "src/main/resources/CancelacionReservaSocio"+id_socio+".txt";
 							            String contenido = "Se le ha cancelado la reserva con fecha "+ diaYhora +" en la instalación "+modeloInstalaciones.getNombre_Instalacion(id_instalacion)+ " al socio nº " + id_socio + " por causas administrativas.\n"
 							            		+ "La instalación " + modeloInstalaciones.getNombre_Instalacion(id_instalacion) + " ahora se utiliza para la actividad "
 							            		+ comboBoxActividad.getSelectedItem().toString() + ".";

@@ -187,7 +187,7 @@ public class ReservaAutomatica {
 									modeloReservas.eliminarReserva(Integer.parseInt(nombreInstalacion),
 											fecha_inicio_reserva);
 									try {
-										String ruta = "src/main/resources/ReservaSocio" + id_socio + ".txt";
+										String ruta = "src/main/resources/CancelacionReservaSocio" + id_socio + ".txt";
 										String contenido = "Se le ha cancelado la reserva con fecha '"
 												+ fecha_inicio_reserva + "' en la instalación '"
 												+ modeloInstalaciones.getNombre_Instalacion(nombreInstalacion)
