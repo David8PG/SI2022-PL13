@@ -73,14 +73,14 @@ INSERT INTO sesiones(id_sesion, dia, hora_inicio, hora_fin, id_actividades) VALU
 (5, 'viernes', '10:00:00', '12:00:00', '1'); 
 
 
-INSERT INTO pagos(id_pago, fecha, dni_clientes, id_inscripciones, id_reservas) VALUES
-(1, '2022-03-14', '44444444D', NULL, 6),
-(2, '2022-03-14', '44444444D', NULL, 3),
-(3, '2022-03-10', '66666666F', 3, 1),
-(4, '2022-02-26', '66666666F', 2, 1),
-(5, '2022-02-25', '44444444D', NULL, 7),
-(6, '2022-03-29', '44444444D', NULL, 6),
-(7, '2022-03-25', '66666666F', 4, 1);
+INSERT INTO pagos(id_pago, fecha, dni_clientes, id_inscripciones, id_reservas, pagado) VALUES
+(1, '2022-03-14', '44444444D', NULL, 6, 1),
+(2, '2022-03-14', '44444444D', NULL, 3, 0),
+(3, '2022-03-10', '66666666F', 3, 1, 0),
+(4, '2022-02-26', '66666666F', 2, 1, 1),
+(5, '2022-02-25', '44444444D', NULL, 7, 1),
+(6, '2022-03-29', '44444444D', NULL, 6, 0),
+(7, '2022-03-25', '66666666F', 4, 1, 1);
 
 INSERT INTO cola(id_cola, dni_clientes, id_actividades, fecha) VALUES
 (0,NULL,NULL,NULL);

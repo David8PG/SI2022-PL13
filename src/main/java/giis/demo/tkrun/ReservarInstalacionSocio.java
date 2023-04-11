@@ -350,7 +350,7 @@ public class ReservarInstalacionSocio {
 						            String ruta = "D://Descargas HDD/Ticket.txt";
 						            String contenido1 = "Has reservado: "+ cInstalaciones.getSelectedItem().toString();
 						            String contenido2 = "\nFecha de reserva: " + diaHora;
-						            String contenido3 = "\nNº de horas: " + cHoraFin;
+						            String contenido3 = "\nNº de horas: " + cHoraFin.getSelectedItem();
 						            String contenido4 = "\nImporte: "+tCoste.getText();
 						            File file = new File(ruta);
 						            // Si el archivo no existe es creado

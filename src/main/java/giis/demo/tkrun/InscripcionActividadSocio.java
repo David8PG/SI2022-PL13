@@ -44,6 +44,7 @@ public class InscripcionActividadSocio {
 	private ActividadesModel actividadesmodel = new ActividadesModel();
 	private InscripcionesModel insmodel = new InscripcionesModel();
 	private ClientesModel clientesmodel = new ClientesModel();
+	private PagosModel pagosmodel = new PagosModel();
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	Date dateHoy = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
 	DateFormat horaform = new SimpleDateFormat("HH:mm:ss");
@@ -232,6 +233,7 @@ public class InscripcionActividadSocio {
 						actividadesmodel.restarPlaza(cActividades.getSelectedItem().toString());
 						double cuota = Double.parseDouble(actividadesmodel.getPrecioSocio((String)cActividades.getSelectedItem()).toString());
 						clientesmodel.añadirCuotaActividad(cuota, id_socio);
+						pagosmodel.nuevoPago(fecha, clientesmodel.getDNI(""+id_socio), ""+id_nuevainscripcion, null);
 						JOptionPane.showMessageDialog(frame,"Te has inscrito en esta actividad.\nID de la reserva: "+id_nuevainscripcion+"\nImporte: "+tfPrecio.getText()+" €\nSe añadirá el importe a tu próxima cuota.","Inscrito",JOptionPane.INFORMATION_MESSAGE);
 						frame.dispose();
 						

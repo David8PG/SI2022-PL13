@@ -265,4 +265,10 @@ public class ReservasModel {
 		List<Object[]> lista = bd.executeQueryArray(obtener_socio_res_inst, fechareserva, instalacion);
 		return lista.get(0)[0].toString();
 	}
+	
+	public static final String todo_socio = "SELECT id_reserva, id_socios, id_instalaciones, fecha, fecha_reserva, precio, actividad FROM reservas WHERE id_socios= ? AND fecha>=? AND fecha<=? ORDER BY fecha DESC";
+	public List<Object[]> getReservasSocioTodo(int persona, String ini, String fin){
+
+		return bd.executeQueryArray(todo_socio, persona, ini, fin);
+	}
 }
