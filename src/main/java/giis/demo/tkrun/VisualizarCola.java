@@ -6,7 +6,12 @@ import java.awt.Font;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
@@ -35,6 +40,7 @@ public class VisualizarCola {
 	private PagosModel pagosModel = new PagosModel();
 	int id_socio;
 	private List<Object[]> lCola;
+	private List<Object[]> lCola2;
 
 	private Vector<String> reservasPagadas;
 	private List<Object[]> lPagos;
@@ -47,6 +53,10 @@ public class VisualizarCola {
 	private String dni;
 	private JLabel sinReservasLabel;
 	private SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+	SimpleDateFormat formato2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	Date fechaHoraExactaHoy = new Date();
+	String fechaHoraExactaHoyStr = formato2.format(fechaHoraExactaHoy);
+	String ruta = "src/main/resources/Cola/" + "Informacion_" + ".txt";
 
 	/**
 	 * Launch the application.
@@ -125,7 +135,52 @@ public class VisualizarCola {
 		JButton btnNewButton_1 = new JButton("Aceptar");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				frmVisualizarCola.dispose();
+				lCola2 = colaModel.getEsperasSocio2();
+				String linea = "";
+				System.out.println("1");
+				if (lCola2.size() == 0) {
+					System.out.println("No hay lista de espera");
+				} else {
+					System.out.println("1");
+					Iterator<Object[]> iter = lCola.iterator();
+					while (iter.hasNext()) {
+						Object[] datos = iter.next();
+						String id_actividad = datos[0].toString();
+						String DNI = datos[1].toString();
+						Object fecha = datos[2].toString();
+						String socio = datos[3].toString();
+						linea += "ID actividad: " + id_actividad + ", DNI: " + DNI + ", Fecha Reserva: " + fecha
+								+ ", Es Socio: " + socio + "\n";
+
+					}
+					System.out.println("1");
+					File file = new File(ruta);
+					if (!file.exists()) {
+						try {
+							file.createNewFile();
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						}
+					}
+					FileWriter fw = null;
+					try {
+						fw = new FileWriter(file);
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+					BufferedWriter bw = new BufferedWriter(fw);
+					try {
+						bw.write(linea);
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+					try {
+						bw.close();
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+
+				}
 			}
 		});
 
@@ -136,27 +191,27 @@ public class VisualizarCola {
 				GroupLayout.DEFAULT_SIZE, 564, Short.MAX_VALUE));
 		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addComponent(panel,
 				GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE));
+
+		JButton btnNewButton = new JButton("Generar Informe");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frmVisualizarCola.dispose();
+			}
+		});
 		GroupLayout gl_panel = new GroupLayout(panel);
-		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup().addGap(36)
-						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_panel.createSequentialGroup()
-										.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-												.addComponent(scrollPane, Alignment.LEADING, GroupLayout.DEFAULT_SIZE,
-														835, Short.MAX_VALUE)
-												.addGroup(gl_panel.createSequentialGroup()
-														.addPreferredGap(ComponentPlacement.RELATED, 764,
-																Short.MAX_VALUE)
-														.addComponent(btnNewButton_1)))
-										.addGap(21))
-								.addGroup(
-										gl_panel.createSequentialGroup()
-												.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 66,
-														GroupLayout.PREFERRED_SIZE)
-												.addGap(33).addComponent(lblNewLabel_1)
-												.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(comboBox,
-														GroupLayout.PREFERRED_SIZE, 170, GroupLayout.PREFERRED_SIZE)
-												.addContainerGap()))));
+		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.LEADING).addGroup(gl_panel
+				.createSequentialGroup().addGap(36)
+				.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 835, Short.MAX_VALUE)
+						.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
+								.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 134, GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED, 630, Short.MAX_VALUE)
+								.addComponent(btnNewButton_1).addGap(21))
+						.addGroup(gl_panel.createSequentialGroup()
+								.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 66, GroupLayout.PREFERRED_SIZE)
+								.addGap(33).addComponent(lblNewLabel_1).addPreferredGap(ComponentPlacement.UNRELATED)
+								.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 170, GroupLayout.PREFERRED_SIZE)
+								.addContainerGap()))));
 		gl_panel.setVerticalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup().addGap(22)
 						.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE).addComponent(lblNewLabel)
@@ -164,8 +219,10 @@ public class VisualizarCola {
 										GroupLayout.PREFERRED_SIZE)
 								.addComponent(lblNewLabel_1))
 						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 122, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED, 89, Short.MAX_VALUE).addComponent(btnNewButton_1)
+						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 152, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
+						.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE).addComponent(btnNewButton_1)
+								.addComponent(btnNewButton))
 						.addContainerGap()));
 
 		panel.setLayout(gl_panel);

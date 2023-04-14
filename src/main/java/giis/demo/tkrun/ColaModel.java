@@ -40,6 +40,12 @@ public class ColaModel {
 		return bd.executeQueryArray(esperas_socio, actividad);
 	}
 
+	public static final String esperas_socio2 = "SELECT id_actividades, dni_clientes, fecha, socio FROM cola ORDER BY socio DESC,fecha ASC";
+
+	public List<Object[]> getEsperasSocio2() {
+		return bd.executeQueryArray(esperas_socio2);
+	}
+
 	public static final String cliente_actividad = "SELECT id_cola FROM cola WHERE id_actividades=? AND dni_clientes=?";
 
 	public boolean personaActividadEsperas(long actividad, String cliente) {
