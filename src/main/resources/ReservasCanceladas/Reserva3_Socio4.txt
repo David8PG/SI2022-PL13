@@ -1,0 +1,2 @@
+Se ha cancelado la Reserva con ID 3
+Al estar la reserva ya abonada se le devolverán 20.0€ al final del mes.
