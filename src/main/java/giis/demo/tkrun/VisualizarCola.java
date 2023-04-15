@@ -241,16 +241,21 @@ public class VisualizarCola {
 										DNIprimeroCola);
 								actividadesModel.restarPlaza(actividad[0].toString());
 
+								double cuota = Double.parseDouble(
+										actividadesModel.getPrecioSocio(actividad[0].toString()).toString());
+
+								double a = clientesModel.getCuotaActividad(DNIprimeroCola);
+								clientesModel.añadirCuotaActividad(cuota + a, clientesModel.getID(DNIprimeroCola));
 								JOptionPane.showMessageDialog(frmVisualizarCola,
 										"Socio " + DNIprimeroCola + " inscrito en la actividad "
-												+ actividad[0].toString() + "\n- Importe: " + " €\n- Fecha: "
+												+ actividad[0].toString() + "\n- Importe: " + cuota + " €\n- Fecha: "
 												+ fechaHoraExactaHoyStr,
 										"Inscrito", JOptionPane.INFORMATION_MESSAGE);
 								String ruta = "src/main/resources/InscripcionesActividades/" + DNIprimeroCola
 										+ "_Inscripcion" + idInscripcion + ".txt";
 								String contenido = "Se ha inscrito al cliente con DNI " + DNIprimeroCola
 										+ "en la Actividad " + actividad[0].toString() + " el día "
-										+ fechaHoraExactaHoyStr + " con un precio de ";
+										+ fechaHoraExactaHoyStr + " con un precio de " + cuota;
 								File file = new File(ruta);
 								if (!file.exists()) {
 									try {
@@ -288,17 +293,19 @@ public class VisualizarCola {
 								colaModel.eliminarEsperas2(actividadesModel.getIdActividad((String) actividad[0]),
 										DNIprimeroCola);
 								actividadesModel.restarPlaza(actividad[0].toString());
+								double cuota2 = Double.parseDouble(actividadesModel
+										.getPrecioActividadNoSocio2(actividad[0].toString()).toString());
 
 								JOptionPane.showMessageDialog(frmVisualizarCola,
 										"Cliente " + DNIprimeroCola + " inscrito en la actividad "
-												+ actividad[0].toString() + "\n- Importe: " + " €\n- Fecha: "
+												+ actividad[0].toString() + "\n- Importe: " + cuota2 + " €\n- Fecha: "
 												+ fechaHoraExactaHoyStr,
 										"Inscrito", JOptionPane.INFORMATION_MESSAGE);
 								String ruta = "src/main/resources/InscripcionesActividades/" + DNIprimeroCola
 										+ "_Inscripcion" + idInscripcion + ".txt";
 								String contenido = "Se ha inscrito al cliente con DNI " + DNIprimeroCola
 										+ "en la Actividad " + actividad[0].toString() + " el día "
-										+ fechaHoraExactaHoyStr + " con un precio de ";
+										+ fechaHoraExactaHoyStr + " con un precio de " + cuota2;
 								File file = new File(ruta);
 								if (!file.exists()) {
 									try {

@@ -68,6 +68,14 @@ public class ClientesModel {
 		return true;
 	}
 
+	public static final String cuota_actividad = "SELECT cuotaActividades FROM clientes WHERE dni=";
+
+	public double getCuotaActividad(String dni) {
+		List<Object[]> lista;
+		lista = bd.executeQueryArray(cuota_actividad + "'" + dni + "'");
+		return (double) lista.get(0)[0];
+	}
+
 	public static final String nuevo_cliente = "INSERT INTO clientes (nombre,dni, id_socio, fecha_nacimiento, PagoPendiente, contraseña, cuotaInicial, cuotaReservas, cuotaActividades,telefono, direccion) VALUES (?, ?, ?, ?, ?, ?, ?, ?,? ,?, ?);";
 
 	public void nuevoCliente(String nombre, String dni, String telefono) {
