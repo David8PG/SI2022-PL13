@@ -280,7 +280,7 @@ public class VisualizarCola {
 
 								updateTable(actividad[0].toString());
 							} else {
-								inscripcionesModel.nuevaInscripcionRetornaId(DNIprimeroCola,
+								long idInscripcion = inscripcionesModel.nuevaInscripcionRetornaId(DNIprimeroCola,
 										actividadesModel.getIdActividad(actividad[0].toString()) + "",
 										fechaHoraExactaHoyStr);
 								System.out.println("Se añade al cliente con DNI " + DNIprimeroCola + " en la actividad "
@@ -295,7 +295,7 @@ public class VisualizarCola {
 												+ fechaHoraExactaHoyStr,
 										"Inscrito", JOptionPane.INFORMATION_MESSAGE);
 								String ruta = "src/main/resources/InscripcionesActividades/" + DNIprimeroCola
-										+ "_Inscripcion" + ".txt";
+										+ "_Inscripcion" + idInscripcion + ".txt";
 								String contenido = "Se ha inscrito al cliente con DNI " + DNIprimeroCola
 										+ "en la Actividad " + actividad[0].toString() + " el día "
 										+ fechaHoraExactaHoyStr + " con un precio de ";
