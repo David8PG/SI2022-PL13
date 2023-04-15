@@ -36,11 +36,13 @@ public class VisualizarCola {
 	private ReservasModel reservasModel = new ReservasModel();
 	private ClientesModel clientesModel = new ClientesModel();
 	private ActividadesModel actividadesModel = new ActividadesModel();
+	private InscripcionesModel inscripcionesModel = new InscripcionesModel();
 	private ColaModel colaModel = new ColaModel();
 	private PagosModel pagosModel = new PagosModel();
 	int id_socio;
 	private List<Object[]> lCola;
 	private List<Object[]> lCola2;
+	private List<Object[]> lCola3;
 
 	private Vector<String> reservasPagadas;
 	private List<Object[]> lPagos;
@@ -58,6 +60,7 @@ public class VisualizarCola {
 	String fechaHoraExactaHoyStr = formato2.format(fechaHoraExactaHoy);
 	String Fecha = formato.format(fechaHoraExactaHoy);
 	String ruta = "src/main/resources/Cola/" + "Informacion_" + Fecha + ".txt";
+	int plazas_disponibles;
 
 	/**
 	 * Launch the application.
@@ -144,7 +147,6 @@ public class VisualizarCola {
 					Iterator<Object[]> iter2 = lCola2.iterator();
 					String id_actividad_anterior = "";
 					while (iter2.hasNext()) {
-
 						Object[] datos = iter2.next();
 
 						String id_actividad = datos[0].toString();
@@ -190,6 +192,7 @@ public class VisualizarCola {
 					}
 
 				}
+
 			}
 		});
 
@@ -207,30 +210,75 @@ public class VisualizarCola {
 				frmVisualizarCola.dispose();
 			}
 		});
+
+		List<Object[]> actividadesNombre = actividadesModel.getNombreActividades();
+		JButton btnNewButton_2 = new JButton("Actualizar");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				for (Object[] actividad : actividadesNombre) {
+
+					plazas_disponibles = Integer.parseInt(actividadesModel.getPlazasActividad(actividad[0].toString()));
+					Boolean vacio = true;
+
+					while (plazas_disponibles > 0 && vacio) {
+						List<Object[]> ListaEsperaActividad = colaModel
+								.getEsperasSocio(actividadesModel.getIdActividad(actividad[0].toString()) + "");
+						if (ListaEsperaActividad.isEmpty()) {
+							System.out.println(
+									"No hay nadie en la lista de espera de esta actividad: " + actividad[0].toString());
+							vacio = false;
+						} else {
+							String DNIprimeroCola = ListaEsperaActividad.get(0)[1].toString();
+							inscripcionesModel.nuevaInscripcionRetornaId(DNIprimeroCola,
+									actividadesModel.getIdActividad(actividad[0].toString()) + "",
+									fechaHoraExactaHoyStr);
+							System.out.println("Se añade al cliente con DNI " + DNIprimeroCola + " en la actividad "
+									+ actividad[0].toString());
+							colaModel.eliminarEsperas2(actividadesModel.getIdActividad((String) actividad[0]),
+									DNIprimeroCola);
+							actividadesModel.restarPlaza(actividad[0].toString());
+							updateTable(actividad[0].toString());
+						}
+						plazas_disponibles = Integer
+								.parseInt(actividadesModel.getPlazasActividad(actividad[0].toString()));
+					}
+					if (plazas_disponibles < 1) {
+						System.out.println("La plazas disponibles de la actividad " + actividad[0].toString()
+								+ " son 0, no se pueden añadir más de la lista de espera.");
+					}
+
+				}
+
+			}
+
+		});
+
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.LEADING).addGroup(gl_panel
 				.createSequentialGroup().addGap(36)
-				.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING).addGroup(gl_panel.createSequentialGroup()
+				.addGroup(gl_panel.createParallelGroup(Alignment.LEADING).addGroup(gl_panel.createSequentialGroup()
 						.addComponent(btnNewButton_1, GroupLayout.PREFERRED_SIZE, 151, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED, 525, Short.MAX_VALUE)
+						.addGap(189)
+						.addComponent(btnNewButton_2, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED, 249, Short.MAX_VALUE)
 						.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 121, GroupLayout.PREFERRED_SIZE)
 						.addGap(59)).addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 856, Short.MAX_VALUE)
-						.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
+						.addGroup(gl_panel.createSequentialGroup()
 								.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)
 								.addGap(18)
 								.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
 								.addPreferredGap(ComponentPlacement.RELATED)
 								.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 170, GroupLayout.PREFERRED_SIZE)
 								.addContainerGap()))));
-		gl_panel.setVerticalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup().addGap(22)
+		gl_panel.setVerticalGroup(
+				gl_panel.createParallelGroup(Alignment.LEADING).addGroup(gl_panel.createSequentialGroup().addGap(22)
 						.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE).addComponent(lblNewLabel)
 								.addComponent(lblNewLabel_1).addComponent(comboBox, GroupLayout.PREFERRED_SIZE,
 										GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 						.addPreferredGap(ComponentPlacement.RELATED)
 						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 152, GroupLayout.PREFERRED_SIZE)
 						.addGap(50).addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-								.addComponent(btnNewButton_1).addComponent(btnNewButton))
+								.addComponent(btnNewButton_1).addComponent(btnNewButton).addComponent(btnNewButton_2))
 						.addGap(20)));
 
 		panel.setLayout(gl_panel);
