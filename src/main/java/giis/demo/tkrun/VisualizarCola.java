@@ -56,7 +56,8 @@ public class VisualizarCola {
 	SimpleDateFormat formato2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	Date fechaHoraExactaHoy = new Date();
 	String fechaHoraExactaHoyStr = formato2.format(fechaHoraExactaHoy);
-	String ruta = "src/main/resources/Cola/" + "Informacion_" + ".txt";
+	String Fecha = formato.format(fechaHoraExactaHoy);
+	String ruta = "src/main/resources/Cola/" + "Informacion_" + Fecha + ".txt";
 
 	/**
 	 * Launch the application.
@@ -132,28 +133,28 @@ public class VisualizarCola {
 			}
 		});
 
-		JButton btnNewButton_1 = new JButton("Aceptar");
+		JButton btnNewButton_1 = new JButton("Generar Informe");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				lCola2 = colaModel.getEsperasSocio2();
 				String linea = "";
-				System.out.println("1");
 				if (lCola2.size() == 0) {
 					System.out.println("No hay lista de espera");
 				} else {
-					System.out.println("1");
-					Iterator<Object[]> iter = lCola.iterator();
-					while (iter.hasNext()) {
-						Object[] datos = iter.next();
+					Iterator<Object[]> iter2 = lCola2.iterator();
+					while (iter2.hasNext()) {
+
+						Object[] datos = iter2.next();
+
 						String id_actividad = datos[0].toString();
 						String DNI = datos[1].toString();
-						Object fecha = datos[2].toString();
+						String fecha = datos[2].toString();
 						String socio = datos[3].toString();
 						linea += "ID actividad: " + id_actividad + ", DNI: " + DNI + ", Fecha Reserva: " + fecha
 								+ ", Es Socio: " + socio + "\n";
 
 					}
-					System.out.println("1");
+
 					File file = new File(ruta);
 					if (!file.exists()) {
 						try {
@@ -192,7 +193,7 @@ public class VisualizarCola {
 		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addComponent(panel,
 				GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE));
 
-		JButton btnNewButton = new JButton("Generar Informe");
+		JButton btnNewButton = new JButton("Aceptar");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frmVisualizarCola.dispose();
@@ -201,29 +202,28 @@ public class VisualizarCola {
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.LEADING).addGroup(gl_panel
 				.createSequentialGroup().addGap(36)
-				.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 835, Short.MAX_VALUE)
-						.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
-								.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 134, GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(ComponentPlacement.RELATED, 630, Short.MAX_VALUE)
-								.addComponent(btnNewButton_1).addGap(21))
-						.addGroup(gl_panel.createSequentialGroup()
-								.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 66, GroupLayout.PREFERRED_SIZE)
-								.addGap(33).addComponent(lblNewLabel_1).addPreferredGap(ComponentPlacement.UNRELATED)
+				.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING).addGroup(gl_panel.createSequentialGroup()
+						.addComponent(btnNewButton_1, GroupLayout.PREFERRED_SIZE, 151, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED, 525, Short.MAX_VALUE)
+						.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 121, GroupLayout.PREFERRED_SIZE)
+						.addGap(59)).addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 856, Short.MAX_VALUE)
+						.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
+								.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)
+								.addGap(18)
+								.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED)
 								.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 170, GroupLayout.PREFERRED_SIZE)
 								.addContainerGap()))));
 		gl_panel.setVerticalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup().addGap(22)
 						.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE).addComponent(lblNewLabel)
-								.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-										GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblNewLabel_1))
+								.addComponent(lblNewLabel_1).addComponent(comboBox, GroupLayout.PREFERRED_SIZE,
+										GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 						.addPreferredGap(ComponentPlacement.RELATED)
 						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 152, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
-						.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE).addComponent(btnNewButton_1)
-								.addComponent(btnNewButton))
-						.addContainerGap()));
+						.addGap(50).addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(btnNewButton_1).addComponent(btnNewButton))
+						.addGap(20)));
 
 		panel.setLayout(gl_panel);
 		frmVisualizarCola.getContentPane().setLayout(groupLayout);
