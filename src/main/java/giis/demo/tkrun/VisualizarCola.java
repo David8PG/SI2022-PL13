@@ -142,6 +142,7 @@ public class VisualizarCola {
 					System.out.println("No hay lista de espera");
 				} else {
 					Iterator<Object[]> iter2 = lCola2.iterator();
+					String id_actividad_anterior = "";
 					while (iter2.hasNext()) {
 
 						Object[] datos = iter2.next();
@@ -150,9 +151,16 @@ public class VisualizarCola {
 						String DNI = datos[1].toString();
 						String fecha = datos[2].toString();
 						String socio = datos[3].toString();
-						linea += "ID actividad: " + id_actividad + ", DNI: " + DNI + ", Fecha Reserva: " + fecha
-								+ ", Es Socio: " + socio + "\n";
-
+						if (id_actividad.equals(id_actividad_anterior)) {
+							linea += "ID actividad: " + id_actividad + ", DNI: " + DNI + ", Fecha Reserva: " + fecha
+									+ ", Es Socio: " + socio + "\n";
+						} else {
+							linea += "\n" + "------------------------------------ " + id_actividad
+									+ " ----------------------------------------------" + "\n";
+							linea += "ID actividad: " + id_actividad + ", DNI: " + DNI + ", Fecha Reserva: " + fecha
+									+ ", Es Socio: " + socio + "\n";
+						}
+						id_actividad_anterior = id_actividad;
 					}
 
 					File file = new File(ruta);
