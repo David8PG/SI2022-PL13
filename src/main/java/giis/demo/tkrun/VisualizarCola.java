@@ -23,6 +23,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -212,7 +213,7 @@ public class VisualizarCola {
 		});
 
 		List<Object[]> actividadesNombre = actividadesModel.getNombreActividades();
-		JButton btnNewButton_2 = new JButton("Actualizar");
+		JButton btnNewButton_2 = new JButton(" Actualizar Lista de Espera");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				for (Object[] actividad : actividadesNombre) {
@@ -229,19 +230,109 @@ public class VisualizarCola {
 							vacio = false;
 						} else {
 							String DNIprimeroCola = ListaEsperaActividad.get(0)[1].toString();
-							inscripcionesModel.nuevaInscripcionRetornaId(DNIprimeroCola,
-									actividadesModel.getIdActividad(actividad[0].toString()) + "",
-									fechaHoraExactaHoyStr);
-							System.out.println("Se añade al cliente con DNI " + DNIprimeroCola + " en la actividad "
-									+ actividad[0].toString());
-							colaModel.eliminarEsperas2(actividadesModel.getIdActividad((String) actividad[0]),
-									DNIprimeroCola);
-							actividadesModel.restarPlaza(actividad[0].toString());
-							updateTable(actividad[0].toString());
+							String esSocio = ListaEsperaActividad.get(0)[3].toString();
+							if (esSocio.equals("sí")) {
+								long idInscripcion = inscripcionesModel.nuevaInscripcionRetornaId(DNIprimeroCola,
+										actividadesModel.getIdActividad(actividad[0].toString()) + "",
+										fechaHoraExactaHoyStr);
+								System.out.println("Se añade al Socio con DNI " + DNIprimeroCola + " en la actividad "
+										+ actividad[0].toString());
+								colaModel.eliminarEsperas2(actividadesModel.getIdActividad((String) actividad[0]),
+										DNIprimeroCola);
+								actividadesModel.restarPlaza(actividad[0].toString());
+
+								JOptionPane.showMessageDialog(frmVisualizarCola,
+										"Socio " + DNIprimeroCola + " inscrito en la actividad "
+												+ actividad[0].toString() + "\n- Importe: " + " €\n- Fecha: "
+												+ fechaHoraExactaHoyStr,
+										"Inscrito", JOptionPane.INFORMATION_MESSAGE);
+								String ruta = "src/main/resources/InscripcionesActividades/" + DNIprimeroCola
+										+ "_Inscripcion" + idInscripcion + ".txt";
+								String contenido = "Se ha inscrito al cliente con DNI " + DNIprimeroCola
+										+ "en la Actividad " + actividad[0].toString() + " el día "
+										+ fechaHoraExactaHoyStr + " con un precio de ";
+								File file = new File(ruta);
+								if (!file.exists()) {
+									try {
+										file.createNewFile();
+									} catch (IOException e1) {
+										e1.printStackTrace();
+									}
+								}
+								FileWriter fw = null;
+								try {
+									fw = new FileWriter(file);
+								} catch (IOException e1) {
+									e1.printStackTrace();
+								}
+								BufferedWriter bw = new BufferedWriter(fw);
+								try {
+									bw.write(contenido);
+								} catch (IOException e1) {
+
+									e1.printStackTrace();
+								}
+								try {
+									bw.close();
+								} catch (IOException e1) {
+									e1.printStackTrace();
+								}
+
+								updateTable(actividad[0].toString());
+							} else {
+								inscripcionesModel.nuevaInscripcionRetornaId(DNIprimeroCola,
+										actividadesModel.getIdActividad(actividad[0].toString()) + "",
+										fechaHoraExactaHoyStr);
+								System.out.println("Se añade al cliente con DNI " + DNIprimeroCola + " en la actividad "
+										+ actividad[0].toString());
+								colaModel.eliminarEsperas2(actividadesModel.getIdActividad((String) actividad[0]),
+										DNIprimeroCola);
+								actividadesModel.restarPlaza(actividad[0].toString());
+
+								JOptionPane.showMessageDialog(frmVisualizarCola,
+										"Cliente " + DNIprimeroCola + " inscrito en la actividad "
+												+ actividad[0].toString() + "\n- Importe: " + " €\n- Fecha: "
+												+ fechaHoraExactaHoyStr,
+										"Inscrito", JOptionPane.INFORMATION_MESSAGE);
+								String ruta = "src/main/resources/InscripcionesActividades/" + DNIprimeroCola
+										+ "_Inscripcion" + ".txt";
+								String contenido = "Se ha inscrito al cliente con DNI " + DNIprimeroCola
+										+ "en la Actividad " + actividad[0].toString() + " el día "
+										+ fechaHoraExactaHoyStr + " con un precio de ";
+								File file = new File(ruta);
+								if (!file.exists()) {
+									try {
+										file.createNewFile();
+									} catch (IOException e1) {
+										e1.printStackTrace();
+									}
+								}
+								FileWriter fw = null;
+								try {
+									fw = new FileWriter(file);
+								} catch (IOException e1) {
+									e1.printStackTrace();
+								}
+								BufferedWriter bw = new BufferedWriter(fw);
+								try {
+									bw.write(contenido);
+								} catch (IOException e1) {
+
+									e1.printStackTrace();
+								}
+								try {
+									bw.close();
+								} catch (IOException e1) {
+									e1.printStackTrace();
+								}
+
+								updateTable(actividad[0].toString());
+							}
+							plazas_disponibles = Integer
+									.parseInt(actividadesModel.getPlazasActividad(actividad[0].toString()));
 						}
-						plazas_disponibles = Integer
-								.parseInt(actividadesModel.getPlazasActividad(actividad[0].toString()));
 					}
+
 					if (plazas_disponibles < 1) {
 						System.out.println("La plazas disponibles de la actividad " + actividad[0].toString()
 								+ " son 0, no se pueden añadir más de la lista de espera.");
@@ -258,9 +349,9 @@ public class VisualizarCola {
 				.createSequentialGroup().addGap(36)
 				.addGroup(gl_panel.createParallelGroup(Alignment.LEADING).addGroup(gl_panel.createSequentialGroup()
 						.addComponent(btnNewButton_1, GroupLayout.PREFERRED_SIZE, 151, GroupLayout.PREFERRED_SIZE)
-						.addGap(189)
-						.addComponent(btnNewButton_2, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED, 249, Short.MAX_VALUE)
+						.addGap(151)
+						.addComponent(btnNewButton_2, GroupLayout.PREFERRED_SIZE, 186, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED, 188, Short.MAX_VALUE)
 						.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 121, GroupLayout.PREFERRED_SIZE)
 						.addGap(59)).addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 856, Short.MAX_VALUE)
 						.addGroup(gl_panel.createSequentialGroup()
