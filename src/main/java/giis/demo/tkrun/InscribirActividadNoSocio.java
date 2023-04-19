@@ -56,6 +56,9 @@ public class InscribirActividadNoSocio {
 	SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
 	Date dateHoy = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
 	String fechaHoy = formato.format(dateHoy);
+	SimpleDateFormat formato2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	Date fechaHoraExactaHoy = new Date();
+	String fechaHoraExactaHoyStr = formato2.format(fechaHoraExactaHoy);
 	private JTextField textField_9;
 	private JTextField textField_10;
 
@@ -352,14 +355,16 @@ public class InscribirActividadNoSocio {
 									JOptionPane.showMessageDialog(frmInscribirActividadNoSocio,
 											"No quedan plazas disponibles, el cliente pasará a la lista de espera.",
 											"Error", JOptionPane.ERROR_MESSAGE);
-									ModeloCola.nuevaCola(dni, ""
-											+ ModeloActividades.getIdActividad(comboBox.getSelectedItem().toString()),
-											fechaHoy);
+									ModeloCola.nuevaCola(dni,
+											"" + ModeloActividades
+													.getIdActividad(comboBox.getSelectedItem().toString()),
+											fechaHoraExactaHoyStr, "No");
 									String ruta = "src/main/resources/InscripcionesActividades/" + dni
 											+ "_InscripcionCola" + ".txt";
 									String contenido = "Se ha inscrito al cliente " + nombre + " con DNI " + dni
 											+ " y teléfono " + telefono + " en la lista de espera de la Actividad "
-											+ comboBox.getSelectedItem().toString() + " el día " + fechaHoy;
+											+ comboBox.getSelectedItem().toString() + " el día "
+											+ fechaHoraExactaHoyStr;
 									File file = new File(ruta);
 									if (!file.exists()) {
 										try {

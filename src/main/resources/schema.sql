@@ -97,6 +97,7 @@ CREATE TABLE pagos(
     foreign key (id_inscripciones) references inscripciones(id_inscripcion) ON DELETE CASCADE, 
     id_reservas integer unsigned,
     foreign key (id_reservas) references reservas(id_reserva) ON DELETE CASCADE
+
 ); 
 
 CREATE TABLE cola( 
@@ -105,5 +106,6 @@ CREATE TABLE cola(
 	foreign key (dni_clientes) references clientes(dni), 
     id_actividades integer unsigned,
     foreign key (id_actividades) references actividades(id_actividad) ON DELETE CASCADE, 
-    fecha datetime 
+    fecha datetime ,
+    socio varchar(2)
    );
