@@ -1,0 +1,3 @@
+Te has inscrito en Clase de natación
+ID de la reserva: 8
+Importe: 10.0

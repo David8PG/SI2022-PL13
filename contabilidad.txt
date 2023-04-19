@@ -1,0 +1,7 @@
+Nombre;DNI;Precio actividades;Precio reservas;Total;
+Juan Pérez;11111111A;25.0;5.0;30.0;
+Sara Gómez;44444444D;50.0;5.0;55.0;
+Elena Sánchez;77777777G;5.0;5.0;10.0;
+Javier Alonso;88888888H;10.0;0.0;10.0;
+Luisa Martínez;55555555E;12.5;0.0;12.5;
+Lucía García;99999999I;15.0;0.0;15.0;
