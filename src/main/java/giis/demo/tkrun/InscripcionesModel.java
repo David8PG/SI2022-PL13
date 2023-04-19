@@ -52,4 +52,16 @@ public class InscripcionesModel {
 		return bd.executeQueryArray(todas_socio, persona, ini, fin);
 	}
 	
+	// Obtencion de clientes por actividad
+	public static final String SQL_PERSONAS_ACTIVIDAD = "SELECT dni_clientes FROM inscripciones WHERE id_actividades = ? ";
+	public List<Object[]> getPersonasActividad(long actividad){
+		return bd.executeQueryArray(SQL_PERSONAS_ACTIVIDAD, actividad);
+	}
+	
+	// Eliminar inscripciones
+	public static final String eliminar_inscripciones = "DELETE FROM inscripciones WHERE id_actividades = ?";
+	public void eliminarInscripciones(long id_actividad) {
+		bd.executeUpdate(eliminar_inscripciones, id_actividad);
+	}
+	
 }

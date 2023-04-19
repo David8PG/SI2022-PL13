@@ -227,5 +227,11 @@ public class ActividadesModel {
 		return lista.get(0)[0].toString(); 	
 	}
 	
+	// Borrar actividad por id
+	public static final String elimina_actividad = "DELETE FROM actividades WHERE id_actividad=?";
+	public void eliminarActividad(long id_actividad) {
+		bd.executeUpdate(elimina_actividad, id_actividad);
+	}
+	
 
 }
