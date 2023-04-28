@@ -42,8 +42,8 @@ INSERT INTO reservas(id_reserva, id_socios, id_instalaciones, fecha, fecha_reser
 
  
 INSERT INTO periodos_inscripcion(id_periodo_inscripcion, nombre_periodo, descripcion, fecha_inicio_socio, fecha_fin_socio, fecha_fin_no_socio) VALUES 
-(1, 'Periodo 1', 'Periodo Verano', '2023-2-24', '2023-3-5', '2023-7-30'), 
-(2, 'Periodo 2', 'Periodo Otoño','2023-9-22', '2023-10-3', '2023-10-30'), 
+(1, 'Periodo 1', 'Periodo Verano', '2023-1-24', '2023-6-5', '2023-7-30'), 
+(2, 'Periodo 2', 'Periodo Otoño','2023-1-22', '2023-2-3', '2023-10-30'), 
 (3, 'Periodo 3', 'Periodo Invierno','2023-1-20', '2023-5-4', '2023-7-27'); 
 
 
