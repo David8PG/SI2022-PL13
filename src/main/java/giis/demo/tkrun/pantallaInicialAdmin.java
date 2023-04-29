@@ -23,6 +23,7 @@ public class pantallaInicialAdmin {
 	private ReservaAutomatica ventanaReservaAutomatica;
 	private VisualizarContabilidad ventanaVisualizarContabilidad;
 	private InscribirActividadNoSocio ventanaInscribirActividadNoSocio;
+	private InformesMenu ventanaInformesMenu;
 
 	/**
 	 * Launch the application.
@@ -171,6 +172,16 @@ public class pantallaInicialAdmin {
 		});
 		btnNewButton_1.setBounds(221, 93, 233, 23);
 		frmPantallaInicialAdministrador.getContentPane().add(btnNewButton_1);
+
+		JButton btnInformes = new JButton("Informes");
+		btnInformes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ventanaInformesMenu = new InformesMenu();
+				ventanaInformesMenu.getVisualizarInformesMenu().setVisible(true);
+			}
+		});
+		btnInformes.setBounds(221, 127, 163, 21);
+		frmPantallaInicialAdministrador.getContentPane().add(btnInformes);
 	}
 
 	public JFrame getFrmvAdmin() {

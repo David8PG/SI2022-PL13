@@ -125,4 +125,14 @@ public class ClientesModel {
 		bd.executeUpdate(añadir_cuota_actividad, cuota, id_socio);
 	}
 
+	// Informe socios
+	public List<Object[]> getInformeSocios(String fechaInicial, String fechaFin) {
+		return bd.executeQueryArray(
+				"SELECT c.nombre, COUNT(r.id_reserva) AS numeroReservas, SUM(r.precio) AS totalGastado, "
+						+ "(SELECT i.nombre FROM instalaciones i WHERE i.id_instalacion = (SELECT id_instalaciones FROM reservas WHERE id_socios = c.id_socio GROUP BY id_instalaciones ORDER BY COUNT(*) DESC LIMIT 1)) AS instalacionMasReservada, "
+						+ "((SELECT COUNT(*) FROM reservas WHERE id_socios = c.id_socio AND id_instalaciones = (SELECT id_instalaciones FROM reservas WHERE id_socios = c.id_socio GROUP BY id_instalaciones ORDER BY COUNT(*) DESC LIMIT 1)) / COUNT(r.id_reserva) * 100) AS porcentaje "
+						+ "FROM clientes c " + "LEFT JOIN reservas r ON c.id_socio = r.id_socios "
+						+ "WHERE r.fecha_reserva BETWEEN '" + fechaInicial + "' AND '" + fechaFin
+						+ "' GROUP BY c.id_socio;");
+	}
 }

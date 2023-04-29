@@ -274,10 +274,23 @@ public class ReservasModel {
 		List<Object[]> lista = bd.executeQueryArray(obtener_socio_res_inst, fechareserva, instalacion);
 		return lista.get(0)[0].toString();
 	}
-	
+
 	public static final String todo_socio = "SELECT id_reserva, id_socios, id_instalaciones, fecha, fecha_reserva, precio, actividad FROM reservas WHERE id_socios= ? AND fecha>=? AND fecha<=? ORDER BY fecha DESC";
-	public List<Object[]> getReservasSocioTodo(int persona, String ini, String fin){
+
+	public List<Object[]> getReservasSocioTodo(int persona, String ini, String fin) {
 
 		return bd.executeQueryArray(todo_socio, persona, ini, fin);
 	}
+
+	// InformeInstalaciones:
+	public List<Object[]> getInformeInstalaciones(int numeroHorasDisponibles, String fechaInicial, String fechaFin) {
+		return bd.executeQueryArray(
+				"SELECT i.nombre as nombre_instalacion, SUM(CASE WHEN r.actividad = 0 THEN 1 ELSE 0 END) as Reservas, "
+						+ "SUM(CASE WHEN r.actividad != 0 THEN 1 ELSE 0 END) as Actividades, "
+						+ "ROUND((SUM(CASE WHEN r.actividad = 0 THEN 1 ELSE 0 END) + SUM(CASE WHEN r.actividad <> 0 THEN 1 ELSE 0 END)) / "
+						+ numeroHorasDisponibles + " * 100, 2) AS Porcentaje "
+						+ "FROM reservas r JOIN instalaciones i ON r.id_instalaciones = i.id_instalacion WHERE r.fecha_reserva BETWEEN '"
+						+ fechaInicial + "' AND '" + fechaFin + "' GROUP BY i.nombre;");
+	}
+
 }

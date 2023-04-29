@@ -29,6 +29,7 @@ public class VisualizarContabilidad {
 	private JTable table;
 	private ClientesModel ModeloClientes = new ClientesModel();
 	private String[] titulos = { "Nombre", "Dni", "Precio Actividades", "Precio Reservas", "Total" };
+	List<Object[]> listaContabilidadReservas;
 
 	/**
 	 * Launch the application.
