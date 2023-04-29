@@ -352,46 +352,54 @@ public class InscribirActividadNoSocio {
 									}
 									frmInscribirActividadNoSocio.dispose();
 								} else {
-									JOptionPane.showMessageDialog(frmInscribirActividadNoSocio,
-											"No quedan plazas disponibles, el cliente pasará a la lista de espera.",
-											"Error", JOptionPane.ERROR_MESSAGE);
-									ModeloCola.nuevaCola(dni,
-											"" + ModeloActividades
-													.getIdActividad(comboBox.getSelectedItem().toString()),
-											fechaHoraExactaHoyStr, "No");
-									String ruta = "src/main/resources/InscripcionesActividades/" + dni
-											+ "_InscripcionCola" + ".txt";
-									String contenido = "Se ha inscrito al cliente " + nombre + " con DNI " + dni
-											+ " y teléfono " + telefono + " en la lista de espera de la Actividad "
-											+ comboBox.getSelectedItem().toString() + " el día "
-											+ fechaHoraExactaHoyStr;
-									File file = new File(ruta);
-									if (!file.exists()) {
+									if (ModeloCola.personaActividadEsperas(
+											ModeloActividades.getIdActividad(comboBox.getSelectedItem().toString()),
+											dni)) {
+										JOptionPane.showMessageDialog(frmInscribirActividadNoSocio,
+												"No puedes inscribirte a la actividad porque ya estás incrito en la cola.",
+												"Error", JOptionPane.ERROR_MESSAGE);
+									} else {
+										JOptionPane.showMessageDialog(frmInscribirActividadNoSocio,
+												"No quedan plazas disponibles, el cliente pasará a la lista de espera.",
+												"Error", JOptionPane.ERROR_MESSAGE);
+										ModeloCola.nuevaCola(dni,
+												"" + ModeloActividades
+														.getIdActividad(comboBox.getSelectedItem().toString()),
+												fechaHoraExactaHoyStr, "No");
+										String ruta = "src/main/resources/InscripcionesActividades/" + dni
+												+ "_InscripcionCola" + ".txt";
+										String contenido = "Se ha inscrito al cliente " + nombre + " con DNI " + dni
+												+ " y teléfono " + telefono + " en la lista de espera de la Actividad "
+												+ comboBox.getSelectedItem().toString() + " el día "
+												+ fechaHoraExactaHoyStr;
+										File file = new File(ruta);
+										if (!file.exists()) {
+											try {
+												file.createNewFile();
+											} catch (IOException e1) {
+												e1.printStackTrace();
+											}
+										}
+										FileWriter fw = null;
 										try {
-											file.createNewFile();
+											fw = new FileWriter(file);
 										} catch (IOException e1) {
 											e1.printStackTrace();
 										}
-									}
-									FileWriter fw = null;
-									try {
-										fw = new FileWriter(file);
-									} catch (IOException e1) {
-										e1.printStackTrace();
-									}
-									BufferedWriter bw = new BufferedWriter(fw);
-									try {
-										bw.write(contenido);
-									} catch (IOException e1) {
+										BufferedWriter bw = new BufferedWriter(fw);
+										try {
+											bw.write(contenido);
+										} catch (IOException e1) {
 
-										e1.printStackTrace();
+											e1.printStackTrace();
+										}
+										try {
+											bw.close();
+										} catch (IOException e1) {
+											e1.printStackTrace();
+										}
+										frmInscribirActividadNoSocio.dispose();
 									}
-									try {
-										bw.close();
-									} catch (IOException e1) {
-										e1.printStackTrace();
-									}
-									frmInscribirActividadNoSocio.dispose();
 								}
 							}
 						}

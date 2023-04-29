@@ -56,4 +56,5 @@ public class ColaModel {
 		} else
 			return true;
 	}
+
 }
