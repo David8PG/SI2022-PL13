@@ -229,4 +229,5 @@ public class InformeSocios {
 			System.out.println("Ha ocurrido un error al exportar la matriz a Informe socios.txt: " + e.getMessage());
 		}
 	}
+
 }

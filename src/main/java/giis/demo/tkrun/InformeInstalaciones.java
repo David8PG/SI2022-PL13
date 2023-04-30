@@ -8,6 +8,9 @@ import java.awt.event.ActionListener;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -105,7 +108,8 @@ public class InformeInstalaciones {
 						String fechaFinS = sdfk.format(dateChooserFin.getDate());
 						String Fin = fechaFinS;
 
-						completarTabla(tabla, Inicio, Fin, 100);
+						completarTabla(tabla, Inicio, Fin, (obtenerDiferenciaFechas(Inicio, Fin) + 1) * 10);
+						// System.out.println(obtenerDiferenciaFechas(Inicio, Fin));
 					}
 				}
 			}
@@ -215,5 +219,15 @@ public class InformeInstalaciones {
 	public void construirTabla(Object[][] matriz, JTable tabla, String[] nombresColumnas) {
 		DefaultTableModel modelo = new DefaultTableModel(matriz, nombresColumnas);
 		tabla.setModel(modelo);
+	}
+
+	public static int obtenerDiferenciaFechas(String fechaInicio, String fechaFin) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		LocalDateTime inicio = LocalDateTime.parse(fechaInicio, formatter);
+		LocalDateTime fin = LocalDateTime.parse(fechaFin, formatter);
+		Duration duracion = Duration.between(inicio, fin);
+		long segundos = duracion.getSeconds();
+		int dias = (int) (segundos / 86400); // 86400 segundos en un día
+		return dias;
 	}
 }
