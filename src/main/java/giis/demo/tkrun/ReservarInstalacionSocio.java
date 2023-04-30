@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -149,7 +150,7 @@ public class ReservarInstalacionSocio {
 		lblNewLabel_3.setBounds(44, 152, 75, 17);
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		frame.getContentPane().add(lblNewLabel_3);
-		
+
 		String[] seguidas = new String[modpar.getHorasMaxDia()];
 		for (int k=1;k<=seguidas.length;k++) {
 			seguidas[k-1] = ""+k;
@@ -171,7 +172,7 @@ public class ReservarInstalacionSocio {
 		tCoste.setText(instalacionesModel.getPrecio((String)cInstalaciones.getSelectedItem()));
 		tCoste.setEditable(false);
 		tCoste.setColumns(10);
-		
+
 		System.out.println(cHoraInicio.getSelectedItem().toString().split(":")[0]+1);
 
 		JDateChooser dFecha = new JDateChooser();
@@ -210,6 +211,15 @@ public class ReservarInstalacionSocio {
 				String date = sdf.format(dFecha.getDate());
 				String hora = (String)cHoraInicio.getSelectedItem();
 				String diaHora = date+" "+hora;
+				Date datehoy = new Date();
+				String hoy = sdf.format(datehoy);
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(datehoy);
+				cal.add(Calendar.DAY_OF_YEAR, modpar.getDiasAntelacion());
+				Date datedespues = cal.getTime();
+				String despues = sdf.format(datedespues);
+				System.out.println(hoy);
+				System.out.println(despues);
 
 				int indiceinicio = cHoraInicio.getSelectedIndex();
 				int indicefin = cHoraFin.getSelectedIndex();
@@ -325,48 +335,58 @@ public class ReservarInstalacionSocio {
 					tCoste.setText(precio);
 
 					if (clientesModel.validarId(id_socio)) {
-						
+
 						if (diferencia_dias >= 0 && diferencia_años >= 0) {
-							
-							if (diferencia_dias <= modpar.getDiasAntelacion() || diferencia_años>0) {	
-								JOptionPane.showMessageDialog(frame, "  Has reservado.\n"
-										+ "  Precio de la reserva: "+precio
-										+"\n  Socio que lo solicita: "+id_socio
-										+"\n  Instalación a reservar: "+id
-										+"\n  Fecha de reserva: "+diaHora);
-								String aux;
-								aux=cHoraInicio.getSelectedItem().toString().split(":")[0];
-								int a = 0;
-								a=Integer.parseInt(aux);
-								aux=date+" "+a+":00";
-								for(int t=0;t<Integer.parseInt(cHoraFin.getSelectedItem().toString());t++) {
-								reservasModel.nuevaReserva_ampliada(Integer.parseInt(id_socio), Integer.parseInt(id), sdf.format(d1), aux, precio ,0);
-								a=a+1;
-								aux=date+" "+a+":00";
+
+							if (diferencia_dias <= modpar.getDiasAntelacion() || diferencia_años>0) {
+								List<Object[]> lista2=reservasModel.getListaReservasUsuario_ampliada2(ReservarInstalacionSocio.this.id_socio, hoy, despues);
+								lista2.size();
+								if(modpar.getHorasMax()>=lista2.size()+Integer.parseInt(cHoraFin.getSelectedItem().toString())) {
+									JOptionPane.showMessageDialog(frame, "  Has reservado.\n"
+											+ "  Precio de la reserva: "+precio
+											+"\n  Socio que lo solicita: "+id_socio
+											+"\n  Instalación a reservar: "+id
+											+"\n  Fecha de reserva: "+diaHora);
+									String aux;
+									aux=cHoraInicio.getSelectedItem().toString().split(":")[0];
+									int a = 0;
+									a=Integer.parseInt(aux);
+									aux=date+" "+a+":00";
+									for(int t=0;t<Integer.parseInt(cHoraFin.getSelectedItem().toString());t++) {
+										reservasModel.nuevaReserva_ampliada(Integer.parseInt(id_socio), Integer.parseInt(id), sdf.format(d1), aux, precio ,0);
+										a=a+1;
+										aux=date+" "+a+":00";
+									}
+									bReservar.setSelected(true);
+
+									try {
+										String ruta = "D://Descargas HDD/Ticket.txt";
+										String contenido1 = "Has reservado: "+ cInstalaciones.getSelectedItem().toString();
+										String contenido2 = "\nFecha de reserva: " + diaHora;
+										String contenido3 = "\nNº de horas: " + cHoraFin.getSelectedItem();
+										String contenido4 = "\nImporte: "+tCoste.getText();
+										File file = new File(ruta);
+										// Si el archivo no existe es creado
+										if (!file.exists()) {
+											file.createNewFile();
+										}
+										FileWriter fw = new FileWriter(file);
+										BufferedWriter bw = new BufferedWriter(fw);
+										bw.write(contenido1);
+										bw.write(contenido2);
+										bw.write(contenido3);
+										bw.write(contenido4);
+										bw.close();
+									} catch (Exception u) {
+										u.printStackTrace();
+									}
 								}
-								bReservar.setSelected(true);
-								
-								try {
-						            String ruta = "D://Descargas HDD/Ticket.txt";
-						            String contenido1 = "Has reservado: "+ cInstalaciones.getSelectedItem().toString();
-						            String contenido2 = "\nFecha de reserva: " + diaHora;
-						            String contenido3 = "\nNº de horas: " + cHoraFin.getSelectedItem();
-						            String contenido4 = "\nImporte: "+tCoste.getText();
-						            File file = new File(ruta);
-						            // Si el archivo no existe es creado
-						            if (!file.exists()) {
-						                file.createNewFile();
-						            }
-						            FileWriter fw = new FileWriter(file);
-						            BufferedWriter bw = new BufferedWriter(fw);
-						            bw.write(contenido1);
-						            bw.write(contenido2);
-						            bw.write(contenido3);
-						            bw.write(contenido4);
-						            bw.close();
-						        } catch (Exception u) {
-						            u.printStackTrace();
-						        }
+								else {
+									JOptionPane.showMessageDialog(frame,
+											"Un socio no puede reservar mas de " + modpar.getHorasMax() + " horas en total.",
+											"No puedes reservar",
+											JOptionPane.ERROR_MESSAGE);	
+								}
 							}								
 							else {
 								JOptionPane.showMessageDialog(frame,
@@ -388,6 +408,12 @@ public class ReservarInstalacionSocio {
 								"No puedes reservar",
 								JOptionPane.ERROR_MESSAGE);						
 					}											
+				}
+				else {
+					JOptionPane.showMessageDialog(frame,
+							"La istalación para esa fecha y hora esta ocupada.",
+							"No puedes reservar",
+							JOptionPane.ERROR_MESSAGE);	
 				}
 
 				bReservar.setEnabled(true);
