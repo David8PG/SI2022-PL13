@@ -1,0 +1,7 @@
+Nombre actividad;Número de plazass;Inscripciones;Lista de espera;Porcentaje de ocupación;Número de edición;
+Clase de yoga ;20;3;2;15.0000;1;
+Partido de fútbol ;22;1;3;4.5455;2;
+Clase de natación ;15;0;1;0.0000;2;
+Entrenamiento de boxeo ;12;1;0;8.3333;1;
+Clase de baile ;25;0;0;0.0000;5;
+Partido pádel ;4;0;0;0.0000;65;
