@@ -9,9 +9,9 @@ public class InscripcionesModel {
 
 	public static final String cliente_actividad = "SELECT id_inscripcion FROM inscripciones WHERE id_actividades=? AND dni_clientes=?";
 
-	public boolean clienteInscripcionActividad(long actividad, String cliente) {
+	public boolean clienteInscripcionActividad(String string, String cliente) {
 		List<Object[]> lista;
-		lista = bd.executeQueryArray(cliente_actividad, actividad, cliente);
+		lista = bd.executeQueryArray(cliente_actividad, string, cliente);
 		if (lista.size() == 0) {
 			return false;
 		} else
@@ -37,9 +37,9 @@ public class InscripcionesModel {
 	
 	public static final String persona_actividad = "SELECT id_inscripcion FROM inscripciones WHERE id_actividades=? AND dni_clientes=?";
 	
-	public boolean personaInscritaenActividad(long actividad, String cliente) {
+	public boolean personaInscritaenActividad(String string, String cliente) {
 		List<Object[]> lista;
-		lista = bd.executeQueryArray(persona_actividad, actividad, cliente);
+		lista = bd.executeQueryArray(persona_actividad, string, cliente);
 		if(lista.size()==0) {
 			return false;
 		}
@@ -53,14 +53,14 @@ public class InscripcionesModel {
 	}
 	
 	// Obtencion de clientes por actividad
-	public static final String SQL_PERSONAS_ACTIVIDAD = "SELECT dni_clientes FROM inscripciones WHERE id_actividades = ? ";
-	public List<Object[]> getPersonasActividad(long actividad){
-		return bd.executeQueryArray(SQL_PERSONAS_ACTIVIDAD, actividad);
+	public static final String clientes_actividad = "SELECT dni_clientes FROM inscripciones WHERE id_actividades = ? ";
+	public List<Object[]> getPersonasActividad(String id_actividad){
+		return bd.executeQueryArray(clientes_actividad, id_actividad);
 	}
 	
 	// Eliminar inscripciones
 	public static final String eliminar_inscripciones = "DELETE FROM inscripciones WHERE id_actividades = ?";
-	public void eliminarInscripciones(long id_actividad) {
+	public void eliminarInscripciones(String id_actividad) {
 		bd.executeUpdate(eliminar_inscripciones, id_actividad);
 	}
 	

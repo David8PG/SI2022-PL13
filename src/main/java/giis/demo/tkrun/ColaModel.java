@@ -30,8 +30,8 @@ public class ColaModel {
 
 	public static final String eliminar_esperas2 = "DELETE FROM cola WHERE id_actividades=? AND dni_clientes=?";
 
-	public void eliminarEsperas2(long actividad, String cliente) {
-		bd.executeUpdate(eliminar_esperas2, actividad, cliente);
+	public void eliminarEsperas2(String string, String cliente) {
+		bd.executeUpdate(eliminar_esperas2, string, cliente);
 	}
 
 	public static final String esperas_socio = "SELECT id_actividades, dni_clientes, fecha, socio FROM cola WHERE id_actividades=?  ORDER BY socio DESC,fecha ASC";

@@ -16,7 +16,7 @@ INSERT INTO clientes(nombre, dni, id_socio, fecha_nacimiento, PagoPendiente, con
 ('Luisa Martínez', '55555555E', 5, '2000-01-01', 0, 'contraseña5', 0, 20.00, 35.00, '666111000', 'Calle Nueva 17'),
 ('Mario Rodríguez', '66666666F', null, null, 0, null, null, null, null, '666000999', null),
 ('Elena Sánchez', '77777777G', 7, '1978-09-25', 1, 'contraseña7', 0, 25.00, 45.00, '666999888', 'Calle Toledo 33'),
-('Javier Alonso', '88888888H', 8, '1975-04-05', 1, 'contraseña8', 0, 27.50, 50.00, '666888777', 'Calle Gran Vía 45'),
+('Javier Alonso', '88888888H', null, null, 0, null, null, null, null, '666888777', null),
 ('Lucía García', '99999999I', 9, '1992-11-18', 0, 'contraseña9', 0, 30.00, 0, '666777666', 'Calle San Juan 51'),
 ('Carlos Pérez', '11111111J', null, null, 0, null, null, null, null, '666666555', null);
 
@@ -37,8 +37,7 @@ INSERT INTO reservas(id_reserva, id_socios, id_instalaciones, fecha, fecha_reser
 (3, '4', 6,  '2023-02-03', '2023-04-11 17:00:00', 20.00,2),
 (4, '5', 3,  '2023-02-04', '2023-04-12 18:00:00', 12.50,4),
 (5, '7', 1,  '2023-02-05', '2023-04-13 19:00:00', 5.00,0),
-(6, '8', 1,  '2023-02-06', '2023-04-13 20:00:00', 10.00,0),
-(7, '9', 3,  '2023-02-07', '2023-04-14 21:00:00', 15.00,0);
+(6, '9', 3,  '2023-02-07', '2023-04-14 21:00:00', 15.00,0);
 
  
 INSERT INTO periodos_inscripcion(id_periodo_inscripcion, nombre_periodo, descripcion, fecha_inicio_socio, fecha_fin_socio, fecha_fin_no_socio) VALUES 
@@ -77,9 +76,8 @@ INSERT INTO sesiones(id_sesion, dia, hora_inicio, hora_fin, id_actividades) VALU
 INSERT INTO pagos(id_pago, fecha, dni_clientes, id_inscripciones, id_reservas) VALUES
 (1, '2022-03-14', '44444444D', NULL, 6),
 (2, '2022-03-14', '44444444D', NULL, 3),
-(3, '2022-03-10', '66666666F', 3, 1),
+(3, '2022-03-10', '55555555E', 3, 1),
 (4, '2022-02-26', '66666666F', 2, 1),
-(5, '2022-02-25', '44444444D', NULL, 7),
 (6, '2022-03-29', '44444444D', NULL, 6),
 (7, '2022-03-25', '66666666F', NULL, 1),
 (8, '2022-03-25', '11111111A', 4, 1);
@@ -88,7 +86,7 @@ INSERT INTO cola(id_cola, dni_clientes, id_actividades, fecha,socio) VALUES
 (0,null,null,null,null),
 (1,'11111111A', 1, '2023-04-15 10:00:00', 'sí'),
 (2,'11111111A', 2, '2023-04-15 10:00:00', 'sí'),
-(3,'88888888H', 1, '2023-04-18 11:00:00', 'sí'),
+(3,'88888888H', 1, '2023-04-18 11:00:00', 'no'),
 (4,'55555555E', 1, '2023-04-17 16:00:00', 'sí'),
 (5,'44444444D', 1, '2023-04-20 10:00:00', 'sí'),
 (6,'11111111J', 1, '2023-04-20 10:00:00', 'no'),

@@ -10,10 +10,10 @@ public class ActividadesModel {
 	// Obtencion del id de actividad
 	public static final String id_actividad = "SELECT id_actividad FROM actividades WHERE nombre=";
 
-	public long getIdActividad(String nombre_actividad) {
+	public String getIdActividad(String nombre_actividad) {
 		List<Object[]> lIds_actividad;
 		lIds_actividad = bd.executeQueryArray(id_actividad + "'" + nombre_actividad + "'");
-		return (long) lIds_actividad.get(0)[0];
+		return lIds_actividad.get(0)[0].toString();
 	}
 
 	// metodo que devuelve el siguiente id actividad disponible
@@ -229,8 +229,40 @@ public class ActividadesModel {
 	
 	// Borrar actividad por id
 	public static final String elimina_actividad = "DELETE FROM actividades WHERE id_actividad=?";
-	public void eliminarActividad(long id_actividad) {
-		bd.executeUpdate(elimina_actividad, id_actividad);
+
+	public void eliminarActividad(String id_actividad2) {
+		bd.executeUpdate(elimina_actividad, id_actividad2);
+	}
+
+	public Double getPrecioSocioActividad2(String id_socio) {
+		List<Object[]> lista;
+		lista = bd.executeQueryArray(precio_SOC_actividad + "'" + id_socio + "'");
+		return Double.parseDouble(lista.get(0)[0].toString());
+	}
+
+	public static final String precio_noSoc_actividad = "SELECT precio_no_socio FROM actividades WHERE id_actividad=";
+
+	public String getPrecioNoSocioActividad(String id) {
+		List<Object[]> lista;
+		lista = bd.executeQueryArray(precio_noSoc_actividad + "'" + id + "'");
+		return lista.get(0)[0].toString();
+	}
+
+	// Metodo para saber la cuota de actividades que tienen los socios
+	public static final String cuota_actividades = "SELECT cuotaActividades from clientes WHERE (id_socio=?);";
+
+	public double nuevaCuotaActividad(String id_socio) {
+		List<Object[]> lista;
+		lista = bd.executeQueryArray(cuota_actividades, id_socio);
+		return (double) lista.get(0)[0];
+
+	}
+	
+	// Método para cambiar la cuota de un cliente
+	public static final String cambia_cuota = "UPDATE clientes SET cuotaActividades=? WHERE (id_socio=?);";
+
+	public void añadeaCuotaAct(double cuota, String id_socio) {
+		bd.executeUpdate(cambia_cuota, cuota, id_socio);
 	}
 	
 

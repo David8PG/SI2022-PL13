@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Vector;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
 import javax.swing.JLabel;
@@ -30,7 +31,9 @@ public class CancelarActividadAdmin {
 	private ActividadesModel modeloActividades=new ActividadesModel();
 	private ReservasModel modeloReservas=new ReservasModel();
 	private SesionesModel modeloSesiones=new SesionesModel();
+	private ClientesModel modeloClientes = new ClientesModel();
 	private InscripcionesModel modeloInscripciones=new InscripcionesModel();
+	private PagosModel modeloPagos = new PagosModel();
 	private JTextArea textArea, txtArea2;
 	
 	/**
@@ -96,7 +99,7 @@ public class CancelarActividadAdmin {
 		txtArea2 = new JTextArea();
 		txtArea2.setEditable(false);
 		avisar();
-		JLabel lblNewLabel_1 = new JLabel("Socios:");
+		JLabel lblNewLabel_1 = new JLabel("Inscritos:");
 		
 		GroupLayout groupLayout = new GroupLayout(frmCancelarActividadAdmin.getContentPane());
 		groupLayout.setHorizontalGroup(
@@ -172,24 +175,26 @@ public class CancelarActividadAdmin {
 		comboBox.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		comboBox.setModel(new DefaultComboBoxModel(actividades));
 	}
-	public void CancelarActividadAdmin(){
-		String actividad=comboBox.getSelectedItem().toString();
-		long id_actividad=modeloActividades.getIdActividad(actividad);
+
+	public void CancelarActividadAdmin() {
+		String actividad = comboBox.getSelectedItem().toString();
+		String id_actividad = modeloActividades.getIdActividad(actividad);
+		List<Object[]> clientes = modeloInscripciones.getPersonasActividad(id_actividad);
+		compruebaClientes(clientes, actividad, id_actividad);
 		modeloSesiones.eliminarSesiones(id_actividad);
 		modeloInscripciones.eliminarInscripciones(id_actividad);
 		modeloReservas.eliminarReservaPorActividad(id_actividad);
 		modeloActividades.eliminarActividad(id_actividad);
-		generaTXT(actividad, id_actividad);
-		// tendríamos que generar un txt diciendo que a los no socios habría que devolverles el dinero en mano
-		// aquí devolveríamos el dinero a los socios sumándoselo a su cuota (hecho en ventana de david CancelarReservaSocio)
+		generaTXT(actividad, id_actividad); // Igual tiene que ir al principio
 		textArea.setText("");
-		JOptionPane.showMessageDialog(frmCancelarActividadAdmin, "Se ha eliminado la actividad '"+ actividad + "'.");
+		JOptionPane.showMessageDialog(frmCancelarActividadAdmin, "Se ha eliminado la actividad '" + actividad + "'.");
 		rellenaComboBox();
 	}
 	
 	public void avisar() {
 		String actividad=comboBox.getSelectedItem().toString();
-		long id_actividad=modeloActividades.getIdActividad(actividad);
+		String id_actividad=modeloActividades.getIdActividad(actividad);
+		// en la lista están todos los clientes inscritos en la actividad seleccionada del comboBox
 		List<Object[]> lista = modeloInscripciones.getPersonasActividad(id_actividad);
 		String mensaje = "";
 		for(int i=0; i<lista.size(); i++) {
@@ -199,18 +204,113 @@ public class CancelarActividadAdmin {
 		
 	}
 	
+	// Que se le pase un dni y si es socio que le devuelva el dinero al final del mes si está pagado, si no está pagado que lo abone
+	// Si no es socio que genere un txt diciendo que se le devuelve el dinero en mano
+	// Se le pasa la lista de DNIs de la actividad seleccionada, el nombre de la actividad y su id
+	
+	public void compruebaClientes(List<Object[]> clientes_actividad, String actividad, String id_actividad) {
+		String dni;
+		String id_socio;
+		Vector<String> actividadesPagadas = new Vector<String>();
+		double cuota;
+		double devolucion;
+		for (int i = 0; i < clientes_actividad.size(); i++) {
+			dni = clientes_actividad.get(i)[0].toString();
+			// todos los pagos del cliente con dni i
+			List<Object[]> lPagos = modeloPagos.getPagosCliente(dni);
+			String[] lPagos2 = new String[lPagos.size()];
+			if (modeloClientes.getID2(dni)) {
+				id_socio = modeloClientes.getIDcoge(dni);
+				// hay que comprobar si ha pagado la actividad o no
+				for (int j = 0; j < lPagos.size(); j++) {
+					lPagos2[i] = lPagos.get(i)[0].toString();
+					// getReserva --> en pagos hay id_reserva pero no hay id_actividad ¿SOLUCION?
+					// es para comprobar si el socio ha pagado ya la actividad
+					// en verdad hay que comprobar si ha pagado la reserva de la actividad pq no se
+					// paga actividad si no q se paga reserva de actividad
+					// de esta manera se pueden añadir reservas que no tengan actividad asociada
+					actividadesPagadas.add(modeloPagos.getReservaActividad(lPagos2[i]));
+				}
+				if (actividadesPagadas.contains(id_actividad)) {
+					// esto de debajo es si ya pagó la actividad
+					cuota = modeloActividades.nuevaCuotaActividad(id_socio);
+					devolucion = modeloActividades.getPrecioSocioActividad2(id_actividad);
+					modeloActividades.añadeaCuotaAct(cuota - devolucion, id_socio);
+					try {
+						String ruta = "src/main/resources/ActividadesCanceladasSocios/" + "Actividad" + id_actividad
+								+ "CanceladaSocio" + id_socio + "DNI" + dni + ".txt";
+						String contenido = "Se ha cancelado la actividad: "+ actividad + " con id " + id_actividad + "\nMotivo:\n"
+								+ textArea.getText() + "\nAl estar el pago de la actividad abonado se le devolverán "
+								+ devolucion + "€ al final del mes.\n";
+						File file = new File(ruta);
+						if (!file.exists()) {
+							file.createNewFile();
+						}
+						FileWriter fw = new FileWriter(file);
+						BufferedWriter bw = new BufferedWriter(fw);
+						bw.write(contenido);
+						bw.close();
+
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+					modeloPagos.eliminaPagoActividad(id_actividad);
+					// modeloReservas.eliminarReserva();
+				} else {
+					try {
+						String ruta = "src/main/resources/ActividadesCanceladasSocios/" + "Actividad" + id_actividad
+								+ "CanceladaSocio" + id_socio + "DNI" + dni + ".txt";
+						String contenido = "Se ha cancelado la actividad: "+ actividad + " con id " + id_actividad + "\nMotivo:\n"
+								+ textArea.getText()
+								+ "\nAl no estar el pago de la actividad abonado, no se le devolverá nada de dinero.";
+						File file = new File(ruta);
+						if (!file.exists()) {
+							file.createNewFile();
+						}
+						FileWriter fw = new FileWriter(file);
+						BufferedWriter bw = new BufferedWriter(fw);
+						bw.write(contenido);
+						bw.close();
+
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+				}
+			} else {
+				try {
+					String ruta = "src/main/resources/ActividadesCanceladasNoSocios/" + "Actividad" + id_actividad
+							+ "CanceladaNoSocio" + dni + ".txt";
+					String contenido = "Se ha cancelado la actividad: "+ actividad + " con id " + id_actividad + "\nMotivo:\n"
+							+ textArea.getText() + "Al no socio " + dni + " se le devolverá "
+							+ modeloActividades.getPrecioNoSocioActividad(id_actividad) + " en mano.";
+					File file = new File(ruta);
+					if (!file.exists()) {
+						file.createNewFile();
+					}
+					FileWriter fw = new FileWriter(file);
+					BufferedWriter bw = new BufferedWriter(fw);
+					bw.write(contenido);
+					bw.close();
+
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	
 	public JFrame getFrmCancelarActividadAdmin() {
 		return frmCancelarActividadAdmin;
 	}
-	public void generaTXT(String actividad, long id_actividad) {
+	public void generaTXT(String actividad, String id_actividad) {
 		try {
-            String ruta = "src/main/resources/CancelActividad/ActividadesCanceladas"+id_actividad;
-            String contenido = "Se ha cancelado la actividad: "+ id_actividad +"\nMotivo:\n"+textArea.getText();
+            String ruta = "src/main/resources/ActividadesCanceladas/"+"Actividad"+id_actividad+"Cancelada.txt";
+            String contenido = "Se ha cancelado la actividad: "+ actividad + " con id " + id_actividad +"\nMotivo:\n"+textArea.getText();
             File file = new File(ruta);
-            // Si el archivo no existe es creado
-            //if (!file.exists()) {
+            if (!file.exists()) {
                 file.createNewFile();
-            //}
+            }
             FileWriter fw = new FileWriter(file);
             BufferedWriter bw = new BufferedWriter(fw);
             bw.write(contenido);
@@ -220,4 +320,23 @@ public class CancelarActividadAdmin {
             e1.printStackTrace();
         }
 	}
+	/*
+	public void notificaNoSocio(String actividad, long id_actividad) {
+		try {
+            String ruta = "src/main/resources/NotificacionNoSocios/"+id_actividad;
+            String contenido = "Se ha cancelado la actividad: "+ id_actividad +"\nMotivo:\n"+textArea.getText();
+            File file = new File(ruta);
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            FileWriter fw = new FileWriter(file);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(contenido);
+		    bw.close();
+		    
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+	}
+	*/
 }

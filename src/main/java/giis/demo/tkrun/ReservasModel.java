@@ -283,8 +283,10 @@ public class ReservasModel {
 	
 	// Eliminar una reserva por actividad
 	public static final String reservas_actividad = "DELETE from reservas WHERE actividad = ?;";
-	public void eliminarReservaPorActividad(long id_actividad) {
 
-		bd.executeUpdate(reservas_actividad,id_actividad);
+	public void eliminarReservaPorActividad(String id_actividad) {
+
+		bd.executeUpdate(reservas_actividad, id_actividad);
 	}
+	
 }

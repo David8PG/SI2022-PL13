@@ -228,7 +228,7 @@ public class InscripcionActividadSocio {
 				}
 				else {
 					if (Integer.parseInt(actividadesmodel.getPlazasActividad(cActividades.getSelectedItem().toString())) > 0) {
-						Long actividad = actividadesmodel.getIdActividad(cActividades.getSelectedItem().toString());
+						String actividad = actividadesmodel.getIdActividad(cActividades.getSelectedItem().toString());
 						long id_nuevainscripcion = insmodel.nuevaInscripcionRetornaId(clientesmodel.getDNI(""+id_socio), actividad.toString(), hoy);
 						actividadesmodel.restarPlaza(cActividades.getSelectedItem().toString());
 						double cuota = Double.parseDouble(actividadesmodel.getPrecioSocio((String)cActividades.getSelectedItem()).toString());

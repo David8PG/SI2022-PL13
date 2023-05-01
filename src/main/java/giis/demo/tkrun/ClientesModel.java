@@ -124,5 +124,24 @@ public class ClientesModel {
 		// System.out.println("La cuota es"+cuota);
 		bd.executeUpdate(añadir_cuota_actividad, cuota, id_socio);
 	}
+	
+	public static final String socios_conDNI = "SELECT id_socio FROM clientes WHERE id_socio IS NOT NULL AND dni=?";
+	
+	public boolean getID2(String dni) {
 
+		List<Object[]> lista;
+		lista = bd.executeQueryArray(socios_conDNI,dni);
+		if (lista.size() == 0) {
+			return false;
+		}
+		return true;
+	}
+	
+	public String getIDcoge(String dni) {
+
+		List<Object[]> lista;
+		lista = bd.executeQueryArray(socios_conDNI,dni);
+		return lista.get(0)[0].toString();
+	}
+	
 }

@@ -110,7 +110,7 @@ public class ReservaAutomatica {
 		btnReservaAutomatica.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Almacenamos en una lista las sesiones disponibles creadas en la base
-				List<Object[]> lSesiones = modeloSesiones.getSesiones2(Long.toString(
+				List<Object[]> lSesiones = modeloSesiones.getSesiones2((
 						modeloActividades.getIdActividad(comboBoxListaActividades.getSelectedItem().toString())));
 				String fInicio = modeloActividades
 						.getFechaInicioActividad(comboBoxListaActividades.getSelectedItem().toString());
