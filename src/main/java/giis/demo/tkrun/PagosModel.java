@@ -84,4 +84,21 @@ public class PagosModel {
 			return true;
 		}
 	}
+	
+	public static final String get_probando = "SELECT DISTINCT a.id_actividad FROM pagos p JOIN reservas r ON p.id_reservas = r.id_reserva JOIN actividades a ON r.actividad = a.id_actividad WHERE p.id_pago=?";
+
+	public String getReservaActividad(String pago) {
+		List<Object[]> l = bd.executeQueryArray(get_probando, pago);
+		if (l.isEmpty()) {
+			return null;
+		}
+		return l.get(0)[0].toString();
+	}
+
+	public static final String reserva_poractividad = "DELETE FROM pagos WHERE id_reservas IN (SELECT id_reserva FROM reservas WHERE actividad = ?)";
+
+	public void eliminaPagoActividad(String id_actividad) {
+
+		bd.executeUpdate(reserva_poractividad, id_actividad);
+	}
 }

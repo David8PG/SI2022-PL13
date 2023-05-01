@@ -232,5 +232,49 @@ public class ActividadesModel {
 				+ "a.nombre as numero_edicion FROM actividades a WHERE a.fecha_fin BETWEEN '" + fechaInicial + "' AND '"
 				+ fechaFin + "';");
 	}
+	
+	public String getIdActividadString(String nombre_actividad) {
+		List<Object[]> lIds_actividad;
+		lIds_actividad = bd.executeQueryArray(id_actividad + "'" + nombre_actividad + "'");
+		return lIds_actividad.get(0)[0].toString();
+	}
+	
+	// Borrar actividad por id
+	public static final String elimina_actividad = "DELETE FROM actividades WHERE id_actividad=?";
+
+	public void eliminarActividad(String id_actividad2) {
+		bd.executeUpdate(elimina_actividad, id_actividad2);
+	}
+
+	// Metodo para saber la cuota de actividades que tienen los socios
+	public static final String cuota_actividades = "SELECT cuotaActividades from clientes WHERE (id_socio=?);";
+
+	public double nuevaCuotaActividad(String id_socio) {
+		List<Object[]> lista;
+		lista = bd.executeQueryArray(cuota_actividades, id_socio);
+		return (double) lista.get(0)[0];
+
+	}
+
+	// Método para cambiar la cuota de un cliente
+	public static final String cambia_cuota = "UPDATE clientes SET cuotaActividades=? WHERE (id_socio=?);";
+
+	public void añadeaCuotaAct(double cuota, String id_socio) {
+		bd.executeUpdate(cambia_cuota, cuota, id_socio);
+	}
+
+	public Double getPrecioSocioActividad2(String id_socio) {
+		List<Object[]> lista;
+		lista = bd.executeQueryArray(precio_SOC_actividad + "'" + id_socio + "'");
+		return Double.parseDouble(lista.get(0)[0].toString());
+	}
+
+	public static final String precio_noSoc_actividad = "SELECT precio_no_socio FROM actividades WHERE id_actividad=";
+
+	public String getPrecioNoSocioActividad(String id) {
+		List<Object[]> lista;
+		lista = bd.executeQueryArray(precio_noSoc_actividad + "'" + id + "'");
+		return lista.get(0)[0].toString();
+	}
 
 }

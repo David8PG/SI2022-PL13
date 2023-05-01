@@ -39,4 +39,11 @@ public class SesionesModel {
 	public List<Object[]> getIdsActividades() {
 		return bd.executeQueryArray(actividad_ensesion);
 	}
+
+	// Eliminar sesiones
+	public static final String eliminar_sesiones = "DELETE FROM sesiones WHERE id_actividades = ?";
+
+	public void eliminarSesiones(String id_actividad) {
+		bd.executeUpdate(eliminar_sesiones, id_actividad);
+	}
 }

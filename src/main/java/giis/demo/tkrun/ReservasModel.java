@@ -293,4 +293,12 @@ public class ReservasModel {
 						+ fechaInicial + "' AND '" + fechaFin + "' GROUP BY i.nombre;");
 	}
 
+	// Eliminar una reserva por actividad
+	public static final String reservas_actividad = "DELETE from reservas WHERE actividad = ?;";
+
+	public void eliminarReservaPorActividad(String id_actividad) {
+
+		bd.executeUpdate(reservas_actividad, id_actividad);
+	}
+
 }

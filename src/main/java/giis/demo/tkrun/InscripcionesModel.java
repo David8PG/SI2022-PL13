@@ -47,9 +47,24 @@ public class InscripcionesModel {
 	}
 	
 	public static final String todas_socio = "SELECT id_inscripcion, dni_clientes, id_actividades, fecha FROM inscripciones WHERE dni_clientes=? AND fecha>=? AND fecha<=? ORDER BY fecha DESC";
-	public List<Object[]> getTodasInscripcionesSocio(String persona, String ini, String fin){
-		
+
+	public List<Object[]> getTodasInscripcionesSocio(String persona, String ini, String fin) {
+
 		return bd.executeQueryArray(todas_socio, persona, ini, fin);
+	}
+
+	// Obtencion de clientes por actividad
+	public static final String clientes_actividad = "SELECT dni_clientes FROM inscripciones WHERE id_actividades = ? ";
+
+	public List<Object[]> getPersonasActividad(String id_actividad) {
+		return bd.executeQueryArray(clientes_actividad, id_actividad);
+	}
+
+	// Eliminar inscripciones
+	public static final String eliminar_inscripciones = "DELETE FROM inscripciones WHERE id_actividades = ?";
+
+	public void eliminarInscripciones(String id_actividad) {
+		bd.executeUpdate(eliminar_inscripciones, id_actividad);
 	}
 	
 }
