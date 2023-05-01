@@ -134,6 +134,14 @@ public class ActividadesModel {
 		return lista;
 	}
 
+	public static final String precioActividadSocio = "SELECT precio_socio FROM actividades WHERE nombre=";
+
+	public Double getPrecioSocio(String nombre) {
+		List<Object[]> lista;
+		lista = bd.executeQueryArray(precioActividadSocio + "'" + nombre + "'");
+		return Double.parseDouble(lista.get(0)[0].toString());
+	}
+
 	public static final String precioActividadNoSocio2 = "SELECT precio_no_socio FROM actividades WHERE nombre=";
 
 	public String getPrecioActividadNoSocio2(String nombre) {
@@ -149,26 +157,26 @@ public class ActividadesModel {
 		lista = bd.executeQueryArray(get_instalacion + "'" + nombre + "'");
 		return lista.get(0)[0].toString();
 	}
-	
+
 	public static final String nombre_actividad_porID = "SELECT nombre FROM actividades WHERE id_actividad=";
-		
-	public String getNombreActividad_porID(String id_actividad){
+
+	public String getNombreActividad_porID(String id_actividad) {
 		List<Object[]> lista = bd.executeQueryArray(nombre_actividad_porID + "'" + id_actividad + "'");
 		if (!lista.isEmpty()) {
-		    return lista.get(0)[0].toString();
+			return lista.get(0)[0].toString();
 		} else {
-	        throw new RuntimeException("No se encontraron resultados para la consulta.");
-		}	
+			throw new RuntimeException("No se encontraron resultados para la consulta.");
+		}
 	}
-	
+
 	public static final String nombre_instalacion = "SELECT id_instalaciones FROM actividades WHERE nombre=";
-	
-	public String getInstalacionActividad(String nombre){
+
+	public String getInstalacionActividad(String nombre) {
 		List<Object[]> lista;
 		lista = bd.executeQueryArray(nombre_instalacion + "'" + nombre + "'");
-		return lista.get(0)[0].toString(); 	
+		return lista.get(0)[0].toString();
 	}
-	
+
 	public static final String idActividades = "SELECT id_actividad FROM actividades WHERE nombre=";
 
 	public String getListaIdsActividades(String nombreActividad) {
@@ -176,14 +184,97 @@ public class ActividadesModel {
 		lista = bd.executeQueryArray(idActividades + "'" + nombreActividad + "'");
 		return lista.get(0)[0].toString();
 	}
-	
-	public List<Object[]> getNombreActividad_porID2(Object id_actividad){
+
+	public String getNombreActividad_porID2(Object id_actividad) {
+		List<Object[]> lista;
+		lista = bd.executeQueryArray(idActividades + "'" + id_actividad + "'");
+		return lista.get(0)[0].toString();
+	}
+
+	public String getNombreActPorID(String id_actividad) {
 		List<Object[]> lista = bd.executeQueryArray(nombre_actividad_porID + "'" + id_actividad + "'");
 		if (!lista.isEmpty()) {
-		    return lista;
+			return lista.get(0)[0].toString();
 		} else {
-	        return null;
+			return null;
 		}
+	}
+
+	public static final String actividades_de_periodo = "SELECT nombre FROM actividades WHERE id_periodo_inscripciones=";
+
+	public List<Object[]> getActividadesPeriodoIns(String periodo) {
+		List<Object[]> lista;
+		lista = bd.executeQueryArray(actividades_de_periodo + "'" + periodo + "'");
+		return lista;
+	}
+
+	public static final String periodo_actividad = "SELECT id_periodo_inscripciones FROM actividades WHERE nombre=?";
+
+	public int getPeriodoActividad(String nombre) {
+		List<Object[]> lista;
+		lista = bd.executeQueryArray(periodo_actividad, nombre);
+		return Integer.parseInt(lista.get(0)[0].toString());
+	}
+
+	public static final String precio_SOC_actividad = "SELECT precio_socio FROM actividades WHERE id_actividad=";
+
+	public String getPrecioSocioActividad(String id) {
+		List<Object[]> lista;
+		lista = bd.executeQueryArray(precio_SOC_actividad + "'" + id + "'");
+		return lista.get(0)[0].toString();
+	}
+
+	public List<Object[]> getInformeActividades(String fechaInicial, String fechaFin) {
+		return bd.executeQueryArray("SELECT a.nombre AS nombre_actividad, a.aforo as plazas, "
+				+ "(SELECT COUNT(*) FROM inscripciones WHERE id_actividades = a.id_actividad) AS inscripciones, "
+				+ "(SELECT COUNT(*) FROM cola WHERE id_actividades = a.id_actividad) AS lista_espera, "
+				+ "(SELECT COUNT(*) FROM inscripciones WHERE id_actividades = a.id_actividad)/a.aforo *100 AS porcentaje_ocupacion, "
+				+ "a.nombre as numero_edicion FROM actividades a WHERE a.fecha_fin BETWEEN '" + fechaInicial + "' AND '"
+				+ fechaFin + "';");
+	}
+	
+	public String getIdActividadString(String nombre_actividad) {
+		List<Object[]> lIds_actividad;
+		lIds_actividad = bd.executeQueryArray(id_actividad + "'" + nombre_actividad + "'");
+		return lIds_actividad.get(0)[0].toString();
+	}
+	
+	// Borrar actividad por id
+	public static final String elimina_actividad = "DELETE FROM actividades WHERE id_actividad=?";
+
+	public void eliminarActividad(String id_actividad2) {
+		bd.executeUpdate(elimina_actividad, id_actividad2);
+	}
+
+	// Metodo para saber la cuota de actividades que tienen los socios
+	public static final String cuota_actividades = "SELECT cuotaActividades from clientes WHERE (id_socio=?);";
+
+	public double nuevaCuotaActividad(String id_socio) {
+		List<Object[]> lista;
+		lista = bd.executeQueryArray(cuota_actividades, id_socio);
+		return (double) lista.get(0)[0];
+
+	}
+
+	// Método para cambiar la cuota de un cliente
+	public static final String cambia_cuota = "UPDATE clientes SET cuotaActividades=? WHERE (id_socio=?);";
+
+	public void añadeaCuotaAct(double cuota, String id_socio) {
+		bd.executeUpdate(cambia_cuota, cuota, id_socio);
+	}
+
+	public Double getPrecioSocioActividad2(String id_socio) {
+		List<Object[]> lista;
+		lista = bd.executeQueryArray(precio_SOC_actividad + "'" + id_socio + "'");
+		return Double.parseDouble(lista.get(0)[0].toString());
+	}
+
+	public static final String precio_noSoc_actividad = "SELECT precio_no_socio FROM actividades WHERE id_actividad=";
+
+	public String getPrecioNoSocioActividad(String id) {
+		List<Object[]> lista;
+		lista = bd.executeQueryArray(precio_noSoc_actividad + "'" + id + "'");
+		return lista.get(0)[0].toString();
 	}
 
 }

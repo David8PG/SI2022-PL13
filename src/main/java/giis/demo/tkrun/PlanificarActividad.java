@@ -32,7 +32,7 @@ import giis.demo.util.Database;
 public class PlanificarActividad {
 
 	private JFrame frmPlanificarActividad;
-	private JTextField textField;
+	private JTextField txtNombreActividadnmero;
 	private JTextField textField_2;
 	private JTextField textField_3;
 	private JTextField textField_4;
@@ -87,10 +87,11 @@ public class PlanificarActividad {
 		frmPlanificarActividad.getContentPane().add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
 
-		textField = new JTextField();
-		textField.setBounds(112, 12, 241, 20);
-		panel.add(textField);
-		textField.setColumns(10);
+		txtNombreActividadnmero = new JTextField();
+		txtNombreActividadnmero.setToolTipText("");
+		txtNombreActividadnmero.setBounds(112, 12, 241, 20);
+		panel.add(txtNombreActividadnmero);
+		txtNombreActividadnmero.setColumns(10);
 
 		JLabel lblNewLabel = new JLabel("Nombre");
 		lblNewLabel.setBounds(21, 14, 56, 17);
@@ -355,7 +356,7 @@ public class PlanificarActividad {
 				Date fechaInicio = dateChooser.getDate();
 				Date fechaFin = dateChooser_1.getDate();
 
-				if (textField.getText().equals("")) {
+				if (txtNombreActividadnmero.getText().equals("")) {
 					JOptionPane.showMessageDialog(frmPlanificarActividad,
 							"La actividad no se ha creado. Debes introducir un nombre.", "Error",
 							JOptionPane.ERROR_MESSAGE);
@@ -401,7 +402,7 @@ public class PlanificarActividad {
 							"La actividad no se ha creado. La fecha final es anterior a la inicial.", "Error",
 							JOptionPane.ERROR_MESSAGE);
 				} else {
-					String nombre = textField.getText();
+					String nombre = txtNombreActividadnmero.getText();
 					String descripcion = textField_1.getText();
 					String instalacionN = comboBox.getSelectedItem().toString();
 					String deporte = comboBox_1.getSelectedItem().toString();
@@ -472,6 +473,10 @@ public class PlanificarActividad {
 		});
 		btnNewButton_3.setBounds(21, 454, 89, 23);
 		panel.add(btnNewButton_3);
+
+		JLabel lblNewLabel_13 = new JLabel("Formato: Nombre actividad 1(Número edición)");
+		lblNewLabel_13.setBounds(363, 12, 283, 20);
+		panel.add(lblNewLabel_13);
 
 	}
 

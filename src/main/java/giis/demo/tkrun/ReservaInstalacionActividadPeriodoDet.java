@@ -224,8 +224,7 @@ public class ReservaInstalacionActividadPeriodoDet {
 						fecha_inicio = formato.parse(fecha_inicioS);
 						fecha_fin = formato.parse(fecha_finS);
 
-						// Calculamos la diferencia entre fecha inicio del comboBox y fecha actual en
-						// milisegundos
+						// Calculamos la diferencia entre fecha inicio del comboBox y fecha inicio reserva
 						long difference_In_Time = fecha_fin.getTime() - fecha_inicio.getTime();
 
 						// Tras calcular esa diferencia, pasamos ese resultado a:
@@ -338,7 +337,7 @@ public class ReservaInstalacionActividadPeriodoDet {
 							JOptionPane.showMessageDialog(frmReservaInstalacionActividadPeriodoDet, mensaje,
 									"La reserva se ha realizado con éxito", JOptionPane.INFORMATION_MESSAGE);
 							try {
-					            String ruta = "src/main/resources/ReservaSocio"+numero_socio+".txt";
+								String ruta = "src/main/resources/CancelacionReservaSocio"+id_socio+".txt";
 					            String contenido = "Se le ha cancelado la reserva con fecha "+ diaYhora +" al socio número "+ numero_socio + " en la instalación "+modeloInstalaciones.getNombre_Instalacion(id_instalacion)+" por causas administrativas.\n"
 					            		+ "La instalación " + modeloInstalaciones.getNombre_Instalacion(id_instalacion) + " ahora se utiliza para la actividad "
 					            		+ comboBoxActividad.getSelectedItem().toString() + ".";
@@ -415,7 +414,7 @@ public class ReservaInstalacionActividadPeriodoDet {
 													+ lista_reservasCliente_eliminadas.get(0)[1],
 											"La reserva se ha realizado con éxito", JOptionPane.INFORMATION_MESSAGE);
 									try {
-							            String ruta = "src/main/resources/ReservaSocio"+id_socio+".txt";
+							            String ruta = "src/main/resources/CancelacionReservaSocio"+id_socio+".txt";
 							            String contenido = "Se le ha cancelado la reserva con fecha "+ diaYhora +" en la instalación "+modeloInstalaciones.getNombre_Instalacion(id_instalacion)+ " al socio nº " + id_socio + " por causas administrativas.\n"
 							            		+ "La instalación " + modeloInstalaciones.getNombre_Instalacion(id_instalacion) + " ahora se utiliza para la actividad "
 							            		+ comboBoxActividad.getSelectedItem().toString() + ".";

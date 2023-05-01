@@ -26,16 +26,24 @@ public class SesionesModel {
 	public static final String sesiones_actividad = "SELECT dia, hora_inicio, hora_fin FROM sesiones WHERE id_actividades='";
 
 	public List<Object[]> getSesiones(long l) {
-		return bd.executeQueryArray(sesiones_actividad + l + "'");
+		String consulta = sesiones_actividad + l + "' GROUP BY dia, hora_inicio, hora_fin";
+		return bd.executeQueryArray(consulta);
 	}
-	
+
 	public List<Object[]> getSesiones2(String l) {
 		return bd.executeQueryArray(sesiones_actividad + l + "'");
 	}
-	
+
 	public static final String actividad_ensesion = "SELECT id_actividades FROM sesiones";
 
 	public List<Object[]> getIdsActividades() {
 		return bd.executeQueryArray(actividad_ensesion);
+	}
+
+	// Eliminar sesiones
+	public static final String eliminar_sesiones = "DELETE FROM sesiones WHERE id_actividades = ?";
+
+	public void eliminarSesiones(String id_actividad) {
+		bd.executeUpdate(eliminar_sesiones, id_actividad);
 	}
 }

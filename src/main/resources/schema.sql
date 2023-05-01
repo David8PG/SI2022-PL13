@@ -106,5 +106,6 @@ CREATE TABLE cola(
 	foreign key (dni_clientes) references clientes(dni), 
     id_actividades integer unsigned,
     foreign key (id_actividades) references actividades(id_actividad) ON DELETE CASCADE, 
-    fecha datetime 
+    fecha datetime ,
+    socio varchar(2)
    );

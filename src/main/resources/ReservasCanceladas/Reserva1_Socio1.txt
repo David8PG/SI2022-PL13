@@ -1,0 +1,2 @@
+Se ha cancelado la Reserva con ID 1
+Al no estar abonado su importe, no se le devolverá nada de dinero.

@@ -1,0 +1,3 @@
+Piscina Olímpica;2;1;3.00;
+Gimnasio Principal;2;1;3.00;
+Campo de Fútbol;0;1;1.00;

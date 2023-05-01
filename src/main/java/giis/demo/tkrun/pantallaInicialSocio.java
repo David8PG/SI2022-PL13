@@ -20,6 +20,9 @@ public class pantallaInicialSocio {
 	private MostrarReservasSocio ventanaMostrarReservasSocio;
 	private int id_socio;
 	private JTextField tSocio;
+	private InscripcionActSocController inscripcionactivcont;
+	private InscripcionActividadSocio inscripcionactividad;
+	private ConsultaPagosSocio consultapagos;
 
 	/**
 	 * Launch the application.
@@ -59,7 +62,7 @@ public class pantallaInicialSocio {
 	private void initialize() {
 		frmPantallaInicialSocio = new JFrame();
 		frmPantallaInicialSocio.setTitle("Pantalla Inicial Socio");
-		frmPantallaInicialSocio.setBounds(100, 100, 450, 220);
+		frmPantallaInicialSocio.setBounds(100, 100, 450, 249);
 		frmPantallaInicialSocio.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmPantallaInicialSocio.getContentPane().setLayout(null);
 
@@ -68,10 +71,10 @@ public class pantallaInicialSocio {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				vInicioSesion.getFrmInicioSesion().setVisible(true);
-				// frmPantallaInicialSocio.setVisible(false);
+				frmPantallaInicialSocio.setVisible(false);
 			}
 		});
-		btnNewButton.setBounds(168, 152, 85, 21);
+		btnNewButton.setBounds(175, 166, 85, 21);
 		frmPantallaInicialSocio.getContentPane().add(btnNewButton);
 
 		JButton bVerReservas = new JButton("Ver disponibilidad");
@@ -106,20 +109,44 @@ public class pantallaInicialSocio {
 		tSocio = new JTextField();
 		tSocio.setBounds(205, 21, 33, 19);
 		frmPantallaInicialSocio.getContentPane().add(tSocio);
-		tSocio.setText("");
+		tSocio.setText(Integer.toString(id_socio));
 		tSocio.setEditable(false);
 		tSocio.setColumns(10);
 
 		JButton btnMostrarReservas = new JButton("Ver reservas");
 		btnMostrarReservas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ventanaMostrarReservasSocio = new MostrarReservasSocio();
+				ventanaMostrarReservasSocio = new MostrarReservasSocio(vInicioSesion);
 				ventanaMostrarReservasSocio.getMostrarReservasSocio().setVisible(true);
 			}
 		});
 		btnMostrarReservas.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnMostrarReservas.setBounds(64, 92, 120, 23);
 		frmPantallaInicialSocio.getContentPane().add(btnMostrarReservas);
+
+		JButton bReservarAct = new JButton("Reservar Actividad");
+		bReservarAct.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				inscripcionactividad = new InscripcionActividadSocio(vInicioSesion);
+				inscripcionactividad.getFrame().setVisible(true);
+				// inscripcionactivcont = new InscripcionActSocController(inscripcionactividad,
+				// vInicioSesion);
+			}
+		});
+		bReservarAct.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		bReservarAct.setBounds(260, 92, 132, 23);
+		frmPantallaInicialSocio.getContentPane().add(bReservarAct);
+		
+		JButton bPagos = new JButton("Ver pagos");
+		bPagos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				consultapagos = new ConsultaPagosSocio(vInicioSesion);
+				consultapagos.getFrame().setVisible(true);
+			}
+		});
+		bPagos.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		bPagos.setBounds(260, 125, 132, 21);
+		frmPantallaInicialSocio.getContentPane().add(bPagos);
 	}
 
 	public JFrame getFrmvSocio() {

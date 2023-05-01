@@ -1,0 +1,7 @@
+Nombre socio;Reservas realizadas;Total gastado;Instalación más reservada;% de las reservas en ella;
+Juan Pérez;2;25.00;Piscina Olímpica;50.0000;
+Sara Gómez;1;20.00;Campo de Fútbol;100.0000;
+Luisa Martínez;1;12.50;Gimnasio Principal;100.0000;
+Elena Sánchez;1;5.00;Piscina Olímpica;100.0000;
+Javier Alonso;1;10.00;Piscina Olímpica;100.0000;
+Lucía García;1;15.00;Gimnasio Principal;100.0000;

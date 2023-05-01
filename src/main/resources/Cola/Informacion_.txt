@@ -1,0 +1,5 @@
+ID actividad: 1, DNI: 11111111A, Fecha Reserva: 2023-04-15T10:00, Es Socio: sí
+ID actividad: 1, DNI: 55555555E, Fecha Reserva: 2023-04-17T16:00, Es Socio: sí
+ID actividad: 1, DNI: 11111111A, Fecha Reserva: 2023-04-18T11:00, Es Socio: sí
+ID actividad: 1, DNI: 44444444D, Fecha Reserva: 2023-04-20T10:00, Es Socio: sí
+ID actividad: 1, DNI: 44444444D, Fecha Reserva: 2023-04-20T10:00, Es Socio: no

@@ -1,0 +1,4 @@
+Has reservado: Piscina Olímpica
+Fecha de reserva: 2023-04-14 13:00
+Nº de horas: 2
+Importe: 10.00

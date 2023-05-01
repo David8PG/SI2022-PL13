@@ -55,7 +55,7 @@ public class ModificarParametros {
 	private void initialize() {
 		frameModificarParametros = new JFrame();
 		frameModificarParametros.setTitle("Modificar Parámetros");
-		frameModificarParametros.setBounds(100, 100, 450, 300);
+		frameModificarParametros.setBounds(100, 100, 332, 253);
 		frameModificarParametros.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JPanel panel = new JPanel();
@@ -63,19 +63,19 @@ public class ModificarParametros {
 		panel.setLayout(null);
 
 		JLabel lblTextoPeriodoReservas = new JLabel("Periodo de visualización de reservas:");
-		lblTextoPeriodoReservas.setBounds(38, 35, 177, 13);
+		lblTextoPeriodoReservas.setBounds(38, 35, 203, 13);
 		panel.add(lblTextoPeriodoReservas);
 
 		JLabel lblAntelacion = new JLabel("Días Antelacion: ");
-		lblAntelacion.setBounds(38, 70, 165, 13);
+		lblAntelacion.setBounds(38, 70, 203, 13);
 		panel.add(lblAntelacion);
 
-		JLabel lblHoraMaxima = new JLabel("Hora máx: ");
-		lblHoraMaxima.setBounds(38, 105, 165, 13);
+		JLabel lblHoraMaxima = new JLabel("Número de horas máximo:");
+		lblHoraMaxima.setBounds(38, 105, 203, 13);
 		panel.add(lblHoraMaxima);
 
 		JLabel lblHorasDiaMax = new JLabel("Número de horas máximo por día: ");
-		lblHorasDiaMax.setBounds(38, 140, 165, 13);
+		lblHorasDiaMax.setBounds(38, 140, 203, 13);
 		panel.add(lblHorasDiaMax);
 
 		JButton btnAceptar = new JButton("Aceptar");
@@ -85,7 +85,7 @@ public class ModificarParametros {
 				frameModificarParametros.dispose();
 			}
 		});
-		btnAceptar.setBounds(230, 232, 85, 21);
+		btnAceptar.setBounds(57, 180, 85, 21);
 		panel.add(btnAceptar);
 
 		SpinnerNumberModel model = new SpinnerNumberModel(1, 1, Integer.MAX_VALUE, 1);
@@ -93,22 +93,22 @@ public class ModificarParametros {
 		SpinnerNumberModel model2 = new SpinnerNumberModel(1, 1, Integer.MAX_VALUE, 1);
 		SpinnerNumberModel model3 = new SpinnerNumberModel(1, 1, Integer.MAX_VALUE, 1);
 		spinnerPeriodoReservas = new JSpinner(model);
-		spinnerPeriodoReservas.setBounds(225, 32, 30, 20);
+		spinnerPeriodoReservas.setBounds(251, 32, 30, 20);
 		spinnerPeriodoReservas.setValue(leerCSV(0));
 		panel.add(spinnerPeriodoReservas);
 
 		spinnerDiasAntelacion = new JSpinner(model1);
-		spinnerDiasAntelacion.setBounds(225, 67, 30, 20);
+		spinnerDiasAntelacion.setBounds(251, 67, 30, 20);
 		spinnerDiasAntelacion.setValue(leerCSV(1));
 		panel.add(spinnerDiasAntelacion);
 
 		spinnerHorasMax = new JSpinner(model2);
-		spinnerHorasMax.setBounds(225, 102, 30, 20);
+		spinnerHorasMax.setBounds(251, 102, 30, 20);
 		spinnerHorasMax.setValue(leerCSV(2));
 		panel.add(spinnerHorasMax);
 
 		spinnerHorasMaxDia = new JSpinner(model3);
-		spinnerHorasMaxDia.setBounds(225, 137, 30, 20);
+		spinnerHorasMaxDia.setBounds(251, 137, 30, 20);
 		spinnerHorasMaxDia.setValue(leerCSV(3));
 		panel.add(spinnerHorasMaxDia);
 
@@ -118,7 +118,7 @@ public class ModificarParametros {
 				frameModificarParametros.dispose();
 			}
 		});
-		btnCancelar.setBounds(325, 232, 85, 21);
+		btnCancelar.setBounds(171, 180, 85, 21);
 		panel.add(btnCancelar);
 
 	}
@@ -166,5 +166,17 @@ public class ModificarParametros {
 
 	public Window getModificarParametros() {
 		return this.frameModificarParametros;
+	}
+	
+	public int getDiasAntelacion() {
+		return (int) spinnerDiasAntelacion.getValue();
+	}
+	
+	public int getHorasMax() {
+		return (int) spinnerHorasMax.getValue();
+	}
+	
+	public int getHorasMaxDia() {
+		return (int) spinnerHorasMaxDia.getValue();
 	}
 }
