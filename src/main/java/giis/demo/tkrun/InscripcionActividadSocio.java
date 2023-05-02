@@ -280,7 +280,7 @@ public class InscripcionActividadSocio {
 									JOptionPane.ERROR_MESSAGE);
 							ModeloCola.nuevaCola(dni,
 									"" + actividadesmodel.getIdActividad(cActividades.getSelectedItem().toString()),
-									fechaHoraExactaHoyStr, "sí");
+									fechaHoraExactaHoyStr, "Sí");
 							String ruta = "src/main/resources/InscripcionesActividades/" + dni + "_InscripcionCola"
 									+ ".txt";
 							String contenido = "Se ha inscrito al socio con id " + id_socio + " con DNI " + dni

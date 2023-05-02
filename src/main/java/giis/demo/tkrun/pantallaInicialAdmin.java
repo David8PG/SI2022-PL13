@@ -23,6 +23,7 @@ public class pantallaInicialAdmin {
 	private ReservaAutomatica ventanaReservaAutomatica;
 	private VisualizarContabilidad ventanaVisualizarContabilidad;
 	private InscribirActividadNoSocio ventanaInscribirActividadNoSocio;
+	private VisualizarCola ventanaVisualizarCola;
 
 	/**
 	 * Launch the application.
@@ -171,6 +172,16 @@ public class pantallaInicialAdmin {
 		});
 		btnNewButton_1.setBounds(221, 93, 233, 23);
 		frmPantallaInicialAdministrador.getContentPane().add(btnNewButton_1);
+		
+		JButton btnNewButton_2 = new JButton("Visualizar Cola");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ventanaVisualizarCola = new VisualizarCola();
+				ventanaVisualizarCola.getFrmVisualizarCola().setVisible(true);
+			}
+		});
+		btnNewButton_2.setBounds(220, 127, 213, 21);
+		frmPantallaInicialAdministrador.getContentPane().add(btnNewButton_2);
 	}
 
 	public JFrame getFrmvAdmin() {
