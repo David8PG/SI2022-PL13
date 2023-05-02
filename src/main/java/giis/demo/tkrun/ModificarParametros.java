@@ -25,6 +25,7 @@ public class ModificarParametros {
 	private JSpinner spinnerDiasAntelacion;
 	private JSpinner spinnerHorasMax;
 	private JSpinner spinnerHorasMaxDia;
+	private JSpinner spinnerCancelar;
 
 	/**
 	 * Launch the application.
@@ -55,7 +56,7 @@ public class ModificarParametros {
 	private void initialize() {
 		frameModificarParametros = new JFrame();
 		frameModificarParametros.setTitle("Modificar Parámetros");
-		frameModificarParametros.setBounds(100, 100, 450, 300);
+		frameModificarParametros.setBounds(100, 100, 450, 307);
 		frameModificarParametros.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JPanel panel = new JPanel();
@@ -92,25 +93,31 @@ public class ModificarParametros {
 		SpinnerNumberModel model1 = new SpinnerNumberModel(1, 1, Integer.MAX_VALUE, 1);
 		SpinnerNumberModel model2 = new SpinnerNumberModel(1, 1, Integer.MAX_VALUE, 1);
 		SpinnerNumberModel model3 = new SpinnerNumberModel(1, 1, Integer.MAX_VALUE, 1);
+		SpinnerNumberModel model4 = new SpinnerNumberModel(1, 1, Integer.MAX_VALUE, 1);
 		spinnerPeriodoReservas = new JSpinner(model);
-		spinnerPeriodoReservas.setBounds(225, 32, 30, 20);
+		spinnerPeriodoReservas.setBounds(235, 32, 30, 20);
 		spinnerPeriodoReservas.setValue(leerCSV(0));
 		panel.add(spinnerPeriodoReservas);
 
 		spinnerDiasAntelacion = new JSpinner(model1);
-		spinnerDiasAntelacion.setBounds(225, 67, 30, 20);
+		spinnerDiasAntelacion.setBounds(235, 67, 30, 20);
 		spinnerDiasAntelacion.setValue(leerCSV(1));
 		panel.add(spinnerDiasAntelacion);
 
 		spinnerHorasMax = new JSpinner(model2);
-		spinnerHorasMax.setBounds(225, 102, 30, 20);
+		spinnerHorasMax.setBounds(235, 102, 30, 20);
 		spinnerHorasMax.setValue(leerCSV(2));
 		panel.add(spinnerHorasMax);
 
 		spinnerHorasMaxDia = new JSpinner(model3);
-		spinnerHorasMaxDia.setBounds(225, 137, 30, 20);
+		spinnerHorasMaxDia.setBounds(235, 137, 30, 20);
 		spinnerHorasMaxDia.setValue(leerCSV(3));
 		panel.add(spinnerHorasMaxDia);
+		
+		spinnerCancelar = new JSpinner(model4);
+		spinnerCancelar.setBounds(235, 179, 30, 20);
+		spinnerCancelar.setValue(leerCSV(4));
+		panel.add(spinnerCancelar);
 
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.addActionListener(new ActionListener() {
@@ -120,6 +127,12 @@ public class ModificarParametros {
 		});
 		btnCancelar.setBounds(325, 232, 85, 21);
 		panel.add(btnCancelar);
+		
+		JLabel lblNewLabel = new JLabel("Dias con antelación para cancelar reserva:");
+		lblNewLabel.setBounds(38, 182, 195, 13);
+		panel.add(lblNewLabel);
+		
+	
 
 	}
 
@@ -147,7 +160,8 @@ public class ModificarParametros {
 			String contenido = Integer.toString((int) spinnerPeriodoReservas.getValue()) + ";"
 					+ Integer.toString((int) spinnerDiasAntelacion.getValue()) + ";"
 					+ Integer.toString((int) spinnerHorasMax.getValue()) + ";"
-					+ Integer.toString((int) spinnerHorasMaxDia.getValue());
+					+ Integer.toString((int) spinnerHorasMaxDia.getValue()) + ";"
+					+ Integer.toString((int) spinnerCancelar.getValue());
 			File file = new File(ruta);
 			// Se crea el archivo si no existe
 			if (!file.exists()) {
@@ -178,5 +192,9 @@ public class ModificarParametros {
 	
 	public int getHorasMaxDia() {
 		return (int) spinnerHorasMaxDia.getValue();
+	}
+	
+	public int getCancelar() {
+		return (int) spinnerCancelar.getValue();
 	}
 }

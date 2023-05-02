@@ -24,6 +24,7 @@ public class pantallaInicialSocio {
 	private InscripcionActSocController inscripcionactivcont;
 	private InscripcionActividadSocio inscripcionactividad;
 	private ConsultaPagosSocio consultapagos;
+	private Cancelar_Reserva_Socio cancelarreserva;
 
 	/**
 	 * Launch the application.
@@ -147,6 +148,17 @@ public class pantallaInicialSocio {
 		bPagos.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		bPagos.setBounds(260, 125, 132, 21);
 		frmPantallaInicialSocio.getContentPane().add(bPagos);
+		
+		JButton bCancelarReservas = new JButton("Cancelar Reservas");
+		bCancelarReservas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cancelarreserva = new Cancelar_Reserva_Socio(vInicioSesion);
+				cancelarreserva.getFrame().setVisible(true);
+			}
+		});
+		bCancelarReservas.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		bCancelarReservas.setBounds(64, 126, 120, 21);
+		frmPantallaInicialSocio.getContentPane().add(bCancelarReservas);
 	}
 
 	public JFrame getFrmvSocio() {

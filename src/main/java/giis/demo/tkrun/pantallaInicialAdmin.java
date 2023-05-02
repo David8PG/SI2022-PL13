@@ -22,6 +22,7 @@ public class pantallaInicialAdmin {
 	private CancelarReservaSocio ventanaCancelarReserva;
 	private ReservaAutomatica ventanaReservaAutomatica;
 	private VisualizarContabilidad ventanaVisualizarContabilidad;
+	private Cancelar_Reserva_Admin vCRA;
 
 	/**
 	 * Launch the application.
@@ -160,6 +161,16 @@ public class pantallaInicialAdmin {
 		});
 		btnVisualizarContabilidad.setBounds(33, 252, 153, 21);
 		frmPantallaInicialAdministrador.getContentPane().add(btnVisualizarContabilidad);
+		
+		JButton bCancelarReserva = new JButton("Cancelar Reserva Socio");
+		bCancelarReserva.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				vCRA = new Cancelar_Reserva_Admin();
+				vCRA.getFrame().setVisible(true);
+			}
+		});
+		bCancelarReserva.setBounds(221, 94, 163, 21);
+		frmPantallaInicialAdministrador.getContentPane().add(bCancelarReserva);
 	}
 
 	public JFrame getFrmvAdmin() {
