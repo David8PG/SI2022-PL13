@@ -102,41 +102,41 @@ public class ReservaInstalacionFechaDeterminada {
 		panel.add(btnCancelar);
 
 		JLabel lblInstalacion = new JLabel("Seleccione una Instalación:");
-		lblInstalacion.setBounds(41, 38, 125, 13);
+		lblInstalacion.setBounds(41, 38, 172, 13);
 		panel.add(lblInstalacion);
 
 		JComboBox comboBoxInstalacion = new JComboBox();
 		comboBoxInstalacion.setModel(new DefaultComboBoxModel(nombre_instalaciones));
-		comboBoxInstalacion.setBounds(176, 34, 215, 21);
+		comboBoxInstalacion.setBounds(223, 34, 215, 21);
 		panel.add(comboBoxInstalacion);
 
 		JLabel lblHoraInicioReserva = new JLabel("Hora de Inicio de la Reserva:");
-		lblHoraInicioReserva.setBounds(41, 129, 133, 13);
+		lblHoraInicioReserva.setBounds(41, 129, 172, 13);
 		panel.add(lblHoraInicioReserva);
 
 		JLabel lblFechaReserva = new JLabel("Fecha de la Reserva:");
-		lblFechaReserva.setBounds(41, 87, 125, 13);
+		lblFechaReserva.setBounds(41, 87, 172, 13);
 		panel.add(lblFechaReserva);
 
 		JComboBox comboBoxHoraInicioReserva = new JComboBox();
 		comboBoxHoraInicioReserva.setModel(new DefaultComboBoxModel(new String[] { "09:00", "10:00", "11:00", "12:00",
 				"13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00" }));
-		comboBoxHoraInicioReserva.setBounds(176, 125, 111, 21);
+		comboBoxHoraInicioReserva.setBounds(223, 125, 111, 21);
 		panel.add(comboBoxHoraInicioReserva);
 
 		JDateChooser dateChooser_FechaReserva = new JDateChooser();
-		dateChooser_FechaReserva.setBounds(176, 81, 156, 19);
+		dateChooser_FechaReserva.setBounds(223, 81, 156, 19);
 		dateChooser_FechaReserva.setDate(actual);
 		panel.add(dateChooser_FechaReserva);
 
 		JLabel lblHoraFinReserva = new JLabel("Hora de Fin de Reserva:");
-		lblHoraFinReserva.setBounds(41, 171, 125, 13);
+		lblHoraFinReserva.setBounds(41, 171, 172, 13);
 		panel.add(lblHoraFinReserva);
 
 		JComboBox comboBoxHoraFinReserva = new JComboBox();
 		comboBoxHoraFinReserva.setModel(new DefaultComboBoxModel(new String[] { "10:00", "11:00", "12:00", "13:00",
 				"14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00" }));
-		comboBoxHoraFinReserva.setBounds(176, 167, 111, 21);
+		comboBoxHoraFinReserva.setBounds(223, 167, 111, 21);
 		panel.add(comboBoxHoraFinReserva);
 
 		// El botón reservar lo añadimos el último porque necesita información del resto
@@ -169,14 +169,23 @@ public class ReservaInstalacionFechaDeterminada {
 				String hora_fin = (String) comboBoxHoraFinReserva.getSelectedItem();
 				String diaYhora_inicio = dia + " " + hora_inicio;
 				String diaYhora_fin = dia + " " + hora_fin;
-				
+
 				LocalTime hora1 = LocalTime.parse(hora_inicio);
 				int hora_de_inicioReserva = hora1.getHour();
 
 				LocalTime hora2 = LocalTime.parse(hora_fin);
 				int hora_de_finReserva = hora2.getHour();
-				
-				int diferencia_horas = hora_de_finReserva -  hora_de_inicioReserva;
+
+				int diferencia_horas = hora_de_finReserva - hora_de_inicioReserva;
+
+				Date hoy_mismo = new Date();
+
+				Calendar calendario_prueba = Calendar.getInstance();
+				calendario_prueba.setTime(hoy_mismo);
+				calendario_prueba.add(Calendar.DAY_OF_YEAR, modificaParametros.leerCSV(1));
+				Date datedespues = calendario_prueba.getTime();
+				String despues = formato.format(datedespues);
+				String ahora = formato.format(hoy_mismo);
 
 				// Creamos una variable entera para la hora de inicio de la reserva
 				int indice = comboBoxHoraInicioReserva.getSelectedIndex();
@@ -263,46 +272,66 @@ public class ReservaInstalacionFechaDeterminada {
 							if (diferencia_en_dias <= modificaParametros.leerCSV(1) || diferencia_en_años > 0) {
 								// meter por aquí un if para que haya horas máximas que sean parametrizables
 								if (hora_de_inicioReserva < hora_de_finReserva) {
-									// if de horas max por dia
+									// if de horas max por dia, comparar si horas max de parámetros >=
+									// modeloReservas.horas_reservadas(fechaActual,
+									// fechaActualHastaDiasParametrizables, idSocio)
+									// meter como un || al siguiente if
 									if (diferencia_horas < modificaParametros.leerCSV(3)) {
-										for (int k = 0; k <= hora_de_finReserva - hora_de_inicioReserva; k++) {
-											Calendar cal = Calendar.getInstance(); // Crear un objeto Calendar
-											cal.setTime(fecha_inicio); // Establecer la fecha y hora de inicio de la
-																		// reserva
-											cal.add(Calendar.HOUR_OF_DAY, k);
-											Date fecha_reserva = cal.getTime();
-											modeloReservas.nuevaReservaAct(Integer.parseInt(id_socio),
-													Integer.parseInt(id_instalacion), formato.format(fecha_actual),
-													formato2.format(fecha_reserva), precio_instalacion, 0);
-										}
-										JOptionPane.showMessageDialog(frmReservarInstalacionFechaDet,
-												"La reserva se ha hecho correctamente.\n" + "  Coste reserva: "
-														+ precio_instalacion + "\n  Nº Socio solicitante: " + id_socio
-														+ "\n  Instalación reservada: " + nInstalacion
-														+ "\n  Reservada el " + dia + " de " + hora_inicio + " a "
-														+ hora_fin + "\n Formulario guardado con éxito.");
-										// formulario de reserva exitosa
-										try {
-											String ruta = "src/main/resources/ReservaSocio" + id_socio + nInstalacion + dia + ".txt";
-											String contenido = "Se ha completado la reserva para el día " + dia
-													+ " desde las " + hora_inicio + " hasta las " + hora_fin + "\n"
-													+ "El socio nº " + id_socio + " ha reservado " + nInstalacion + "\n"
-													+ "El coste por hora de la reserva es: " + precio_instalacion;
-											File file = new File(ruta);
-											if (!file.exists()) {
-												file.createNewFile();
+										int horas_probando = modeloReservas.horas_reservadas(
+												ahora, despues, id_socio);
+										if (modificaParametros.leerCSV(2) >= horas_probando + diferencia_horas) {
+											horas_probando += diferencia_horas;
+											System.out.println(modificaParametros.leerCSV(2));
+											System.out.println(modeloReservas.horas_reservadas(
+												ahora, despues, id_socio) + diferencia_horas);
+											//System.out.println(ahora);
+											for (int k = 0; k <= hora_de_finReserva - hora_de_inicioReserva; k++) {
+												Calendar cal = Calendar.getInstance(); // Crear un objeto Calendar
+												cal.setTime(fecha_inicio); // Establecer la fecha y hora de inicio de la
+																			// reserva
+												cal.add(Calendar.HOUR_OF_DAY, k);
+												Date fecha_reserva = cal.getTime();
+												modeloReservas.nuevaReservaAct(Integer.parseInt(id_socio),
+														Integer.parseInt(id_instalacion), formato.format(fecha_actual),
+														formato2.format(fecha_reserva), precio_instalacion, 0);
 											}
-											FileWriter fw = new FileWriter(file);
-											BufferedWriter bw = new BufferedWriter(fw);
-											bw.write(contenido);
-											bw.close();
+											JOptionPane.showMessageDialog(frmReservarInstalacionFechaDet,
+													"La reserva se ha hecho correctamente.\n" + "  Coste reserva: "
+															+ precio_instalacion + "\n  Nº Socio solicitante: "
+															+ id_socio + "\n  Instalación reservada: " + nInstalacion
+															+ "\n  Reservada el " + dia + " de " + hora_inicio + " a "
+															+ hora_fin + "\n Formulario guardado con éxito.");
+											// formulario de reserva exitosa
+											try {
+												String ruta = "src/main/resources/ReservaSocio" + id_socio
+														+ nInstalacion + dia + ".txt";
+												String contenido = "Se ha completado la reserva para el día " + dia
+														+ " desde las " + hora_inicio + " hasta las " + hora_fin + "\n"
+														+ "El socio nº " + id_socio + " ha reservado " + nInstalacion
+														+ "\n" + "El coste por hora de la reserva es: "
+														+ precio_instalacion;
+												File file = new File(ruta);
+												if (!file.exists()) {
+													file.createNewFile();
+												}
+												FileWriter fw = new FileWriter(file);
+												BufferedWriter bw = new BufferedWriter(fw);
+												bw.write(contenido);
+												bw.close();
 
-										} catch (Exception e1) {
-											e1.printStackTrace();
+											} catch (Exception e1) {
+												e1.printStackTrace();
+											}
+										} else {
+											JOptionPane.showMessageDialog(frmReservarInstalacionFechaDet,
+													"Un socio no puede reservar mas de " + modificaParametros.leerCSV(2)
+															+ " horas en total.",
+													"No puedes reservar", JOptionPane.ERROR_MESSAGE);
 										}
 									} else {
 										JOptionPane.showMessageDialog(frmReservarInstalacionFechaDet,
-												"No puedes reservar más de " + modificaParametros.leerCSV(3) + " horas un mismo día.",
+												"No puedes reservar más de " + modificaParametros.leerCSV(3)
+														+ " horas seguidas.",
 												"Ha ocurrido un error al hacer la reserva", JOptionPane.ERROR_MESSAGE);
 									}
 								} else {
@@ -312,7 +341,8 @@ public class ReservaInstalacionFechaDeterminada {
 								}
 							} else {
 								JOptionPane.showMessageDialog(frmReservarInstalacionFechaDet,
-										"No se puede reservar con más de " + modificaParametros.leerCSV(1) + " días de antelación.",
+										"No se puede reservar con más de " + modificaParametros.leerCSV(1)
+												+ " días de antelación.",
 										"Ha ocurrido un error al hacer la reserva", JOptionPane.ERROR_MESSAGE);
 							}
 						} else {
@@ -338,11 +368,11 @@ public class ReservaInstalacionFechaDeterminada {
 		panel.add(btnReservar);
 
 		JLabel lblIdSocio = new JLabel("Número de socio:");
-		lblIdSocio.setBounds(41, 231, 102, 13);
+		lblIdSocio.setBounds(41, 231, 172, 13);
 		panel.add(lblIdSocio);
 
 		textFieldIdSocio = new JTextField();
-		textFieldIdSocio.setBounds(176, 228, 111, 19);
+		textFieldIdSocio.setBounds(223, 228, 111, 19);
 		panel.add(textFieldIdSocio);
 		textFieldIdSocio.setColumns(10);
 	}

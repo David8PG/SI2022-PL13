@@ -458,7 +458,7 @@ public class PlanificarActividad {
 		panel.add(lblNewLabel_12);
 
 		JLabel lblNewLabel_12_1 = new JLabel("Hora Fin");
-		lblNewLabel_12_1.setBounds(466, 208, 46, 13);
+		lblNewLabel_12_1.setBounds(466, 208, 67, 13);
 		panel.add(lblNewLabel_12_1);
 
 		JLabel lblNewLabel_12_1_1 = new JLabel("Hora Inicio");
