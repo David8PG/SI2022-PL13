@@ -102,41 +102,41 @@ public class ReservaInstalacionFechaDeterminada {
 		panel.add(btnCancelar);
 
 		JLabel lblInstalacion = new JLabel("Seleccione una Instalación:");
-		lblInstalacion.setBounds(41, 38, 125, 13);
+		lblInstalacion.setBounds(41, 38, 172, 13);
 		panel.add(lblInstalacion);
 
 		JComboBox comboBoxInstalacion = new JComboBox();
 		comboBoxInstalacion.setModel(new DefaultComboBoxModel(nombre_instalaciones));
-		comboBoxInstalacion.setBounds(176, 34, 215, 21);
+		comboBoxInstalacion.setBounds(223, 34, 215, 21);
 		panel.add(comboBoxInstalacion);
 
 		JLabel lblHoraInicioReserva = new JLabel("Hora de Inicio de la Reserva:");
-		lblHoraInicioReserva.setBounds(41, 129, 133, 13);
+		lblHoraInicioReserva.setBounds(41, 129, 172, 13);
 		panel.add(lblHoraInicioReserva);
 
 		JLabel lblFechaReserva = new JLabel("Fecha de la Reserva:");
-		lblFechaReserva.setBounds(41, 87, 125, 13);
+		lblFechaReserva.setBounds(41, 87, 172, 13);
 		panel.add(lblFechaReserva);
 
 		JComboBox comboBoxHoraInicioReserva = new JComboBox();
 		comboBoxHoraInicioReserva.setModel(new DefaultComboBoxModel(new String[] { "09:00", "10:00", "11:00", "12:00",
 				"13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00" }));
-		comboBoxHoraInicioReserva.setBounds(176, 125, 111, 21);
+		comboBoxHoraInicioReserva.setBounds(223, 125, 111, 21);
 		panel.add(comboBoxHoraInicioReserva);
 
 		JDateChooser dateChooser_FechaReserva = new JDateChooser();
-		dateChooser_FechaReserva.setBounds(176, 81, 156, 19);
+		dateChooser_FechaReserva.setBounds(223, 81, 156, 19);
 		dateChooser_FechaReserva.setDate(actual);
 		panel.add(dateChooser_FechaReserva);
 
 		JLabel lblHoraFinReserva = new JLabel("Hora de Fin de Reserva:");
-		lblHoraFinReserva.setBounds(41, 171, 125, 13);
+		lblHoraFinReserva.setBounds(41, 171, 172, 13);
 		panel.add(lblHoraFinReserva);
 
 		JComboBox comboBoxHoraFinReserva = new JComboBox();
 		comboBoxHoraFinReserva.setModel(new DefaultComboBoxModel(new String[] { "10:00", "11:00", "12:00", "13:00",
 				"14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00" }));
-		comboBoxHoraFinReserva.setBounds(176, 167, 111, 21);
+		comboBoxHoraFinReserva.setBounds(223, 167, 111, 21);
 		panel.add(comboBoxHoraFinReserva);
 
 		// El botón reservar lo añadimos el último porque necesita información del resto
@@ -368,11 +368,11 @@ public class ReservaInstalacionFechaDeterminada {
 		panel.add(btnReservar);
 
 		JLabel lblIdSocio = new JLabel("Número de socio:");
-		lblIdSocio.setBounds(41, 231, 102, 13);
+		lblIdSocio.setBounds(41, 231, 172, 13);
 		panel.add(lblIdSocio);
 
 		textFieldIdSocio = new JTextField();
-		textFieldIdSocio.setBounds(176, 228, 111, 19);
+		textFieldIdSocio.setBounds(223, 228, 111, 19);
 		panel.add(textFieldIdSocio);
 		textFieldIdSocio.setColumns(10);
 	}

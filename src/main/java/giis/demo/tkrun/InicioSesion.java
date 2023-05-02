@@ -72,15 +72,15 @@ public class InicioSesion {
 		
 		
 		JLabel lblUsuario = new JLabel("Usuario:");
-		lblUsuario.setBounds(38, 25, 45, 13);
+		lblUsuario.setBounds(24, 25, 80, 13);
 		frmInicio_de_sesion.getContentPane().add(lblUsuario);
 		
 		JLabel lblContraseña = new JLabel("Contraseña:");
-		lblContraseña.setBounds(24, 73, 66, 13);
+		lblContraseña.setBounds(24, 73, 80, 13);
 		frmInicio_de_sesion.getContentPane().add(lblContraseña);
 		
 		textFieldUsuario = new JTextField();
-		textFieldUsuario.setBounds(103, 22, 96, 19);
+		textFieldUsuario.setBounds(114, 22, 96, 19);
 		frmInicio_de_sesion.getContentPane().add(textFieldUsuario);
 		textFieldUsuario.setColumns(10);
 		
@@ -93,7 +93,7 @@ public class InicioSesion {
 				}
 			}
 		});
-		passFieldContraseña.setBounds(103, 70, 96, 19);
+		passFieldContraseña.setBounds(114, 70, 96, 19);
 		frmInicio_de_sesion.getContentPane().add(passFieldContraseña);
 		
 		JButton btnInicioSesion = new JButton("Inicia Sesión");

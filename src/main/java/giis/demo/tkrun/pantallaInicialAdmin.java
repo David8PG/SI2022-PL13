@@ -70,7 +70,7 @@ public class pantallaInicialAdmin {
 				vReservaInstalacionFechaDeterminada.getFrmReservaInstalacionFechaDeterminada().setVisible(true);
 			}
 		});
-		btnReservarInstalacion.setBounds(33, 25, 153, 23);
+		btnReservarInstalacion.setBounds(33, 25, 227, 23);
 		frmPantallaInicialAdministrador.getContentPane().add(btnReservarInstalacion);
 
 		JButton btnNewButton = new JButton("Crear Actividad");
@@ -80,7 +80,7 @@ public class pantallaInicialAdmin {
 				ventanaCrearActividad.getFrmCrearActividad().setVisible(true);
 			}
 		});
-		btnNewButton.setBounds(33, 59, 153, 23);
+		btnNewButton.setBounds(33, 59, 227, 23);
 		frmPantallaInicialAdministrador.getContentPane().add(btnNewButton);
 
 		JButton btnCrearPeriodoIns = new JButton("Crear Periodo Inscripción");
@@ -90,7 +90,7 @@ public class pantallaInicialAdmin {
 				ventanaPeriodoInscripcion.getfrmCrearActividad().setVisible(true);
 			}
 		});
-		btnCrearPeriodoIns.setBounds(33, 93, 153, 23);
+		btnCrearPeriodoIns.setBounds(33, 93, 227, 23);
 		frmPantallaInicialAdministrador.getContentPane().add(btnCrearPeriodoIns);
 
 		JButton btnReservarActividad = new JButton("Reservar Actividad Ins.");
@@ -100,7 +100,7 @@ public class pantallaInicialAdmin {
 				vReservaInstalacionActividadPeriodoDet.getFrmReservaInstalacionActividadPeriodoDet().setVisible(true);
 			}
 		});
-		btnReservarActividad.setBounds(33, 159, 153, 21);
+		btnReservarActividad.setBounds(33, 159, 227, 21);
 		frmPantallaInicialAdministrador.getContentPane().add(btnReservarActividad);
 
 		JButton btnListarActividad = new JButton("Listar Actividades");
@@ -110,7 +110,7 @@ public class pantallaInicialAdmin {
 				ventanaListarActividades.getListarActividades().setVisible(true);
 			}
 		});
-		btnListarActividad.setBounds(33, 126, 153, 23);
+		btnListarActividad.setBounds(33, 126, 227, 23);
 		frmPantallaInicialAdministrador.getContentPane().add(btnListarActividad);
 
 		JButton btnListarReservas = new JButton("Listar Reservas");
@@ -120,7 +120,7 @@ public class pantallaInicialAdmin {
 				ventanaVisualizarReservas.getVisualizarReservas().setVisible(true);
 			}
 		});
-		btnListarReservas.setBounds(33, 190, 153, 21);
+		btnListarReservas.setBounds(33, 190, 227, 21);
 		frmPantallaInicialAdministrador.getContentPane().add(btnListarReservas);
 
 		JButton btnParametros = new JButton("Modificar Parámetros");
@@ -130,7 +130,7 @@ public class pantallaInicialAdmin {
 				ventanaModificarParametros.getModificarParametros().setVisible(true);
 			}
 		});
-		btnParametros.setBounds(33, 221, 153, 21);
+		btnParametros.setBounds(33, 221, 227, 21);
 		frmPantallaInicialAdministrador.getContentPane().add(btnParametros);
 
 		JButton btnCancelarReservaSocio = new JButton("Cancelar Reserva Socio");
@@ -140,7 +140,7 @@ public class pantallaInicialAdmin {
 				ventanaCancelarReserva.getFrmCancelarSocio().setVisible(true);
 			}
 		});
-		btnCancelarReservaSocio.setBounds(221, 25, 163, 23);
+		btnCancelarReservaSocio.setBounds(270, 25, 230, 23);
 		frmPantallaInicialAdministrador.getContentPane().add(btnCancelarReservaSocio);
 
 		JButton btnReservaAutomatica = new JButton("Reserva Automática");
@@ -150,7 +150,7 @@ public class pantallaInicialAdmin {
 				ventanaReservaAutomatica.getFrmReservaAutomaticaActividad().setVisible(true);
 			}
 		});
-		btnReservaAutomatica.setBounds(221, 60, 163, 21);
+		btnReservaAutomatica.setBounds(270, 60, 230, 21);
 		frmPantallaInicialAdministrador.getContentPane().add(btnReservaAutomatica);
 
 		JButton btnVisualizarContabilidad = new JButton("Visualizar contabilidad");
@@ -160,7 +160,7 @@ public class pantallaInicialAdmin {
 				ventanaVisualizarContabilidad.getVisualizarContabilidad().setVisible(true);
 			}
 		});
-		btnVisualizarContabilidad.setBounds(33, 252, 153, 21);
+		btnVisualizarContabilidad.setBounds(33, 252, 227, 21);
 		frmPantallaInicialAdministrador.getContentPane().add(btnVisualizarContabilidad);
 
 		JButton btnNewButton_1 = new JButton("Inscribir Actividad no Socio");
@@ -170,7 +170,7 @@ public class pantallaInicialAdmin {
 				ventanaInscribirActividadNoSocio.getFrmActividadNoSocio().setVisible(true);
 			}
 		});
-		btnNewButton_1.setBounds(221, 93, 233, 23);
+		btnNewButton_1.setBounds(270, 93, 230, 23);
 		frmPantallaInicialAdministrador.getContentPane().add(btnNewButton_1);
 
 		JButton btnInformes = new JButton("Informes");
@@ -180,7 +180,7 @@ public class pantallaInicialAdmin {
 				ventanaInformesMenu.getVisualizarInformesMenu().setVisible(true);
 			}
 		});
-		btnInformes.setBounds(221, 127, 163, 21);
+		btnInformes.setBounds(270, 127, 230, 21);
 		frmPantallaInicialAdministrador.getContentPane().add(btnInformes);
 	}
 
