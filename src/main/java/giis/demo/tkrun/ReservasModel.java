@@ -300,5 +300,18 @@ public class ReservasModel {
 
 		bd.executeUpdate(reservas_actividad, id_actividad);
 	}
+	
+	public static final String fechas_por_socio = "SELECT COUNT(r.id_reserva) AS numeroReservas FROM clientes c LEFT JOIN reservas r ON c.id_socio = r.id_socios WHERE (r.fecha_reserva BETWEEN ? AND ? AND (c.id_socio=?)) GROUP BY c.id_socio";
 
+	// horas reservadas para un socio entre dos fechas (la última tendrá que ser la
+	// fecha de los dias de antelación)
+	public int horas_reservadas(String fecha_inicio, String fecha_antelacion_parametrizable, String idSocio) {
+		List<Object[]> lista = bd.executeQueryArray(fechas_por_socio, fecha_inicio, fecha_antelacion_parametrizable,
+				idSocio);
+		if (lista.size() > 0) {
+			return Integer.parseInt(lista.get(0)[0].toString());
+		} else {
+			return 0;
+		}
+	}
 }
