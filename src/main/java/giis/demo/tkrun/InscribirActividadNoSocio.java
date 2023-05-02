@@ -365,7 +365,7 @@ public class InscribirActividadNoSocio {
 										ModeloCola.nuevaCola(dni,
 												"" + ModeloActividades
 														.getIdActividad(comboBox.getSelectedItem().toString()),
-												fechaHoraExactaHoyStr, "No");
+												fechaHoraExactaHoyStr, "no");
 										String ruta = "src/main/resources/InscripcionesActividades/" + dni
 												+ "_InscripcionCola" + ".txt";
 										String contenido = "Se ha inscrito al cliente " + nombre + " con DNI " + dni
