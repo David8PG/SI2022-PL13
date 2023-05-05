@@ -218,18 +218,19 @@ public class CancelarActividadAdmin {
 			dni = clientes_actividad.get(i)[0].toString();
 			// todos los pagos del cliente con dni i
 			List<Object[]> lPagos = modeloPagos.getPagosCliente(dni);
+			System.out.println(lPagos.size());
 			String[] lPagos2 = new String[lPagos.size()];
 			if (modeloClientes.getID2(dni)) {
 				id_socio = modeloClientes.getIDcoge(dni);
 				// hay que comprobar si ha pagado la actividad o no
 				for (int j = 0; j < lPagos.size(); j++) {
-					lPagos2[i] = lPagos.get(i)[0].toString();
+					lPagos2[j] = lPagos.get(j)[0].toString();
 					// getReserva --> en pagos hay id_reserva pero no hay id_actividad ¿SOLUCION?
 					// es para comprobar si el socio ha pagado ya la actividad
 					// en verdad hay que comprobar si ha pagado la reserva de la actividad pq no se
 					// paga actividad si no q se paga reserva de actividad
 					// de esta manera se pueden añadir reservas que no tengan actividad asociada
-					actividadesPagadas.add(modeloPagos.getReservaActividad(lPagos2[i]));
+					actividadesPagadas.add(modeloPagos.getReservaActividad(lPagos2[j]));
 				}
 				if (actividadesPagadas.contains(id_actividad)) {
 					// esto de debajo es si ya pagó la actividad
@@ -281,8 +282,8 @@ public class CancelarActividadAdmin {
 					String ruta = "src/main/resources/ActividadesCanceladasNoSocios/" + "Actividad" + id_actividad
 							+ "CanceladaNoSocio" + dni + ".txt";
 					String contenido = "Se ha cancelado la actividad: "+ actividad + " con id " + id_actividad + "\nMotivo:\n"
-							+ textArea.getText() + "Al no socio " + dni + " se le devolverá "
-							+ modeloActividades.getPrecioNoSocioActividad(id_actividad) + " en mano.";
+							+ textArea.getText() + "\nAl no socio " + dni + " se le devolverá "
+							+ modeloActividades.getPrecioNoSocioActividad(id_actividad) + " en mano.\n";
 					File file = new File(ruta);
 					if (!file.exists()) {
 						file.createNewFile();

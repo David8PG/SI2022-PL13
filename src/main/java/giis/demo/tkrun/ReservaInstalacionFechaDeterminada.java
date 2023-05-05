@@ -279,7 +279,7 @@ public class ReservaInstalacionFechaDeterminada {
 									if (diferencia_horas < modificaParametros.leerCSV(3)) {
 										int horas_probando = modeloReservas.horas_reservadas(
 												ahora, despues, id_socio);
-										if (modificaParametros.leerCSV(2) >= horas_probando + diferencia_horas) {
+										if (modificaParametros.leerCSV(2) - 1 >= horas_probando + diferencia_horas) {
 											horas_probando += diferencia_horas;
 											System.out.println(modificaParametros.leerCSV(2));
 											System.out.println(modeloReservas.horas_reservadas(
